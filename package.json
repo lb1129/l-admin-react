@@ -19,7 +19,8 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test"
+    "test": "craco test",
+    "prettier": "prettier --write . --ignore-path .gitignore"
   },
   "eslintConfig": {
     "extends": [
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
-    "craco-less": "^2.1.0-alpha.0"
+    "craco-less": "^2.1.0-alpha.0",
+    "prettier": "^2.8.8"
   }
 }
