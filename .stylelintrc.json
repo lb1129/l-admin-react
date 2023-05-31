@@ -1,4 +1,8 @@
 {
+  "plugins": ["stylelint-prettier"],
   "customSyntax": "postcss-less",
-  "extends": ["stylelint-config-standard"]
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "prettier/prettier": true
+  }
 }
