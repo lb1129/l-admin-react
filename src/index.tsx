@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import './i18n'
+import './assets/style/global.less'
+import 'antd/dist/reset.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
