@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import logoSvg from '../assets/image/logo.svg'
-import userPng from '../assets/image/user.png'
-import { GlobalOutlined } from '@ant-design/icons'
-import { Breadcrumb, Layout, Menu, Space, Dropdown, Avatar, type BreadcrumbProps } from 'antd'
+import logoSvg from '@/assets/image/logo.svg'
+import userPng from '@/assets/image/user.png'
+import { HomeOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons'
+import { Breadcrumb, Layout, Menu, Dropdown, Avatar, App, type BreadcrumbProps } from 'antd'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import styles from './Index.module.less'
+import ToggleLanguage from '@/components/ToggleLanguage'
+import useIndexStyles from './Index.style'
 
 const { Header, Content, Sider } = Layout
 
@@ -13,10 +13,11 @@ const Index = () => {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
   const [openKeys, setOpenKeys] = useState<string[]>([])
   const [breadcrumb, setBreadcrumb] = useState<BreadcrumbProps['items']>([])
+  const styles = useIndexStyles()
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const { i18n } = useTranslation()
+  const { modal } = App.useApp()
 
   useEffect(() => {
     // 左侧菜单选中项与路由联动
@@ -41,14 +42,14 @@ const Index = () => {
   return (
     <Layout className={styles.wrap}>
       <Header className={styles.header}>
-        <div className={styles.header_logo}>
+        <div className={styles.headerLogo}>
           <a href="/">
             <img src={logoSvg} alt="logo" />
             {process.env.REACT_APP_SYSTEM_NAME}
           </a>
         </div>
-        <div className={styles.header_center}></div>
-        <Space>
+        <div className={styles.headerCenter}></div>
+        <div className={styles.headerRight}>
           <Dropdown
             menu={{
               items: [
@@ -64,65 +65,69 @@ const Index = () => {
                 },
                 {
                   label: <span>退出登录</span>,
-                  key: 'logout'
+                  key: 'logout',
+                  onClick() {
+                    modal.confirm({
+                      title: '提示',
+                      content: '确定注销登录吗？',
+                      onOk() {
+                        navigate('/authenticate/login', { replace: true })
+                      }
+                    })
+                  }
                 }
               ]
             }}
           >
-            <span className={styles.header_user}>
+            <span className={`${styles.headerRightItem} ${styles.headerRightItemUser}`}>
               <Avatar size="small" src={userPng} />
-              <span className={styles.header_user_name}>viho</span>
+              <span style={{ marginLeft: '8px' }}>viho</span>
             </span>
           </Dropdown>
-          <Dropdown
-            menu={{
-              onClick(info) {
-                i18n.changeLanguage(info.key)
-              },
-              selectedKeys: [i18n.language],
-              items: [
-                {
-                  label: 'English',
-                  key: 'en'
-                },
-                {
-                  label: '中文',
-                  key: 'zh-CN'
-                }
-              ]
-            }}
-          >
-            <span className={styles.header_lng}>
-              <GlobalOutlined />
-            </span>
-          </Dropdown>
-        </Space>
+          <ToggleLanguage className={styles.headerRightItem} />
+        </div>
       </Header>
       <Layout>
-        <Sider collapsible width={200} theme="light">
-          <Menu
-            mode="inline"
-            onClick={(menuInfo) => {
-              navigate(menuInfo.key)
-            }}
-            selectedKeys={selectedKeys}
-            onSelect={(info) => {
-              setSelectedKeys([info.key])
-            }}
-            openKeys={openKeys}
-            onOpenChange={(keys) => {
-              setOpenKeys(keys)
-            }}
-            items={[]}
-          />
+        <Sider collapsible collapsedWidth={48} width={208} theme="light">
+          <div className={styles.sliderContent}>
+            <Menu
+              mode="inline"
+              onClick={(menuInfo) => {
+                navigate(menuInfo.key)
+              }}
+              selectedKeys={selectedKeys}
+              onSelect={(info) => {
+                setSelectedKeys([info.key])
+              }}
+              openKeys={openKeys}
+              onOpenChange={(keys) => {
+                setOpenKeys(keys)
+              }}
+              items={[
+                {
+                  key: '/',
+                  icon: <HomeOutlined />,
+                  label: '首页'
+                },
+                {
+                  key: 'productManagement',
+                  icon: <ShopOutlined />,
+                  label: '产品管理',
+                  children: [{ key: '/productManagement/productList', label: '产品列表' }]
+                },
+                {
+                  key: 'userManagement',
+                  icon: <UserOutlined />,
+                  label: '用户管理',
+                  children: [{ key: '/userManagement/personalCenter', label: '个人中心' }]
+                }
+              ]}
+            />
+          </div>
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
           <Breadcrumb style={{ margin: '16px 0' }} items={breadcrumb}></Breadcrumb>
-          <Content
-            style={{
-              background: '#fff'
-            }}
-          >
+          <Content className={styles.content}>
             <Outlet />
           </Content>
         </Layout>
