@@ -9,7 +9,10 @@ i18n.use(initReactI18next).init({
     'zh-CN': zhCN
   },
   lng: 'zh-CN',
-  fallbackLng: 'zh-CN'
+  fallbackLng: 'zh-CN',
+  interpolation: {
+    escapeValue: false
+  }
 })
 
 export default i18n
