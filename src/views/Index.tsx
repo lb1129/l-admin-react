@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import logoSvg from '@/assets/image/logo.svg'
 import userPng from '@/assets/image/user.png'
-import { HomeOutlined, ShopOutlined, UserOutlined } from '@ant-design/icons'
-import { Breadcrumb, Layout, Menu, Dropdown, Avatar, App, type BreadcrumbProps } from 'antd'
+import { HomeOutlined, ShopOutlined, UserOutlined, BgColorsOutlined } from '@ant-design/icons'
+import {
+  Breadcrumb,
+  Layout,
+  Menu,
+  Dropdown,
+  Avatar,
+  App,
+  ColorPicker,
+  type BreadcrumbProps
+} from 'antd'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import ToggleLanguage from '@/components/ToggleLanguage'
+import { useAppSelector, useAppDispatch } from '@/store/hook'
+import { setColorPrimary } from '@/store/theme-slice'
 import useIndexStyles from './Index.style'
 
 const { Header, Content, Sider } = Layout
@@ -18,6 +29,9 @@ const Index = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const { modal } = App.useApp()
+
+  const colorPrimary = useAppSelector((state) => state.theme.token?.colorPrimary)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     // 左侧菜单选中项与路由联动
@@ -50,6 +64,15 @@ const Index = () => {
         </div>
         <div className={styles.headerCenter}></div>
         <div className={styles.headerRight}>
+          <ColorPicker
+            trigger="hover"
+            value={colorPrimary}
+            onChange={(value, hex) => {
+              dispatch(setColorPrimary(hex))
+            }}
+          >
+            <BgColorsOutlined style={{ fontSize: '16px' }} className={styles.headerRightItem} />
+          </ColorPicker>
           <Dropdown
             menu={{
               items: [
