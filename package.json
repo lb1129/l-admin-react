@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
+    "@types/bmapgl": "^0.0.7",
     "@types/react-transition-group": "^4.4.6",
     "craco-less": "^2.1.0-alpha.0",
     "eslint-config-prettier": "^8.8.0",
