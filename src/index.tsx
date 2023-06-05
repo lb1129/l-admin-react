@@ -7,6 +7,7 @@ import i18n from '@/i18n'
 import { Provider } from 'react-redux'
 import store from '@/store'
 import '@/assets/style/global.less'
+import '@/assets/style/transition.less'
 import 'antd/dist/reset.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
