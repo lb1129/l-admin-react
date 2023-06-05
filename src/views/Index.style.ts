@@ -50,7 +50,8 @@ export default function useIndexStyles() {
       borderBottomColor: token.colorBorderSecondary
     })),
     content: useEmotionCss(({ token }) => ({
-      backgroundColor: token.colorBgContainer
+      backgroundColor: token.colorBgContainer,
+      overflow: 'hidden'
     }))
   }
 }

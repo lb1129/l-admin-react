@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, createRef } from 'react'
 import logoSvg from '@/assets/image/logo.svg'
 import userPng from '@/assets/image/user.png'
 import { HomeOutlined, ShopOutlined, UserOutlined, BgColorsOutlined } from '@ant-design/icons'
@@ -12,10 +12,11 @@ import {
   ColorPicker,
   type BreadcrumbProps
 } from 'antd'
-import { Outlet, useNavigate, useLocation } from 'react-router-dom'
+import { useOutlet, useNavigate, useLocation } from 'react-router-dom'
 import ToggleLanguage from '@/components/ToggleLanguage'
 import { useAppSelector, useAppDispatch } from '@/store/hook'
 import { setColorPrimary } from '@/store/theme-slice'
+import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import useIndexStyles from './Index.style'
 
 const { Header, Content, Sider } = Layout
@@ -62,6 +63,10 @@ const Index = () => {
       setOpenKeys(pathnameArr.slice(1, -1))
     }
   }, [collapsed, pathname])
+
+  // 结合Transtion使用
+  const currentOutlet = useOutlet()
+  const nodeRef = createRef<HTMLDivElement>()
 
   return (
     <Layout className={styles.wrap}>
@@ -161,7 +166,19 @@ const Index = () => {
         <Layout style={{ padding: '0 24px 24px' }}>
           <Breadcrumb style={{ margin: '16px 0' }} items={breadcrumb}></Breadcrumb>
           <Content className={styles.content}>
-            <Outlet />
+            <SwitchTransition>
+              <CSSTransition
+                nodeRef={nodeRef}
+                key={pathname}
+                timeout={300}
+                classNames="transition-scale"
+                unmountOnExit
+              >
+                <div style={{ height: '100%' }} ref={nodeRef}>
+                  {currentOutlet}
+                </div>
+              </CSSTransition>
+            </SwitchTransition>
           </Content>
         </Layout>
       </Layout>
