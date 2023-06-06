@@ -25,7 +25,6 @@ const Index = () => {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
   const [openKeys, setOpenKeys] = useState<string[]>([])
   const [breadcrumb, setBreadcrumb] = useState<BreadcrumbProps['items']>([])
-  const [collapsed, setCollapsed] = useState<boolean>()
   const styles = useIndexStyles()
 
   const navigate = useNavigate()
@@ -54,15 +53,6 @@ const Index = () => {
       }, [])
     )
   }, [pathname, navigate])
-
-  useEffect(() => {
-    // 左侧菜单由收起到展开时 重新设置openKeys
-    if (!collapsed) {
-      // 左侧菜单打开项与路由联动
-      const pathnameArr = pathname.split('/')
-      setOpenKeys(pathnameArr.slice(1, -1))
-    }
-  }, [collapsed, pathname])
 
   // 结合Transtion使用
   const currentOutlet = useOutlet()
@@ -126,7 +116,19 @@ const Index = () => {
         </div>
       </Header>
       <Layout>
-        <Sider onCollapse={setCollapsed} collapsible collapsedWidth={48} width={208} theme="light">
+        <Sider
+          onCollapse={(collapsed) => {
+            // 左侧菜单由收起到展开时 重新设置openKeys
+            if (!collapsed) {
+              const pathnameArr = pathname.split('/')
+              setOpenKeys(pathnameArr.slice(1, -1))
+            }
+          }}
+          collapsible
+          collapsedWidth={48}
+          width={208}
+          theme="light"
+        >
           <div className={styles.sliderContent}>
             <Menu
               mode="inline"
