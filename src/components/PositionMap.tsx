@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { useResizeHeight } from '@/hooks/resize-height'
 import usePositionStyles from './PositionMap.style'
+import { useTranslation } from 'react-i18next'
 
 export interface PositionInfo {
   province: string
@@ -25,11 +26,14 @@ const PositionMap = (props: Props) => {
   const { height } = useResizeHeight(wrapRef)
   const styles = usePositionStyles()
   const distanceBottom = 200
+  const { t } = useTranslation()
+
   useEffect(() => {
     if (suggestionRef.current) {
       suggestionRef.current.style.height = `${height - distanceBottom}px`
     }
   }, [height])
+
   // 绘制地图
   useEffect(() => {
     const nodeRaw = nodeRef.current
@@ -106,7 +110,12 @@ const PositionMap = (props: Props) => {
   return (
     <div className={styles.wrap} ref={wrapRef}>
       <div className={styles.content} ref={nodeRef}></div>
-      <input type="text" placeholder="搜索位置" className={styles.searchInput} ref={suggestRef} />
+      <input
+        type="text"
+        placeholder={t<string>('searchLocation')}
+        className={styles.searchInput}
+        ref={suggestRef}
+      />
       <div
         className={styles.searchResult}
         style={{ maxHeight: `${height - distanceBottom}px` }}
