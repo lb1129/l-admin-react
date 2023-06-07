@@ -28,7 +28,27 @@ const res = {
     passwordModificationSuccessful: '密码修改成功',
     jumpToTheLoginPageSoon: '即将跳转登录页',
     signUpSuccessful: '注册成功',
-    applicationError: '应用程序错误'
+    applicationError: '应用程序错误',
+    searchLocation: '搜索位置',
+    userNameError: '用户名错误',
+    personalCenter: '个人中心',
+    homePage: '首页',
+    logOut: '退出登录',
+    tip: '提示',
+    areYouSureToLogOut: '确定注销登录吗？',
+    pageManagement: '页面管理',
+    pageList: '页面列表',
+    menuManagement: '菜单管理',
+    menuList: '菜单列表',
+    userManagement: '用户管理',
+    userList: '用户列表',
+    productManagement: '产品管理',
+    productList: '产品列表',
+    productDetail: '产品详情',
+    add: '新增',
+    delete: '删除',
+    edit: '编辑',
+    signingOutPleaseWait: '正在注销，请稍等 ...'
   }
 }
 

@@ -28,7 +28,27 @@ const res = {
     passwordModificationSuccessful: 'Password modification successful',
     jumpToTheLoginPageSoon: 'Jump to the login page soon',
     signUpSuccessful: 'Sign up successful',
-    applicationError: 'Application error'
+    applicationError: 'Application error',
+    searchLocation: 'Search location',
+    userNameError: 'User name error',
+    personalCenter: 'Personal center',
+    homePage: 'Home page',
+    logOut: 'Log out',
+    tip: 'Tip',
+    areYouSureToLogOut: 'Are you sure to log out?',
+    pageManagement: 'Page management',
+    pageList: 'Page list',
+    menuManagement: 'Menu management',
+    menuList: 'Menu list',
+    userManagement: 'User management',
+    userList: 'User list',
+    productManagement: 'Product management',
+    productList: 'Product list',
+    productDetail: 'Product detail',
+    add: 'Add',
+    delete: 'Delete',
+    edit: 'Edit',
+    signingOutPleaseWait: 'Signing out, please wait ...'
   }
 }
 
