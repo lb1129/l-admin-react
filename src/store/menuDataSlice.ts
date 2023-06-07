@@ -1,6 +1,7 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
 
 export const setMenuData = createAction<MenuDataItemType[]>('setMenuData')
+export const setMenuDataDone = createAction<boolean>('setMenuDataDone')
 
 export interface OperateAuthType {
   add?: number
@@ -39,7 +40,9 @@ const initialState: menuDataType = {
 const reducer = createReducer(initialState, (builder) => {
   builder.addCase(setMenuData, (state, action) => {
     state.data = action.payload
-    state.done = true
+  })
+  builder.addCase(setMenuDataDone, (state, action) => {
+    state.done = action.payload
   })
 })
 
