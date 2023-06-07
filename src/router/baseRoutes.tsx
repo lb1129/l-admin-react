@@ -1,5 +1,5 @@
 import { type RouteObject } from 'react-router-dom'
-import { lazyLoad, Authenticate } from './utils'
+import { lazyLoad, Authenticate, loading } from './utils'
 
 const routes: RouteObject[] = [
   {
@@ -34,7 +34,7 @@ const routes: RouteObject[] = [
   },
   {
     path: '*',
-    element: null
+    element: loading
   }
 ]
 
