@@ -4,12 +4,12 @@ import { useEmotionCss } from '@ant-design/use-emotion-css'
 export const useLinkStyle = () =>
   useEmotionCss(({ token }) => {
     return {
-      color: `${token.colorPrimaryText} !important`,
+      color: `${token.colorPrimaryText}`,
       '&:active': {
-        color: `${token.colorPrimaryTextActive} !important`
+        color: `${token.colorPrimaryTextActive}`
       },
       '&:hover': {
-        color: `${token.colorPrimaryTextHover} !important`
+        color: `${token.colorPrimaryTextHover}`
       }
     }
   })
