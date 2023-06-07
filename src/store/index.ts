@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import theme from './theme-slice'
+import menuData from './menuDataSlice'
+import userInfo from './userInfoSlice'
 
 const store = configureStore({
   reducer: {
-    theme
+    theme,
+    menuData,
+    userInfo
   }
 })
 
