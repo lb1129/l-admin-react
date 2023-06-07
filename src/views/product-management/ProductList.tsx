@@ -1,9 +1,10 @@
 import React, { useRef } from 'react'
 import { Table, Button, Divider } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { Link } from 'react-router-dom'
 import { useResizeHeight } from '@/hooks/resize-height'
-import { useLinkStyle } from '@/hooks/common-style'
+import { useAuth, operateAuthValueToDisabled } from '@/hooks/auth'
+import { useTranslation } from 'react-i18next'
+import LinkPlus from '@/components/LinkPlus'
 
 interface ProductRecord {
   id: string
@@ -21,7 +22,8 @@ interface ProductRecord {
 const ProductList = () => {
   const refContainer = useRef<HTMLDivElement>(null)
   const { height } = useResizeHeight(refContainer, 64.8 + 64 + 54.8)
-  const linkStyle = useLinkStyle()
+  const { operateAuth } = useAuth()
+  const { t } = useTranslation()
 
   const columns: ColumnsType<ProductRecord> = [
     {
@@ -31,9 +33,12 @@ const ProductList = () => {
       width: 150,
       fixed: 'left',
       render: (value, record) => (
-        <Link className={linkStyle} to="/productDetail">
+        <LinkPlus
+          disabled={operateAuthValueToDisabled(operateAuth.detail)}
+          to={`/productManagement/productDetail/${record.id}`}
+        >
           {value}
-        </Link>
+        </LinkPlus>
       )
     },
     {
@@ -89,17 +94,16 @@ const ProductList = () => {
       title: '操作',
       dataIndex: 'operation',
       key: 'operation',
-      width: 180,
+      width: 120,
       fixed: 'right',
+      align: 'center',
       render: () => (
         <>
-          <Button className={linkStyle} type="link">
-            编辑
-          </Button>
+          <LinkPlus disabled={operateAuthValueToDisabled(operateAuth.edit)}>{t('edit')}</LinkPlus>
           <Divider type="vertical" />
-          <Button className={linkStyle} type="link">
-            删除
-          </Button>
+          <LinkPlus disabled={operateAuthValueToDisabled(operateAuth.delete)}>
+            {t('delete')}
+          </LinkPlus>
         </>
       )
     }
@@ -259,11 +263,15 @@ const ProductList = () => {
         dataSource={dataSource}
         bordered
         rowKey="id"
-        scroll={{ x: 1200, y: height }}
+        scroll={{ x: 1140, y: height }}
         title={() => (
           <Button.Group>
-            <Button type="primary">新增</Button>
-            <Button type="primary">删除</Button>
+            <Button type="primary" disabled={operateAuthValueToDisabled(operateAuth.add)}>
+              {t('add')}
+            </Button>
+            <Button type="primary" disabled={operateAuthValueToDisabled(operateAuth.delete)}>
+              {t('delete')}
+            </Button>
           </Button.Group>
         )}
       />

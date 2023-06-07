@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createRef } from 'react'
 import logoSvg from '@/assets/image/logo.svg'
 import userPng from '@/assets/image/user.png'
-import { HomeOutlined, ShopOutlined, UserOutlined, BgColorsOutlined } from '@ant-design/icons'
+import { HomeOutlined, UserOutlined, BgColorsOutlined } from '@ant-design/icons'
 import {
   Breadcrumb,
   Layout,
@@ -16,47 +16,89 @@ import { useOutlet, useNavigate, useLocation } from 'react-router-dom'
 import ToggleLanguage from '@/components/ToggleLanguage'
 import { useAppSelector, useAppDispatch } from '@/store/hook'
 import { setColorPrimary } from '@/store/theme-slice'
+import { type MenuDataItemType } from '@/store/menuDataSlice'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import useIndexStyles from './Index.style'
+import { MenuItemType, SubMenuType } from 'antd/es/menu/hooks/useItems'
+import { tokenLocalforage } from '@/utils/localforage'
+import { useTranslation } from 'react-i18next'
 
 const { Header, Content, Sider } = Layout
+
+type MenuItem = MenuItemType | SubMenuType
 
 const Index = () => {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
   const [openKeys, setOpenKeys] = useState<string[]>([])
   const [breadcrumb, setBreadcrumb] = useState<BreadcrumbProps['items']>([])
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([])
   const styles = useIndexStyles()
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const { modal } = App.useApp()
+  const { modal, message } = App.useApp()
 
   const colorPrimary = useAppSelector((state) => state.theme.token?.colorPrimary)
+  const menuData = useAppSelector((state) => state.menuData.data)
+  const userInfo = useAppSelector((state) => state.userInfo)
   const dispatch = useAppDispatch()
+
+  const { t } = useTranslation()
 
   useEffect(() => {
     // 左侧菜单选中项与路由联动
     setSelectedKeys([pathname])
     // 左侧菜单打开项与路由联动
     const pathnameArr = pathname.split('/')
-    setOpenKeys(pathnameArr.slice(1, -1))
+    setOpenKeys(pathnameArr.slice(1, -1).map((key) => `/${key}`))
     // 面包屑与路由联动
     setBreadcrumb(
-      pathnameArr.slice(1).reduce<BreadcrumbProps['items']>((prev, current, index, arr) => {
+      pathnameArr.slice(1).reduce<BreadcrumbProps['items']>((prev, current) => {
         prev!.push({
-          title: current,
-          onClick() {
-            navigate(`/${arr.slice(0, index + 1).join('/')}`)
-          }
+          title: t(current)
         })
         return prev
       }, [])
     )
-  }, [pathname, navigate])
+  }, [pathname, navigate, t])
 
   // 结合Transtion使用
   const currentOutlet = useOutlet()
   const nodeRef = createRef<HTMLDivElement>()
+
+  // 用户菜单数据生成菜单组件items
+  useEffect(() => {
+    const generateMenuItems = (list: MenuDataItemType[], parent?: MenuDataItemType) => {
+      let result: MenuItem[] = []
+      list.forEach((menu) => {
+        if (!menu.hidden) {
+          let item: MenuItem = {
+            key: parent ? `${parent.path}${menu.path}` : menu.path,
+            icon: menu.icon,
+            label: t(menu.name)
+          }
+          if (menu.children && menuData.length) {
+            ;(item as SubMenuType).children = generateMenuItems(menu.children, menu)
+          }
+          result.push(item)
+        }
+      })
+      return result
+    }
+    setMenuItems([
+      {
+        key: '/',
+        icon: <HomeOutlined />,
+        label: t('homePage')
+      },
+      ...generateMenuItems(menuData),
+      {
+        key: '/personalCenter',
+        icon: <UserOutlined />,
+        label: t('personalCenter')
+      }
+    ])
+  }, [menuData, t])
 
   return (
     <Layout className={styles.wrap}>
@@ -82,24 +124,31 @@ const Index = () => {
             menu={{
               items: [
                 {
-                  label: <span>个人中心</span>,
+                  label: <span>{t('personalCenter')}</span>,
                   key: 'personalCenter',
                   onClick() {
-                    navigate('/userManagement/personalCenter')
+                    navigate('/personalCenter')
                   }
                 },
                 {
                   type: 'divider'
                 },
                 {
-                  label: <span>退出登录</span>,
-                  key: 'logout',
+                  label: <span>{t('logOut')}</span>,
+                  key: 'logOut',
                   onClick() {
                     modal.confirm({
-                      title: '提示',
-                      content: '确定注销登录吗？',
+                      title: t('tip'),
+                      content: t('areYouSureToLogOut'),
                       onOk() {
-                        navigate('/authenticate/login', { replace: true })
+                        message.loading(t('signingOutPleaseWait'), 0)
+                        // mock 退出登录流程
+                        setTimeout(() => {
+                          tokenLocalforage.clear().then(() => {
+                            message.destroy()
+                            navigate('/login', { replace: true })
+                          })
+                        }, 500)
                       }
                     })
                   }
@@ -109,7 +158,7 @@ const Index = () => {
           >
             <span className={`${styles.headerRightItem} ${styles.headerRightItemUser}`}>
               <Avatar size="small" src={userPng} />
-              <span style={{ marginLeft: '8px' }}>viho</span>
+              <span style={{ marginLeft: '8px' }}>{userInfo.userName}</span>
             </span>
           </Dropdown>
           <ToggleLanguage className={styles.headerRightItem} />
@@ -121,7 +170,7 @@ const Index = () => {
             // 左侧菜单由收起到展开时 重新设置openKeys
             if (!collapsed) {
               const pathnameArr = pathname.split('/')
-              setOpenKeys(pathnameArr.slice(1, -1))
+              setOpenKeys(pathnameArr.slice(1, -1).map((key) => `/${key}`))
             }
           }}
           collapsible
@@ -143,25 +192,7 @@ const Index = () => {
               onOpenChange={(keys) => {
                 setOpenKeys(keys)
               }}
-              items={[
-                {
-                  key: '/',
-                  icon: <HomeOutlined />,
-                  label: '首页'
-                },
-                {
-                  key: 'productManagement',
-                  icon: <ShopOutlined />,
-                  label: '产品管理',
-                  children: [{ key: '/productManagement/productList', label: '产品列表' }]
-                },
-                {
-                  key: 'userManagement',
-                  icon: <UserOutlined />,
-                  label: '用户管理',
-                  children: [{ key: '/userManagement/personalCenter', label: '个人中心' }]
-                }
-              ]}
+              items={menuItems}
             />
           </div>
         </Sider>
