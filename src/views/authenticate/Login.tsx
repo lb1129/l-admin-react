@@ -7,7 +7,7 @@ import { useLinkStyle } from '@/hooks/common-style'
 import Layout from './Layout'
 import { tokenLocalforage } from '@/utils/localforage'
 import { useAppDispatch } from '@/store/hook'
-import { setMenuData } from '@/store/menuDataSlice'
+import { setMenuData, setMenuDataDone } from '@/store/menuDataSlice'
 import { setUserInfo } from '@/store/userInfoSlice'
 import userMenuData from '@/router/userMenuData.json'
 
@@ -30,6 +30,8 @@ const Login: React.FC = () => {
         await tokenLocalforage.set(values.userName)
         // 更新redux内的菜单数据
         dispatch(setMenuData(menuData))
+        // 将redux内菜单数据获取状态设置为完成
+        dispatch(setMenuDataDone(true))
         // 更新redux内的用户信息
         dispatch(setUserInfo({ userName: values.userName }))
         // 跳转菜单页

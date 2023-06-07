@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { ConfigProvider, App as AntdApp } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useRoutes, type RouteObject } from 'react-router-dom'
-import { type MenuDataItemType, setMenuData } from '@/store/menuDataSlice'
+import { type MenuDataItemType, setMenuData, setMenuDataDone } from '@/store/menuDataSlice'
 import { setUserInfo } from '@/store/userInfoSlice'
 import baseRoutes from '@/router/baseRoutes'
 import { lazyLoad } from '@/router/utils'
@@ -34,10 +34,15 @@ const App = () => {
           if (menuData) {
             // 更新redux内的菜单数据
             dispatch(setMenuData(menuData))
+            // 将redux内菜单数据获取状态设置为完成
+            dispatch(setMenuDataDone(true))
             // 更新redux内的用户数据
             dispatch(setUserInfo({ userName: token }))
           }
         }, 500)
+      } else {
+        // 将redux内菜单数据获取状态设置为完成
+        dispatch(setMenuDataDone(true))
       }
     })
   }, [dispatch])
@@ -64,7 +69,7 @@ const App = () => {
       ...dynamicRoutes,
       baseRoutes[0].children![1]
     ]
-    // 404路由添加element
+    // 菜单获取状态为完成后 为404路由添加element
     if (menuData.done) baseRoutes[baseRoutes.length - 1].element = lazyLoad('PageNotFound')
     setRoutes([...baseRoutes])
   }, [menuData])
