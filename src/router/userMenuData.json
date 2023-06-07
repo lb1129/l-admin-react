@@ -1,0 +1,76 @@
+{
+  "admin": [
+    {
+      "name": "pageManagement",
+      "path": "/pageManagement",
+      "icon": "",
+      "children": [
+        {
+          "name": "pageList",
+          "path": "/pageList",
+          "viewUrl": "page-management/PageList",
+          "icon": "",
+          "operateAuth": {}
+        }
+      ]
+    },
+    {
+      "name": "menuManagement",
+      "path": "/menuManagement",
+      "icon": "",
+      "children": [
+        {
+          "name": "menuList",
+          "path": "/menuList",
+          "viewUrl": "menu-management/MenuList",
+          "icon": "",
+          "operateAuth": {}
+        }
+      ]
+    },
+    {
+      "name": "userManagement",
+      "path": "/userManagement",
+      "icon": "",
+      "children": [
+        {
+          "name": "userList",
+          "path": "/userList",
+          "viewUrl": "user-management/UserList",
+          "icon": "",
+          "operateAuth": {}
+        }
+      ]
+    }
+  ],
+  "viho": [
+    {
+      "name": "productManagement",
+      "path": "/productManagement",
+      "icon": "",
+      "children": [
+        {
+          "name": "productList",
+          "path": "/productList",
+          "viewUrl": "product-management/ProductList",
+          "icon": "",
+          "operateAuth": {
+            "add": 0,
+            "delete": 0,
+            "edit": 0,
+            "detail": 1
+          }
+        },
+        {
+          "name": "productDetail",
+          "path": "/productDetail/:id",
+          "viewUrl": "product-management/ProductDetail",
+          "icon": "",
+          "hidden": true,
+          "operateAuth": {}
+        }
+      ]
+    }
+  ],
+  "user": []
+}
