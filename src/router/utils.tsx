@@ -3,7 +3,7 @@ import { Spin } from 'antd'
 import { Navigate } from 'react-router-dom'
 import { tokenLocalforage } from '@/utils/localforage'
 
-const loading = (
+export const loading = (
   <div style={{ paddingTop: 100, textAlign: 'center' }}>
     <Spin size="large" />
   </div>
