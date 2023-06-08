@@ -46,7 +46,18 @@
       "plugin:prettier/recommended"
     ],
     "rules": {
-      "prettier/prettier": "warn"
+      "prettier/prettier": "warn",
+      "testing-library/no-node-access": [
+        "error",
+        {
+          "allowContainerFirstChild": true
+        }
+      ]
+    }
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
     }
   },
   "browserslist": {
