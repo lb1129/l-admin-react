@@ -1,6 +1,6 @@
-import { useEmotionCss } from '@ant-design/use-emotion-css'
+import { useEmotionCss } from '@/utils/useEmotionCss'
 
-export default function usePositionMapStyles() {
+export default function useStyles() {
   return {
     disabled: useEmotionCss(() => ({
       cursor: 'not-allowed',

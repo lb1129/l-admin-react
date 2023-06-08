@@ -1,6 +1,14 @@
-import { useEmotionCss } from '@ant-design/use-emotion-css'
+import { useEmotionCss } from '@/utils/useEmotionCss'
+import { injectGlobal } from '@emotion/css'
 
-export default function usePositionMapStyles() {
+injectGlobal({
+  '.tangram-suggestion-main': {
+    zIndex: 5,
+    overflow: 'hidden auto'
+  }
+})
+
+export default function useStyles() {
   return {
     wrap: useEmotionCss(() => ({
       position: 'relative',

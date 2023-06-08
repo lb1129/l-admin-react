@@ -1,6 +1,6 @@
 import React, { type ReactNode, type MouseEventHandler, useMemo } from 'react'
 import { Link, type LinkProps } from 'react-router-dom'
-import useLinkPlus from './LinkPlus.style'
+import useStyles from './style'
 import { useLinkStyle } from '@/hooks/common-style'
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 }
 
 const LinkPlus = (props: Props) => {
-  const styles = useLinkPlus()
+  const styles = useStyles()
   const linkStyles = useLinkStyle()
 
   const className = useMemo(() => {

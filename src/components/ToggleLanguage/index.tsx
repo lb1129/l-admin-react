@@ -29,7 +29,6 @@ const ToggleLanguage = (props: Props) => {
       }}
     >
       <span
-        data-testid="span"
         className={props.className}
         style={{
           fontSize: '16px'
