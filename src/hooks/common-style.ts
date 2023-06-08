@@ -1,4 +1,4 @@
-import { useEmotionCss } from '@ant-design/use-emotion-css'
+import { useEmotionCss } from '@/utils/useEmotionCss'
 
 // link css-in-js 通用
 export const useLinkStyle = () =>
