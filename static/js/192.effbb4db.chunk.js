@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkcrm_react=self.webpackChunkcrm_react||[]).push([[192],{2192:function(e,r,c){c.r(r);c(2791);var n=c(184);r.default=function(e){return(0,n.jsx)("div",{children:"PersonalCenter"})}}}]);
+//# sourceMappingURL=192.effbb4db.chunk.js.map
