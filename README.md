@@ -1,76 +1,188 @@
+<p align="center">
+  <a href="https://github.com/facebook/react">
+    <img src="https://img.shields.io/badge/react-18.2.0-brightgreen.svg" alt="react">
+  </a>
+  <a href="https://github.com/ant-design/ant-design">
+    <img src="https://img.shields.io/badge/antd-5.5.2-brightgreen.svg" alt="antd">
+  </a>
+  <a href="https://github.com/lb1129/XX-CRM-React/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license">
+  </a>
+</p>
+
+## 介绍
+
+XX-CRM-React 是一个后台前端解决方案，它基于 [react](https://github.com/facebook/react) 和 [antd-design](https://github.com/ant-design/ant-design) 实现。它使用了最新的前端技术栈，采用 cssinjs 编写样式，支持在线主题色切换，支持在线多语言切换，支持动态路由，动态菜单，菜单权限控制，操作权限控制
+
+## 在线示例
+
+[预览](https://lb1129.github.io/XX-CRM-React/)
+
+## 开始使用
+
+```sh
+# 克隆项目
+git clone https://github.com/lb1129/XX-CRM-React.git
+
+# 进入项目目录
+cd XX-CRM-React
+
+# 安装依赖
+npm install
+
+# 启动服务
+npm run start
+```
+
+浏览器访问 http://localhost:3000
+
+## 发布
+
+```sh
+# 构建生产环境
+npm run build
+```
+
+## 其他指令
+
+```sh
+# 代码格式美化
+npm run prettier
+
+# 代码检查并自动修复
+npm run lint
+
+# 运行测试用例
+npm run test
+```
+
 ## Css-in-js
 
-在 5.0 版本的 Ant Design 中，提供了一套全新的定制主题方案。不同于 4.x 版本的 less 和 CSS 变量，有了 CSS-in-JS 的加持后，动态主题的能力也得到了加强，包括但不限于：
+- Ant Design V5 [Token System](https://ant.design/docs/react/customize-theme-cn#theme)
+- [emotion](https://emotion.sh/docs/introduction)
 
-1. 支持动态切换主题；
-2. 支持同时存在多个主题；
-3. 支持针对某个/某些组件修改主题变量；
-4. ...
-
-Ant Design V5 [Token System](https://ant.design/docs/react/customize-theme-cn#theme) 构建的业务级 css-in-js 解决方案，底层基于 [emotion](https://emotion.sh/docs/introduction) 封装
-
-**本项目中使用示例**
+**直接在 FC 内使用**
 
 ```tsx
-import { useEmotionCss } from '@ant-design/use-emotion-css'
+import { useEmotionCss } from '@/utils/useEmotionCss'
 
-// 单一样式
-const linkStyle = useEmotionCss(({ token }) => (
-  {
-    color: token.colorPrimaryText,
-    '&:active': {
-      color: token.colorPrimaryTextActive
-    },
+const Component: React.FC = () => {
+  const wrapClassName = useEmotionCss(() => ({
+    width: '100%',
+    height: '100%'
+  }))
+
+  const textClassName = useEmotionCss(({ token }) => ({
+    fontSize: 16,
     '&:hover': {
-      color: token.colorPrimaryTextHover
+      // 将跟随主题色切换
+      color: token.colorPrimary
     }
-  }
-))
-// 使用样式
-<a className={linkStyle}></a>
+  }))
 
-// 样式集合
-const styles = {
-  header: useEmotionCss(({ token }) => ({})),
-  content: useEmotionCss(({ token }) => ({})),
-  footer: useEmotionCss(({ token }) => ({})),
+  return (
+    <div className={wrapClassName}>
+      <span className={textClassName}></span>
+    </div>
+  )
 }
-// 使用样式
-<div>
-  <div className={styles.header}></div>
-  <div className={styles.content}></div>
-  <div className={styles.footer}></div>
-</div>
+
+export default Component
 ```
 
-## 样式校验
+**抽离样式文件**
 
-基于[stylelint](https://stylelint.io/)进行样式校验，支持校验 `.css` `.less`，结合[vscode-stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint)插件在[vscode](https://code.visualstudio.com/)中实时对样式错误或警告进行提示
+```ts
+// Component.style.ts
+import { useEmotionCss } from '@/utils/useEmotionCss'
 
-下述命令行可对所有样式文件（忽略的排除在外）进行校验并对错误及警告尝试修复
-
-```sh
-npm run stylelint
+export default function useStyles() {
+  return {
+    wrap: useEmotionCss(() => ({
+      width: '100%',
+      height: '100%'
+    })),
+    text: useEmotionCss(() => ({
+      fontSize: 16,
+      '&:hover': {
+        // 将跟随主题色切换
+        color: token.colorPrimary
+      }
+    }))
+  }
+}
 ```
 
-## 脚本校验
+```tsx
+// Component.tsx
+import useStyles from './Component.style.ts'
 
-基于[eslint](https://eslint.org/)进行代码校验，结合[vscode-eslint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)插件在[vscode](https://code.visualstudio.com/)中实时对脚本错误或警告进行提示
+const Component: React.FC = () => {
+  const styles = useStyles()
 
-下述命令行可对所有脚本（忽略的排除在外）进行校验并对错误及警告尝试修复
+  return (
+    <div className={styles.wrap}>
+      <span className={styles.text}></span>
+    </div>
+  )
+}
 
-```sh
-npm run lint
+export default Component
 ```
 
-## 代码美化
+**全局样式**
 
-基于[prettier](https://prettier.io/)进行代码美化，结合[prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)插件在[vscode](https://code.visualstudio.com/)中对文件进行保存时自动美化代码
+```tsx
+// 直接在 FC 内使用
+import { useEmotionGlobalCss } from '@/utils/useEmotionCss'
 
-下述命令行可对所有文件（忽略的排除在外）进行代码美化
+const Component: React.FC = () => {
+  useEmotionGlobalCss(({ token }) => ({
+    '.global': {
+      // 将跟随主题色切换
+      color: token.colorPrimary
+    },
+    '#root': {}
+    // ...其他全局选择器
+  }))
 
-```sh
-npm run prettier
+  return <div className="global"></div>
+}
+```
+
+```tsx
+// 抽离样式文件
+// style.global.ts
+import { useEmotionGlobalCss } from '@/utils/useEmotionCss'
+
+export default function useGlobalStyles() {
+  useEmotionGlobalCss(({ token }) => ({
+    '.global': {
+      // 将跟随主题色切换
+      color: token.colorPrimary
+    },
+    '#root': {}
+    // ...其他全局选择器
+  }))
+}
+
+// Component.tsx
+import useGlobalStyles from './style.global.ts'
+const Component: React.FC = () => {
+  useGlobalStyles()
+  return <div className="global"></div>
+}
+```
+
+```ts
+// 直接使用 injectGlobal 不支持跟随主题色切换
+import { injectGlobal } from '@emotion/css'
+
+injectGlobal({
+  '.global': {
+    color: '#1890ff'
+  }
+})
 ```
 
 ## TodoTree
@@ -111,22 +223,6 @@ Commit Message 包括 `type`、`scope`、`subject` 三部分，其中 `type`、`
 - **chore** 杂项，其他不修改源代码与测试代码的修改
 - **revert** 撤销某次提交
 
-## 命名规范
-
-- **组件文件名称** 采用 `UpperCamelCase` 命名法
-- **目录名称** 采用 `kebab-case` 命名法
-- **其他文件名称** 采用 `kebab-case` 命名法
-
-## src 内目录说明
-
-- **assets** 放置图片，样式等资源文件
-- **components** 放置组件
-  - **\_\_tests\_\_** 放置组件测试用例
-- **hooks** 放置 hook 函数
-- **i18n** 放置国际化配置项
-- **router** 放置路由配置项
-- **views** 放置视图页面
-
 ## 环境变量
 
 [文档](https://create-react-app.dev/docs/adding-custom-environment-variables)
@@ -139,28 +235,6 @@ Commit Message 包括 `type`、`scope`、`subject` 三部分，其中 `type`、`
 
 - **craco.config.js** [craco](https://craco.js.org/docs/)配置文件
 
-## 运行项目
+## License
 
-```sh
-npm start
-```
-
-## 运行测试用例
-
-请参阅有关[running tests](https://facebook.github.io/create-react-app/docs/running-tests)的部分了解更多信息
-
-```sh
-npm test
-```
-
-## 打包项目
-
-在 `build` 目录产生打包输出
-
-```sh
-npm run build
-```
-
-## 部署
-
-请参阅有关[deployment](https://facebook.github.io/create-react-app/docs/deployment)的部分了解更多信息
+[MIT](https://github.com/lb1129/XX-CRM-React/blob/master/LICENSE)
