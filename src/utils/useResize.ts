@@ -1,7 +1,8 @@
 import { useState, useLayoutEffect, useRef, type RefObject } from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 
-function useResizeHeight(ref: RefObject<HTMLElement>, minusHeight?: number) {
+// 高度
+export const useResizeHeight = (ref: RefObject<HTMLElement>, minusHeight?: number) => {
   const [height, setHeight] = useState(0)
   const ro = useRef<ResizeObserver>()
 
@@ -24,4 +25,4 @@ function useResizeHeight(ref: RefObject<HTMLElement>, minusHeight?: number) {
   return { height }
 }
 
-export { useResizeHeight }
+// TODO 宽度 ...

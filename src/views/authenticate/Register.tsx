@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Form, Input, App, Row, Col } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useLinkStyle } from '@/hooks/common-style'
+import { useLinkStyle } from '@/utils/useCommonStyle'
 import Layout from './Layout'
 
 const Register: React.FC = () => {

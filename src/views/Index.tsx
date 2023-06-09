@@ -14,13 +14,13 @@ import {
 } from 'antd'
 import { useOutlet, useNavigate, useLocation } from 'react-router-dom'
 import ToggleLanguage from '@/components/ToggleLanguage'
-import { useAppSelector, useAppDispatch } from '@/store/hook'
+import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { setColorPrimary } from '@/store/theme-slice'
 import { type MenuDataItemType } from '@/store/menuDataSlice'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import useIndexStyles from './Index.style'
 import { MenuItemType, SubMenuType } from 'antd/es/menu/hooks/useItems'
-import { tokenLocalforage } from '@/utils/localforage'
+import { tokenLocalforage } from '@/storage/localforage'
 import { useTranslation } from 'react-i18next'
 
 const { Header, Content, Sider } = Layout

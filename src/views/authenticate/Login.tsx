@@ -3,13 +3,13 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Form, Input, App } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useLinkStyle } from '@/hooks/common-style'
+import { useLinkStyle } from '@/utils/useCommonStyle'
 import Layout from './Layout'
-import { tokenLocalforage } from '@/utils/localforage'
-import { useAppDispatch } from '@/store/hook'
+import { tokenLocalforage } from '@/storage/localforage'
+import { useAppDispatch } from '@/store/hooks'
 import { setMenuData, setMenuDataDone } from '@/store/menuDataSlice'
 import { setUserInfo } from '@/store/userInfoSlice'
-import userMenuData from '@/router/userMenuData.json'
+import userMenuData from '@/mock/userMenuData.json'
 
 const Login: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)

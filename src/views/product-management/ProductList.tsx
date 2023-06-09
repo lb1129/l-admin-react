@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 import { Table, Button, Divider } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { useResizeHeight } from '@/hooks/resize-height'
-import { useAuth, operateAuthValueToDisabled } from '@/hooks/auth'
+import { useResizeHeight } from '@/utils/useResize'
+import { useAuth, operateAuthValueToDisabled } from '@/utils/useAuth'
 import { useTranslation } from 'react-i18next'
 import LinkPlus from '@/components/LinkPlus'
 

@@ -1,7 +1,7 @@
 import React, { type ReactNode, type MouseEventHandler, useMemo } from 'react'
 import { Link, type LinkProps } from 'react-router-dom'
 import useStyles from './style'
-import { useLinkStyle } from '@/hooks/common-style'
+import { useLinkStyle } from '@/utils/useCommonStyle'
 
 type Props = {
   disabled?: boolean

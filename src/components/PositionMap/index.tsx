@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { useResizeHeight } from '@/hooks/resize-height'
+import { useResizeHeight } from '@/utils/useResize'
 import useStyles from './style'
 import { useTranslation } from 'react-i18next'
 

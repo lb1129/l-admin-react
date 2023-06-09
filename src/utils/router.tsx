@@ -1,7 +1,7 @@
 import React, { lazy, useState } from 'react'
 import { Spin } from 'antd'
 import { Navigate } from 'react-router-dom'
-import { tokenLocalforage } from '@/utils/localforage'
+import { tokenLocalforage } from '@/storage/localforage'
 
 export const loading = (
   <div style={{ paddingTop: 100, textAlign: 'center' }}>

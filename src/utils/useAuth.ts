@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import { type OperateAuthType, type MenuDataItemType } from '@/store/menuDataSlice'
-import { useAppSelector } from '@/store/hook'
+import { useAppSelector } from '@/store/hooks'
 
 export const operateAuthValueToDisabled = (operateAuthValue: number | undefined) => {
   // 值为0 无权限 返回true

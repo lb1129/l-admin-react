@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import store from '@/store'
 import { BrowserRouter, HashRouter } from 'react-router-dom'
 import 'antd/dist/reset.css'
-import '@/assets/style/global.style'
+import '@/global.style'
 // TODO 文档中 增加登录流程 页面刷新流程 页面操作权限控制 等说明
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 // 根据运行或部署环境是否支持history路由模式 选取不同路由
@@ -17,7 +17,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <I18nextProvider i18n={i18n}>
-        <Router basename={process.env.PUBLIC_URL}>
+        <Router>
           <App />
         </Router>
       </I18nextProvider>
