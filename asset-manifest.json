@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/XX-CRM-React/static/css/main.4cfab700.css",
-    "main.js": "/XX-CRM-React/static/js/main.816b23b1.js",
-    "static/js/474.b46ba729.chunk.js": "/XX-CRM-React/static/js/474.b46ba729.chunk.js",
-    "static/js/639.9fa840fd.chunk.js": "/XX-CRM-React/static/js/639.9fa840fd.chunk.js",
+    "main.js": "/XX-CRM-React/static/js/main.fc4a0a22.js",
+    "static/js/474.af041dbc.chunk.js": "/XX-CRM-React/static/js/474.af041dbc.chunk.js",
+    "static/js/639.76289d9d.chunk.js": "/XX-CRM-React/static/js/639.76289d9d.chunk.js",
     "static/js/622.0c24f8c2.chunk.js": "/XX-CRM-React/static/js/622.0c24f8c2.chunk.js",
     "static/js/974.80d00ef7.chunk.js": "/XX-CRM-React/static/js/974.80d00ef7.chunk.js",
     "static/js/381.1431167c.chunk.js": "/XX-CRM-React/static/js/381.1431167c.chunk.js",
-    "static/js/482.26bcf2e2.chunk.js": "/XX-CRM-React/static/js/482.26bcf2e2.chunk.js",
+    "static/js/482.84eab63b.chunk.js": "/XX-CRM-React/static/js/482.84eab63b.chunk.js",
     "static/js/320.3d082845.chunk.js": "/XX-CRM-React/static/js/320.3d082845.chunk.js",
     "static/js/871.ed93af7a.chunk.js": "/XX-CRM-React/static/js/871.ed93af7a.chunk.js",
-    "static/js/793.3950eea6.chunk.js": "/XX-CRM-React/static/js/793.3950eea6.chunk.js",
-    "static/js/757.115ff9be.chunk.js": "/XX-CRM-React/static/js/757.115ff9be.chunk.js",
+    "static/js/793.c7769811.chunk.js": "/XX-CRM-React/static/js/793.c7769811.chunk.js",
+    "static/js/757.f04d6966.chunk.js": "/XX-CRM-React/static/js/757.f04d6966.chunk.js",
     "static/js/401.cda446e0.chunk.js": "/XX-CRM-React/static/js/401.cda446e0.chunk.js",
     "static/js/329.463ee9a8.chunk.js": "/XX-CRM-React/static/js/329.463ee9a8.chunk.js",
     "static/js/675.e65fda41.chunk.js": "/XX-CRM-React/static/js/675.e65fda41.chunk.js",
     "static/js/937.8a43e01e.chunk.js": "/XX-CRM-React/static/js/937.8a43e01e.chunk.js",
-    "static/js/588.c94dc47a.chunk.js": "/XX-CRM-React/static/js/588.c94dc47a.chunk.js",
+    "static/js/768.b363cc08.chunk.js": "/XX-CRM-React/static/js/768.b363cc08.chunk.js",
     "static/js/171.49beaa02.chunk.js": "/XX-CRM-React/static/js/171.49beaa02.chunk.js",
     "static/js/27.028c525f.chunk.js": "/XX-CRM-React/static/js/27.028c525f.chunk.js",
     "static/js/957.b27c26d9.chunk.js": "/XX-CRM-React/static/js/957.b27c26d9.chunk.js",
@@ -33,6 +33,6 @@
   },
   "entrypoints": [
     "static/css/main.4cfab700.css",
-    "static/js/main.816b23b1.js"
+    "static/js/main.fc4a0a22.js"
   ]
 }
