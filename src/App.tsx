@@ -64,11 +64,10 @@ const App = () => {
     }
     generateRoutes(menuData.data)
     // 动态路由在基础路由的首页及个人中心之间插入
-    baseRoutes[0].children = [
-      baseRoutes[0].children![0],
-      ...dynamicRoutes,
-      baseRoutes[0].children![1]
-    ]
+    const insertTo = baseRoutes[0].children
+    if (insertTo && insertTo.length) {
+      baseRoutes[0].children = [insertTo[0], ...dynamicRoutes, insertTo[insertTo.length - 1]]
+    }
     // 菜单获取状态为完成后 为404路由添加element
     if (menuData.done) baseRoutes[baseRoutes.length - 1].element = lazyLoad('PageNotFound')
     setRoutes([...baseRoutes])
