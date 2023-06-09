@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/XX-CRM-React/static/css/main.4cfab700.css",
-    "main.js": "/XX-CRM-React/static/js/main.383df8a3.js",
+    "main.js": "/XX-CRM-React/static/js/main.186aa6a3.js",
     "static/js/474.af041dbc.chunk.js": "/XX-CRM-React/static/js/474.af041dbc.chunk.js",
     "static/js/639.76289d9d.chunk.js": "/XX-CRM-React/static/js/639.76289d9d.chunk.js",
     "static/js/622.0c24f8c2.chunk.js": "/XX-CRM-React/static/js/622.0c24f8c2.chunk.js",
@@ -33,6 +33,6 @@
   },
   "entrypoints": [
     "static/css/main.4cfab700.css",
-    "static/js/main.383df8a3.js"
+    "static/js/main.186aa6a3.js"
   ]
 }
