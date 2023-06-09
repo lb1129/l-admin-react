@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkcrm_react=self.webpackChunkcrm_react||[]).push([[512],{6512:function(c,r,e){e.r(r);e(2791);var n=e(184);r.default=function(c){return(0,n.jsx)("div",{children:"privacyPolicy"})}}}]);
-//# sourceMappingURL=512.6a12e6fd.chunk.js.map

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcrm_react=self.webpackChunkcrm_react||[]).push([[937],{6937:function(r,c,e){e.r(c);e(7313);var t=e(8467),u=e(6417);c.default=function(r){var c=(0,t.UO)();return(0,u.jsxs)("div",{children:["ProductDetail ",c.id]})}}}]);

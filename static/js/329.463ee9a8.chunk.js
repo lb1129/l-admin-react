@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcrm_react=self.webpackChunkcrm_react||[]).push([[329],{3329:function(e,c,r){r.r(c);r(7313);var t=r(6417);c.default=function(e){return(0,t.jsx)("div",{children:"PageList"})}}}]);

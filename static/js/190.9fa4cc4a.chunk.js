@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkcrm_react=self.webpackChunkcrm_react||[]).push([[190],{4190:function(e,c,r){r.r(c);r(2791);var t=r(184);c.default=function(e){return(0,t.jsx)("div",{children:"PageList"})}}}]);
-//# sourceMappingURL=190.9fa4cc4a.chunk.js.map

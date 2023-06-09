@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcrm_react=self.webpackChunkcrm_react||[]).push([[401],{2401:function(e,c,r){r.r(c);r(7313);var n=r(6417);c.default=function(e){return(0,n.jsx)("div",{children:"MenuList"})}}}]);

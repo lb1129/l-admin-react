@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkcrm_react=self.webpackChunkcrm_react||[]).push([[117],{8117:function(e,r,c){c.r(r);c(2791);var t=c(184);r.default=function(e){return(0,t.jsx)("div",{children:"UserList"})}}}]);
-//# sourceMappingURL=117.b339c013.chunk.js.map
