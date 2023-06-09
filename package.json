@@ -32,6 +32,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "github-pages": "dotenv -e .env.github-pages craco build",
     "test": "craco test",
     "prettier": "prettier --write . --ignore-path .gitignore",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
@@ -78,6 +79,7 @@
     "@types/react-transition-group": "^4.4.6",
     "@types/uuid": "^9.0.1",
     "craco-less": "^2.1.0-alpha.0",
+    "dotenv-cli": "^7.2.1",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.0",
