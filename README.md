@@ -58,7 +58,7 @@ npm run test
 
 ## 权限控制流程
 
-[文档](https://github.com/lb1129/XX-CRM-React/edit/master/PermissionFlow.md)
+[详细文档](./PermissionFlow.md)
 
 ## Css-in-js
 
