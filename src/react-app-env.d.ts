@@ -8,6 +8,6 @@ declare module '*.module.less' {
 declare namespace NodeJS {
   interface ProcessEnv {
     readonly REACT_APP_SYSTEM_NAME: string
-    readonly REACT_APP_NOT_SUPPORT_HISTORY: boolean
+    readonly REACT_APP_NOT_SUPPORT_HISTORY: string
   }
 }
