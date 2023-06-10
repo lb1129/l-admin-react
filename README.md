@@ -12,7 +12,7 @@
 
 ## 介绍
 
-XX-CRM-React 是一个后台前端解决方案，它基于 [react](https://github.com/facebook/react) 和 [antd-design](https://github.com/ant-design/ant-design) 实现。它使用了最新的前端技术栈，采用 cssinjs 编写样式，支持在线主题色切换，支持在线多语言切换，支持动态路由，动态菜单，菜单权限控制，操作权限控制
+l-admin 是一个管理系统的前端解决方案，l-admin-react 基于 [react](https://github.com/facebook/react) 和 [antd-design](https://github.com/ant-design/ant-design) 实现。采用 cssinjs 编写样式，支持在线主题色切换，支持在线多语言切换，支持动态路由，动态菜单，菜单权限控制，操作权限控制
 
 ## 在线示例
 
