@@ -4,7 +4,7 @@
 graph TD;
     A[开始]-->B[登录成功]-->C[菜单权限控制流程]-->D[结束];
     style C fill:#f9f,stroke:#333,color:#fff
-    click C "#菜单权限控制流程"
+    click C "https://github.com/lb1129/XX-CRM-React/blob/master/PermissionFlow.md#%E8%8F%9C%E5%8D%95%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E6%B5%81%E7%A8%8B"
 ```
 
 ## 页面刷新|跳转流程
