@@ -20,7 +20,7 @@ const Index: React.FC<Props> = (props) => {
       <div className={styles.desc}>{t('systemDesc', { name: systemName })}</div>
       <div className={styles.main}>{props.children}</div>
       <div className={styles.footer}>
-        Copyright © 2023 {process.env.REACT_APP_SYSTEM_NAME}
+        Copyright © 2023 {systemName}
         <Divider type="vertical" />
         <Link to="/privacyPolicy" target="_blank">
           {t('privacyPolicy')}
