@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkl_admin=self.webpackChunkl_admin||[]).push([[401],{2401:function(n,e,u){u.r(e);u(7313);var i=u(6417);e.default=function(n){return(0,i.jsx)("div",{children:"MenuList"})}}}]);
