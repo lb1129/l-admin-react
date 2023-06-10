@@ -53,12 +53,14 @@ const Index = () => {
     setOpenKeys(pathnameArr.slice(1, -1).map((key) => `/${key}`))
     // 面包屑与路由联动
     setBreadcrumb(
-      pathnameArr.slice(1).reduce<BreadcrumbProps['items']>((prev, current) => {
-        prev!.push({
-          title: t(current)
-        })
-        return prev
-      }, [])
+      pathname === '/'
+        ? [{ title: t('homePage') }]
+        : pathnameArr.slice(1).reduce<BreadcrumbProps['items']>((prev, current) => {
+            prev!.push({
+              title: t(current)
+            })
+            return prev
+          }, [])
     )
   }, [pathname, navigate, t])
 
