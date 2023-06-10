@@ -104,7 +104,7 @@ const Index = () => {
     <Layout className={styles.wrap}>
       <Header className={styles.header}>
         <div className={styles.headerLogo}>
-          <a href="/">
+          <a href={process.env.REACT_APP_NOT_SUPPORT_HISTORY === 'false' ? '/' : '#/'}>
             <img src={logoSvg} alt="logo" />
             {process.env.REACT_APP_SYSTEM_NAME}
           </a>
