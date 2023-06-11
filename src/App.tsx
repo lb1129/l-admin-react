@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { useRoutes, type RouteObject } from 'react-router-dom'
 import { type MenuDataItemType, setMenuData, setMenuDataDone } from '@/store/menuDataSlice'
 import { setUserInfo } from '@/store/userInfoSlice'
+import { setColorPrimary } from '@/store/theme-slice'
 import baseRoutes from '@/router/baseRoutes'
 import { lazyLoad } from '@/utils/router'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
-import { tokenLocalforage } from '@/storage/localforage'
+import { tokenLocalforage, colorPrimaryLocalforage } from '@/storage/localforage'
 import type { Locale } from 'antd/es/locale'
 import enUS from 'antd/locale/en_US'
 import zhCN from 'antd/locale/zh_CN'
@@ -23,6 +24,13 @@ const App = () => {
   const menuData = useAppSelector((state) => state.menuData)
 
   const dispatch = useAppDispatch()
+
+  // 初始主题色
+  useEffect(() => {
+    colorPrimaryLocalforage.get().then((colorPrimary) => {
+      if (colorPrimary) dispatch(setColorPrimary(colorPrimary))
+    })
+  }, [dispatch])
 
   useEffect(() => {
     // mock 已登录刷新流程
