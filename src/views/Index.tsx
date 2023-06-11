@@ -119,6 +119,21 @@ const Index = () => {
             onChange={(value, hex) => {
               dispatch(setColorPrimary(hex))
             }}
+            presets={[
+              {
+                label: t('builtInThemes'),
+                colors: [
+                  '#1677ff',
+                  '#f5222d',
+                  '#fa541c',
+                  '#faad14',
+                  '#13c2c2',
+                  '#52c41a',
+                  '#2f54eb',
+                  '#722ed1'
+                ]
+              }
+            ]}
           >
             <BgColorsOutlined style={{ fontSize: '16px' }} className={styles.headerRightItem} />
           </ColorPicker>
@@ -168,6 +183,7 @@ const Index = () => {
       </Header>
       <Layout>
         <Sider
+          breakpoint="md"
           onCollapse={(collapsed) => {
             // 左侧菜单由收起到展开时 重新设置openKeys
             if (!collapsed) {
