@@ -48,7 +48,8 @@ const res = {
     add: 'Add',
     delete: 'Delete',
     edit: 'Edit',
-    signingOutPleaseWait: 'Signing out, please wait ...'
+    signingOutPleaseWait: 'Signing out, please wait ...',
+    builtInThemes: 'Built in themes'
   }
 }
 

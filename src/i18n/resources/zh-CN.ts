@@ -48,7 +48,8 @@ const res = {
     add: '新增',
     delete: '删除',
     edit: '编辑',
-    signingOutPleaseWait: '正在注销，请稍等 ...'
+    signingOutPleaseWait: '正在注销，请稍等 ...',
+    builtInThemes: '内置主题'
   }
 }
 
