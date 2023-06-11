@@ -15,7 +15,7 @@ import {
 import { useOutlet, useNavigate, useLocation } from 'react-router-dom'
 import ToggleLanguage from '@/components/ToggleLanguage'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
-import { setColorPrimary } from '@/store/theme-slice'
+import { setColorPrimary } from '@/store/themeSlice'
 import { type MenuDataItemType } from '@/store/menuDataSlice'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import useIndexStyles from './Index.style'

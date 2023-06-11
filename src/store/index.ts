@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import theme from './theme-slice'
+import theme from './themeSlice'
 import menuData from './menuDataSlice'
 import userInfo from './userInfoSlice'
 
