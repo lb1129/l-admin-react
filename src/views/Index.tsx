@@ -79,7 +79,7 @@ const Index = () => {
             icon: menu.icon,
             label: t(menu.name)
           }
-          if (menu.children && menuData.length) {
+          if (menu.children && menu.children.length) {
             ;(item as SubMenuType).children = generateMenuItems(menu.children, menu)
           }
           result.push(item)
