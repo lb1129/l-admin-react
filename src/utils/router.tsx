@@ -23,9 +23,9 @@ export const lazyLoad = (moduleName: string) => {
 interface AuthenticateProps {
   children: JSX.Element
   // 是否不需要身份验证 例如 登录 注册 忘记密码
-  noAuth?: boolean
+  noNeedAuth?: boolean
 }
-export const Authenticate = ({ children, noAuth }: AuthenticateProps) => {
+export const Authenticate = ({ children, noNeedAuth }: AuthenticateProps) => {
   const [res, setRes] = useState<JSX.Element>(loading)
   tokenLocalforage.get().then((token) => {
     // mock 是否已登录校验流程
@@ -33,11 +33,11 @@ export const Authenticate = ({ children, noAuth }: AuthenticateProps) => {
       // 校验token是否有效
       setTimeout(() => {
         // 假设都有效
-        if (noAuth) setRes(<Navigate to="/" replace />)
+        if (noNeedAuth) setRes(<Navigate to="/" replace />)
         else setRes(children)
       }, 500)
     } else {
-      if (noAuth) setRes(children)
+      if (noNeedAuth) setRes(children)
       else setRes(<Navigate to="/login" replace />)
     }
   })

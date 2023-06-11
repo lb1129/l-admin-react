@@ -18,15 +18,15 @@ const routes: RouteObject[] = [
   },
   {
     path: '/login',
-    element: <Authenticate noAuth>{lazyLoad('authenticate/Login')}</Authenticate>
+    element: <Authenticate noNeedAuth>{lazyLoad('authenticate/Login')}</Authenticate>
   },
   {
     path: '/register',
-    element: <Authenticate noAuth>{lazyLoad('authenticate/Register')}</Authenticate>
+    element: <Authenticate noNeedAuth>{lazyLoad('authenticate/Register')}</Authenticate>
   },
   {
     path: '/findPassword',
-    element: <Authenticate noAuth>{lazyLoad('authenticate/FindPassword')}</Authenticate>
+    element: <Authenticate noNeedAuth>{lazyLoad('authenticate/FindPassword')}</Authenticate>
   },
   {
     path: '/privacyPolicy',
