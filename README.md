@@ -231,9 +231,10 @@ Commit Message 包括 `type`、`scope`、`subject` 三部分，其中 `type`、`
 
 [文档](https://create-react-app.dev/docs/adding-custom-environment-variables)
 
-- **.env** 配置通用环境变量
-- **.env.development** 配置开发环境环境变量
-- **.env.production** 配置生产环境环境变量
+- **.env** 基础环境
+- **.env.development** 开发环境
+- **.env.production** 生产环境
+- **.env.github-pages** github-pages 环境
 
 ## craco
 
