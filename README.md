@@ -5,7 +5,7 @@
   <a href="https://github.com/ant-design/ant-design">
     <img src="https://img.shields.io/badge/antd-5.5.2-brightgreen.svg" alt="antd">
   </a>
-  <a href="https://github.com/lb1129/XX-CRM-React/blob/master/LICENSE">
+  <a href="https://github.com/lb1129/l-admin-react/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license">
   </a>
 </p>
@@ -16,16 +16,16 @@ l-admin 是一个管理系统的前端解决方案，l-admin-react 基于 [react
 
 ## 在线示例
 
-[预览](https://lb1129.github.io/XX-CRM-React/)
+[预览](https://lb1129.github.io/l-admin-react/)
 
 ## 开始使用
 
 ```sh
 # 克隆项目
-git clone https://github.com/lb1129/XX-CRM-React.git
+git clone https://github.com/lb1129/l-admin-react.git
 
 # 进入项目目录
-cd XX-CRM-React
+cd l-admin-react
 
 # 安装依赖
 npm install
@@ -241,4 +241,4 @@ Commit Message 包括 `type`、`scope`、`subject` 三部分，其中 `type`、`
 
 ## License
 
-[MIT](https://github.com/lb1129/XX-CRM-React/blob/master/LICENSE)
+[MIT](https://github.com/lb1129/l-admin-react/blob/master/LICENSE)
