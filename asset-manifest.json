@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/l-admin-react/static/css/main.4cfab700.css",
-    "main.js": "/l-admin-react/static/js/main.6c2cd52f.js",
+    "main.js": "/l-admin-react/static/js/main.ea8ea874.js",
     "static/js/474.18902999.chunk.js": "/l-admin-react/static/js/474.18902999.chunk.js",
     "static/js/639.11c79022.chunk.js": "/l-admin-react/static/js/639.11c79022.chunk.js",
     "static/js/622.9cee5064.chunk.js": "/l-admin-react/static/js/622.9cee5064.chunk.js",
@@ -33,6 +33,6 @@
   },
   "entrypoints": [
     "static/css/main.4cfab700.css",
-    "static/js/main.6c2cd52f.js"
+    "static/js/main.ea8ea874.js"
   ]
 }
