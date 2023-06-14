@@ -6,7 +6,7 @@ import { type MenuDataItemType, setMenuData, setMenuDataDone } from '@/store/men
 import { setUserInfo } from '@/store/userInfoSlice'
 import { setColorPrimary } from '@/store/themeSlice'
 import baseRoutes from '@/router/baseRoutes'
-import { lazyLoad } from '@/utils/router'
+import { lazyLoad } from '@/router/tools'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { tokenLocalforage, colorPrimaryLocalforage } from '@/storage/localforage'
 import type { Locale } from 'antd/es/locale'

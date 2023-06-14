@@ -1,5 +1,5 @@
 import { type RouteObject } from 'react-router-dom'
-import { lazyLoad, Authenticate, loading } from '@/utils/router'
+import { lazyLoad, Authenticate, loading } from '@/router/tools'
 
 const routes: RouteObject[] = [
   {
