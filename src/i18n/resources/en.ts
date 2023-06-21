@@ -45,11 +45,19 @@ const res = {
     productManagement: 'Product management',
     productList: 'Product list',
     productDetail: 'Product detail',
+    productAddOrEdit: 'Product add or edit',
     add: 'Add',
     delete: 'Delete',
     edit: 'Edit',
+    save: 'Save',
+    detail: 'Detail',
     signingOutPleaseWait: 'Signing out, please wait ...',
-    builtInThemes: 'Built in themes'
+    builtInThemes: 'Built in themes',
+    pageFileLoadingFailed: 'Page file loading failed',
+    whatSuccess: '{{what}} success',
+    whatTotal: 'Total {{total}} items',
+    queryByName: 'Query by Name',
+    areYouSureDelete: 'Are you sure delete?'
   }
 }
 

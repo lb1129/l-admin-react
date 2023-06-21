@@ -45,11 +45,19 @@ const res = {
     productManagement: '产品管理',
     productList: '产品列表',
     productDetail: '产品详情',
+    productAddOrEdit: '产品新增或编辑',
     add: '新增',
     delete: '删除',
     edit: '编辑',
+    save: '保存',
+    detail: '详情',
     signingOutPleaseWait: '正在注销，请稍等 ...',
-    builtInThemes: '内置主题'
+    builtInThemes: '内置主题',
+    pageFileLoadingFailed: '页面文件加载失败',
+    whatSuccess: '{{what}}成功',
+    whatTotal: '共 {{total}} 条',
+    queryByName: '按名称查询',
+    areYouSureDelete: '确定删除吗？'
   }
 }
 
