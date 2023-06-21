@@ -62,10 +62,10 @@ const App = () => {
       list.forEach((record) => {
         if (record.children && record.children.length) {
           generateRoutes(record.children, `${parentPath ?? ''}${record.path}`)
-        } else if (record.viewUrl) {
+        } else if (record.pageUrl) {
           dynamicRoutes.push({
             path: `${parentPath ?? ''}${record.path}`,
-            element: lazyLoad(`${record.viewUrl}`)
+            element: lazyLoad(`${record.pageUrl}`)
           })
         }
       })
@@ -77,7 +77,7 @@ const App = () => {
       baseRoutes[0].children = [insertTo[0], ...dynamicRoutes, insertTo[insertTo.length - 1]]
     }
     // 菜单获取状态为完成后 为404路由添加element
-    if (menuData.done) baseRoutes[baseRoutes.length - 1].element = lazyLoad('PageNotFound')
+    if (menuData.done) baseRoutes[baseRoutes.length - 1].element = lazyLoad('sundry/NotFound')
     setRoutes([...baseRoutes])
   }, [menuData])
 

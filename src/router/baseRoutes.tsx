@@ -4,11 +4,11 @@ import { lazyLoad, Authenticate, loading } from '@/router/tools'
 const routes: RouteObject[] = [
   {
     path: '/',
-    element: <Authenticate>{lazyLoad('Index')}</Authenticate>,
+    element: <Authenticate>{lazyLoad('index/Index')}</Authenticate>,
     children: [
       {
         index: true,
-        element: lazyLoad('Home')
+        element: lazyLoad('index/Home')
       },
       {
         path: '/personalCenter',
@@ -30,7 +30,7 @@ const routes: RouteObject[] = [
   },
   {
     path: '/privacyPolicy',
-    element: lazyLoad('PrivacyPolicy')
+    element: lazyLoad('sundry/PrivacyPolicy')
   },
   {
     path: '*',

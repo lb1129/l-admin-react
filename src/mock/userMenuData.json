@@ -8,7 +8,7 @@
         {
           "name": "pageList",
           "path": "/pageList",
-          "viewUrl": "page-management/PageList",
+          "pageUrl": "page-management/PageList",
           "icon": "",
           "operateAuth": {}
         }
@@ -22,7 +22,7 @@
         {
           "name": "menuList",
           "path": "/menuList",
-          "viewUrl": "menu-management/MenuList",
+          "pageUrl": "menu-management/MenuList",
           "icon": "",
           "operateAuth": {}
         }
@@ -36,7 +36,7 @@
         {
           "name": "userList",
           "path": "/userList",
-          "viewUrl": "user-management/UserList",
+          "pageUrl": "user-management/UserList",
           "icon": "",
           "operateAuth": {}
         }
@@ -47,24 +47,34 @@
     {
       "name": "productManagement",
       "path": "/productManagement",
-      "icon": "",
+      "icon": "ShopOutlined",
       "children": [
         {
           "name": "productList",
           "path": "/productList",
-          "viewUrl": "product-management/ProductList",
+          "pageUrl": "product-management/ProductList",
           "icon": "",
           "operateAuth": {
-            "add": 0,
+            "add": 1,
             "delete": 0,
-            "edit": 0,
+            "edit": 1,
             "detail": 1
           }
         },
         {
           "name": "productDetail",
           "path": "/productDetail/:id",
-          "viewUrl": "product-management/ProductDetail",
+          "pageUrl": "product-management/ProductDetail",
+          "icon": "",
+          "hidden": true,
+          "operateAuth": {
+            "edit": 1
+          }
+        },
+        {
+          "name": "productAddOrEdit",
+          "path": "/productAddOrEdit/:id?",
+          "pageUrl": "product-management/ProductAddOrEdit",
           "icon": "",
           "hidden": true,
           "operateAuth": {}

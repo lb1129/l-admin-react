@@ -1,7 +1,7 @@
-import React, { useState, useEffect, createRef } from 'react'
+import React, { useState, useEffect, createRef, lazy } from 'react'
 import logoSvg from '@/assets/image/logo.svg'
 import userPng from '@/assets/image/user.png'
-import { HomeOutlined, UserOutlined, BgColorsOutlined } from '@ant-design/icons'
+import { HomeOutlined, UserOutlined, BgColorsOutlined, FolderOutlined } from '@ant-design/icons'
 import {
   Breadcrumb,
   Layout,
@@ -76,10 +76,20 @@ const Index = () => {
         if (!menu.hidden) {
           let item: MenuItem = {
             key: parent ? `${parent.path}${menu.path}` : menu.path,
-            icon: menu.icon,
             label: t(menu.name)
           }
           if (menu.children && menu.children.length) {
+            let icon = <FolderOutlined />
+            // 图标动态加载
+            if (menu.icon) {
+              const Module = lazy(() => import(`@ant-design/icons/lib/icons/${menu.icon}.js`))
+              icon = (
+                <React.Suspense fallback={<FolderOutlined />}>
+                  <Module />
+                </React.Suspense>
+              )
+            }
+            item.icon = icon
             ;(item as SubMenuType).children = generateMenuItems(menu.children, menu)
           }
           result.push(item)
