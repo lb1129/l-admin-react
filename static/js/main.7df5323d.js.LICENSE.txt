@@ -5,6 +5,12 @@
 */
 
 /*!
+          Mock - 模拟请求 & 模拟数据
+          https://github.com/nuysoft/Mock
+          墨智 mozhi.gyy@taobao.com nuysoft@gmail.com
+      */
+
+/*!
     localForage -- Offline Storage, Improved
     Version 1.10.0
     https://localforage.github.io/localForage

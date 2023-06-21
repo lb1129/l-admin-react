@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkl_admin=self.webpackChunkl_admin||[]).push([[36937],{36937:function(n,e,i){i.r(e);i(47313);var u=i(58467),a=i(46417);e.default=function(n){var e=(0,u.UO)();return(0,a.jsxs)("div",{children:["ProductDetail ",e.id]})}}}]);
