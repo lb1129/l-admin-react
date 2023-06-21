@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { useResizeHeight } from '@/utils/useResize'
+import { useResize } from '@/utils/useResize'
 import useStyles from './style'
 import { useTranslation } from 'react-i18next'
 
@@ -24,7 +24,7 @@ const PositionMap = (props: Props) => {
   const resultRef = useRef<HTMLDivElement>(null)
   const [suggestionNode, setSuggestionNode] = useState<HTMLElement>()
   const mapCreated = useRef<boolean>(false)
-  const { height } = useResizeHeight(wrapRef)
+  const { height } = useResize(wrapRef)
   const styles = useStyles()
   const distanceBottom = 200
   const { t } = useTranslation()

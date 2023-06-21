@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react'
 import { Table, Button, Divider, Input, Popconfirm, App, type TableProps } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { useResizeHeight } from '@/utils/useResize'
+import { useResize } from '@/utils/useResize'
 import { useAuth, operateAuthValueToDisabled } from '@/utils/useAuth'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -22,7 +22,9 @@ const ProductList = () => {
     keyword: ''
   })
   const refContainer = useRef<HTMLDivElement>(null)
-  const { height } = useResizeHeight(refContainer, 64.8 + 64 + 54.8)
+  const { height } = useResize(refContainer, {
+    minusHeight: 64.8 + 64 + 54.8
+  })
   const { operateAuth } = useAuth()
   const { t } = useTranslation()
   const { message } = App.useApp()
