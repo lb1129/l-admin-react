@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkl_admin=self.webpackChunkl_admin||[]).push([[675],{9675:function(n,e,r){r.r(e);r(7313);var u=r(6417);e.default=function(n){return(0,u.jsx)("div",{children:"PersonalCenter"})}}}]);

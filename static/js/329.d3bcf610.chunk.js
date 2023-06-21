@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkl_admin=self.webpackChunkl_admin||[]).push([[329],{3329:function(n,e,i){i.r(e);i(7313);var u=i(6417);e.default=function(n){return(0,u.jsx)("div",{children:"PageList"})}}}]);

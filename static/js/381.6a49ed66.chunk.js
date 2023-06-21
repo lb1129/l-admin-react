@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkl_admin=self.webpackChunkl_admin||[]).push([[381],{1381:function(n,i,c){c.r(i);c(7313);var e=c(6417);i.default=function(n){return(0,e.jsx)("div",{children:"privacyPolicy"})}}}]);

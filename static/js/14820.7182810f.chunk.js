@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkl_admin=self.webpackChunkl_admin||[]).push([[14820],{14820:function(d,n,i){i.r(n);i(47313);var r=i(58467),u=i(46417);n.default=function(d){var n=(0,r.UO)();return(0,u.jsxs)("div",{children:["ProductAddOrEdit ",n.id]})}}}]);

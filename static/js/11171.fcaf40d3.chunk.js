@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkl_admin=self.webpackChunkl_admin||[]).push([[11171],{11171:function(n,e,i){i.r(e);i(47313);var s=i(46417);e.default=function(n){return(0,s.jsx)("div",{children:"UserList"})}}}]);
