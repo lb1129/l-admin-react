@@ -1,5 +1,4 @@
 {
-  "files": ["bmapgl.d.ts"],
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
