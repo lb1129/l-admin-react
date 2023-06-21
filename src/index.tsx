@@ -9,7 +9,8 @@ import store from '@/store'
 import { BrowserRouter, HashRouter } from 'react-router-dom'
 import 'antd/dist/reset.css'
 import '@/global.style'
-
+import '@/mock'
+// TODO 面包屑 路由操作状态 路由keep-alive
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 // 根据运行或部署环境是否支持history路由模式 选取不同路由模式及basename
 let Router = BrowserRouter
