@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom'
-import { type OperateAuthType, type MenuDataItemType } from '@/store/menuDataSlice'
+import type { OperateAuthType, MenuDataItemType } from '@/views/personal-center/types'
 import { useAppSelector } from '@/store/hooks'
 
 export const operateAuthValueToDisabled = (operateAuthValue: number | undefined) => {

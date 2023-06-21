@@ -1,10 +1,7 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
+import type { UserInfoType } from '@/views/personal-center/types'
 
 export const setUserInfo = createAction<UserInfoType>('setUserInfo')
-
-export interface UserInfoType {
-  userName: string
-}
 
 const initialState: UserInfoType = {
   userName: ''
