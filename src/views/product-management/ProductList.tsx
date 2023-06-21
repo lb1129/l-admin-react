@@ -1,31 +1,34 @@
-import React, { useRef } from 'react'
-import { Table, Button, Divider } from 'antd'
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react'
+import { Table, Button, Divider, Input, Popconfirm, App, type TableProps } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useResizeHeight } from '@/utils/useResize'
 import { useAuth, operateAuthValueToDisabled } from '@/utils/useAuth'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import LinkPlus from '@/components/LinkPlus'
-
-interface ProductRecord {
-  id: string
-  name: string
-  brand: string
-  category: string
-  price: number
-  color: string
-  style: string
-  enable: number
-  inventory: number
-  describe: string
-}
+import type { ProductType, ProductsQueryParamsType } from './types'
+import { getProducts, deleteProductByIds } from './servers'
 
 const ProductList = () => {
+  const [total, setTotal] = useState(0)
+  const [dataLoading, setDataLoading] = useState(false)
+  const [dataSource, setDataSource] = useState<ProductType[]>([])
+  const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
+  const [queryParams, setQueryParams] = useState<ProductsQueryParamsType>({
+    pagination: {
+      pageNo: 1,
+      pageSize: 10
+    },
+    keyword: ''
+  })
   const refContainer = useRef<HTMLDivElement>(null)
   const { height } = useResizeHeight(refContainer, 64.8 + 64 + 54.8)
   const { operateAuth } = useAuth()
   const { t } = useTranslation()
+  const { message } = App.useApp()
+  const navigate = useNavigate()
 
-  const columns: ColumnsType<ProductRecord> = [
+  const columns: ColumnsType<ProductType> = [
     {
       title: '名称',
       dataIndex: 'name',
@@ -94,185 +97,142 @@ const ProductList = () => {
       title: '操作',
       dataIndex: 'operation',
       key: 'operation',
-      width: 120,
+      width: 180,
       fixed: 'right',
       align: 'center',
-      render: () => (
+      render: (value, record) => (
         <>
-          <LinkPlus disabled={operateAuthValueToDisabled(operateAuth.edit)}>{t('edit')}</LinkPlus>
+          <Button
+            type="link"
+            disabled={operateAuthValueToDisabled(operateAuth.edit)}
+            onClick={() => {
+              navigate(`/productManagement/ProductAddOrEdit/${record.id}`)
+            }}
+          >
+            {t('edit')}
+          </Button>
           <Divider type="vertical" />
-          <LinkPlus disabled={operateAuthValueToDisabled(operateAuth.delete)}>
-            {t('delete')}
-          </LinkPlus>
+          <Popconfirm
+            disabled={operateAuthValueToDisabled(operateAuth.delete)}
+            title={t('areYouSureDelete')}
+            onConfirm={() => deleteHandle(record.id)}
+          >
+            <Button type="link" disabled={operateAuthValueToDisabled(operateAuth.delete)}>
+              {t('delete')}
+            </Button>
+          </Popconfirm>
         </>
       )
     }
   ]
 
-  const dataSource: ProductRecord[] = [
-    {
-      id: '1',
-      name: 'AppleMacBook Air',
-      brand: 'Apple',
-      category: '电脑整机/笔记本',
-      price: 7199.0,
-      color: '深空灰色',
-      style: '13.3英寸 M1芯片 8+7核 8G+256G',
-      enable: 1,
-      inventory: 33,
-      describe: ''
-    },
-    {
-      id: '2',
-      name: 'AppleMacBook Air',
-      brand: 'Apple',
-      category: '电脑整机/笔记本',
-      price: 9499.0,
-      color: '深空灰色',
-      style: '13.3英寸 M1芯片 8+7核 8G+512G',
-      enable: 1,
-      inventory: 0,
-      describe: ''
-    },
-    {
-      id: '3',
-      name: 'AppleMacBook Air',
-      brand: 'Apple',
-      category: '电脑整机/笔记本',
-      price: 9499.0,
-      color: '深空灰色',
-      style: '13.3英寸 M1芯片 8+7核 16G+256G',
-      enable: 1,
-      inventory: 0,
-      describe: ''
-    },
-    {
-      id: '4',
-      name: 'AppleMacBook Air',
-      brand: 'Apple',
-      category: '电脑整机/笔记本',
-      price: 10999.0,
-      color: '深空灰色',
-      style: '13.3英寸 M1芯片 8+7核 16G+512G',
-      enable: 1,
-      inventory: 0,
-      describe: ''
-    },
-    {
-      id: '5',
-      name: 'AppleMacBook Air',
-      brand: 'Apple',
-      category: '电脑整机/笔记本',
-      price: 7199.0,
-      color: '银色',
-      style: '13.3英寸 M1芯片 8+7核 8G+256G',
-      enable: 1,
-      inventory: 33,
-      describe: ''
-    },
-    {
-      id: '6',
-      name: 'AppleMacBook Air',
-      brand: 'Apple',
-      category: '电脑整机/笔记本',
-      price: 9499.0,
-      color: '银色',
-      style: '13.3英寸 M1芯片 8+7核 8G+512G',
-      enable: 1,
-      inventory: 0,
-      describe: ''
-    },
-    {
-      id: '7',
-      name: 'AppleMacBook Air',
-      brand: 'Apple',
-      category: '电脑整机/笔记本',
-      price: 9499.0,
-      color: '银色',
-      style: '13.3英寸 M1芯片 8+7核 16G+256G',
-      enable: 1,
-      inventory: 0,
-      describe: ''
-    },
-    {
-      id: '8',
-      name: 'AppleMacBook Air',
-      brand: 'Apple',
-      category: '电脑整机/笔记本',
-      price: 10999.0,
-      color: '银色',
-      style: '13.3英寸 M1芯片 8+7核 16G+512G',
-      enable: 1,
-      inventory: 0,
-      describe: ''
-    },
-    {
-      id: '9',
-      name: 'AppleMacBook Air',
-      brand: 'Apple',
-      category: '电脑整机/笔记本',
-      price: 7199.0,
-      color: '金色',
-      style: '13.3英寸 M1芯片 8+7核 8G+256G',
-      enable: 1,
-      inventory: 33,
-      describe: ''
-    },
-    {
-      id: '10',
-      name: 'AppleMacBook Air',
-      brand: 'Apple',
-      category: '电脑整机/笔记本',
-      price: 9499.0,
-      color: '金色',
-      style: '13.3英寸 M1芯片 8+7核 8G+512G',
-      enable: 1,
-      inventory: 0,
-      describe: ''
-    },
-    {
-      id: '11',
-      name: 'AppleMacBook Air',
-      brand: 'Apple',
-      category: '电脑整机/笔记本',
-      price: 9499.0,
-      color: '金色',
-      style: '13.3英寸 M1芯片 8+7核 16G+256G',
-      enable: 1,
-      inventory: 0,
-      describe: ''
-    },
-    {
-      id: '12',
-      name: 'AppleMacBook Air',
-      brand: 'Apple',
-      category: '电脑整机/笔记本',
-      price: 10999.0,
-      color: '金色',
-      style: '13.3英寸 M1芯片 8+7核 16G+512G',
-      enable: 1,
-      inventory: 0,
-      describe: ''
+  const tablePaginationConfig = useMemo(
+    () => ({
+      total,
+      current: queryParams.pagination.pageNo,
+      pageSize: queryParams.pagination.pageSize,
+      showTotal: (total: number) => t('whatTotal', { total }),
+      showSizeChanger: true,
+      showLessItems: true,
+      showQuickJumper: true
+    }),
+    [total, queryParams, t]
+  )
+
+  const deleteHandle = async (id?: string) => {
+    const ids = id ? [id] : selectedRowKeys
+    setDataLoading(true)
+    try {
+      await deleteProductByIds(ids)
+      message.success(t('whatSuccess', { what: t('delete') }))
+      loadData()
+    } catch (error) {
+      setDataLoading(false)
     }
-  ]
+  }
+
+  const changeHandle: TableProps<ProductType>['onChange'] = (pagination, filters, sorter) => {
+    setQueryParams({
+      pagination: {
+        pageNo: pagination.current as number,
+        pageSize: pagination.pageSize as number
+      },
+      keyword: queryParams.keyword
+    })
+  }
+
+  const loadData = useCallback(async () => {
+    setDataLoading(true)
+    try {
+      const res = await getProducts(queryParams)
+      setDataSource(res.data.data)
+      setTotal(res.data.total)
+      setDataLoading(false)
+    } catch (error) {
+      setDataLoading(false)
+    }
+  }, [queryParams])
+
+  useEffect(() => {
+    loadData()
+  }, [loadData])
 
   return (
     <div style={{ height: '100%' }} ref={refContainer}>
       <Table
+        loading={dataLoading}
         columns={columns}
         dataSource={dataSource}
         bordered
         rowKey="id"
-        scroll={{ x: 1140, y: height }}
+        scroll={{ x: 1200, y: height }}
+        pagination={tablePaginationConfig}
+        onChange={changeHandle}
+        rowSelection={{
+          selectedRowKeys,
+          onChange: (keys) => {
+            setSelectedRowKeys(keys as string[])
+          }
+        }}
         title={() => (
-          <Button.Group>
-            <Button type="primary" disabled={operateAuthValueToDisabled(operateAuth.add)}>
-              {t('add')}
-            </Button>
-            <Button type="primary" disabled={operateAuthValueToDisabled(operateAuth.delete)}>
-              {t('delete')}
-            </Button>
-          </Button.Group>
+          <>
+            <Button.Group>
+              <Button type="primary" disabled={operateAuthValueToDisabled(operateAuth.add)}>
+                {t('add')}
+              </Button>
+              <Popconfirm
+                disabled={!selectedRowKeys.length || operateAuthValueToDisabled(operateAuth.delete)}
+                title={t('areYouSureDelete')}
+                onConfirm={() => deleteHandle()}
+              >
+                <Button
+                  type="primary"
+                  disabled={
+                    !selectedRowKeys.length || operateAuthValueToDisabled(operateAuth.delete)
+                  }
+                >
+                  {t('delete')}
+                </Button>
+              </Popconfirm>
+            </Button.Group>
+            <div style={{ float: 'right' }}>
+              <Input.Search
+                onSearch={(value) => {
+                  if (queryParams.keyword !== value) {
+                    setQueryParams({
+                      pagination: {
+                        pageNo: 1,
+                        pageSize: queryParams.pagination.pageSize
+                      },
+                      keyword: value
+                    })
+                  }
+                }}
+                placeholder={t<string>('queryByName')}
+                enterButton
+              />
+            </div>
+          </>
         )}
       />
     </div>

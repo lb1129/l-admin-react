@@ -3,51 +3,47 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Form, Input, App } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useLinkStyle } from '@/utils/useCommonStyle'
 import Layout from './Layout'
 import { tokenLocalforage } from '@/storage/localforage'
 import { useAppDispatch } from '@/store/hooks'
 import { setMenuData, setMenuDataDone } from '@/store/menuDataSlice'
 import { setUserInfo } from '@/store/userInfoSlice'
-import userMenuData from '@/mock/userMenuData.json'
+import { login } from './servers'
+import { getUserInfo, getMenu } from '@/views/personal-center/servers'
 
 const Login: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const { notification, message } = App.useApp()
+  const { notification } = App.useApp()
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const linkStyle = useLinkStyle()
   const dispatch = useAppDispatch()
 
-  const onFinish = (values: { userName: string; password: string }) => {
+  const onFinish = async (values: { userName: string; password: string }) => {
     setLoading(true)
-    // mock 登录流程
-    setTimeout(async () => {
-      // 该用户有menuData 登录成功 否则失败 提示用户名错误
-      const menuData = userMenuData[values.userName as keyof typeof userMenuData]
-      if (menuData) {
-        // token存储用户名称
-        await tokenLocalforage.set(values.userName)
-        // 更新redux内的菜单数据
-        dispatch(setMenuData(menuData))
-        // 将redux内菜单数据获取状态设置为完成
-        dispatch(setMenuDataDone(true))
-        // 更新redux内的用户信息
-        dispatch(setUserInfo({ userName: values.userName }))
-        // 跳转菜单页
-        navigate('/', { replace: true })
-        // 欢迎提示
-        setTimeout(() => {
-          notification.success({
-            message: t('welcome'),
-            description: values.userName
-          })
-        }, 500)
-      } else {
-        message.error(t('userNameError'))
-      }
+    try {
+      const res = await login(values)
+      // 存储token
+      await tokenLocalforage.set(res.data)
+      const userInfoRes = await getUserInfo()
+      const menuRes = await getMenu()
+      // 更新redux内的菜单数据
+      dispatch(setMenuData(menuRes.data))
+      // 将redux内菜单数据获取状态设置为完成
+      dispatch(setMenuDataDone(true))
+      // 更新redux内的用户信息
+      dispatch(setUserInfo(userInfoRes.data))
+      // 跳转首页
+      navigate('/', { replace: true })
+      // 欢迎提示
+      setTimeout(() => {
+        notification.success({
+          message: t('welcome'),
+          description: userInfoRes.data.userName
+        })
+      }, 200)
+    } catch (error) {
       setLoading(false)
-    }, 500)
+    }
   }
 
   return (
@@ -59,7 +55,7 @@ const Login: React.FC = () => {
         >
           <Input
             prefix={<UserOutlined style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
-            placeholder={`${t<string>('account')}${Object.keys(userMenuData).join('/')}`}
+            placeholder={`${t<string>('account')}admin/viho/user`}
           />
         </Form.Item>
         <Form.Item
@@ -69,15 +65,12 @@ const Login: React.FC = () => {
           <Input
             prefix={<LockOutlined style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
             type="password"
-            placeholder={t<string>('password')}
+            placeholder={`${t<string>('password')}a123456`}
           />
         </Form.Item>
         <Form.Item>
-          <Link to="/register" className={linkStyle}>
-            {t<string>('signUp')}
-          </Link>
+          <Link to="/register">{t<string>('signUp')}</Link>
           <Link
-            className={linkStyle}
             style={{
               float: 'right'
             }}

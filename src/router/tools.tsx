@@ -1,7 +1,7 @@
 import React, { lazy, useState } from 'react'
 import { Spin } from 'antd'
 import { Navigate } from 'react-router-dom'
-import { tokenLocalforage } from '@/storage/localforage'
+import { isLogin } from '@/views/authenticate/servers'
 
 export const loading = (
   <div style={{ paddingTop: 100, textAlign: 'center' }}>
@@ -22,24 +22,19 @@ export const lazyLoad = (moduleName: string) => {
 // 身份验证 自动导航组件
 interface AuthenticateProps {
   children: JSX.Element
-  // 是否不需要身份验证 例如 登录 注册 忘记密码
-  noNeedAuth?: boolean
+  // 是否需要身份验证
+  needAuth?: boolean
 }
-export const Authenticate = ({ children, noNeedAuth }: AuthenticateProps) => {
+export const Authenticate = ({ children, needAuth }: AuthenticateProps) => {
   const [res, setRes] = useState<JSX.Element>(loading)
-  tokenLocalforage.get().then((token) => {
-    // mock 是否已登录校验流程
-    if (token) {
-      // 校验token是否有效
-      setTimeout(() => {
-        // 假设都有效
-        if (noNeedAuth) setRes(<Navigate to="/" replace />)
-        else setRes(children)
-      }, 500)
-    } else {
-      if (noNeedAuth) setRes(children)
-      else setRes(<Navigate to="/login" replace />)
-    }
-  })
+  isLogin()
+    .then(() => {
+      if (needAuth === false) setRes(<Navigate to="/" replace />)
+      else setRes(children)
+    })
+    .catch(() => {
+      if (needAuth === true) setRes(<Navigate to="/login" replace />)
+      else setRes(children)
+    })
   return res
 }

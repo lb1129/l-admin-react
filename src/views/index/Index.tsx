@@ -22,6 +22,7 @@ import useIndexStyles from './Index.style'
 import { MenuItemType, SubMenuType } from 'antd/es/menu/hooks/useItems'
 import { tokenLocalforage } from '@/storage/localforage'
 import { useTranslation } from 'react-i18next'
+import { logout } from '@/views/authenticate/servers'
 
 const { Header, Content, Sider } = Layout
 
@@ -167,15 +168,16 @@ const Index = () => {
                     modal.confirm({
                       title: t('tip'),
                       content: t('areYouSureToLogOut'),
-                      onOk() {
+                      onOk: async () => {
                         message.loading(t('signingOutPleaseWait'), 0)
-                        // mock 退出登录流程
-                        setTimeout(() => {
-                          tokenLocalforage.clear().then(() => {
-                            message.destroy()
-                            navigate('/login', { replace: true })
-                          })
-                        }, 500)
+                        try {
+                          await logout()
+                          await tokenLocalforage.clear()
+                          message.destroy()
+                          navigate('/login', { replace: true })
+                        } catch (error) {
+                          message.destroy()
+                        }
                       }
                     })
                   }
@@ -232,7 +234,7 @@ const Index = () => {
                 nodeRef={nodeRef}
                 key={pathname}
                 timeout={300}
-                classNames="transition-scale"
+                classNames="transition-fade"
                 unmountOnExit
               >
                 <div style={{ height: '100%' }} ref={nodeRef}>

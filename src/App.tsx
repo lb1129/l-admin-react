@@ -8,13 +8,14 @@ import { setColorPrimary } from '@/store/themeSlice'
 import baseRoutes from '@/router/baseRoutes'
 import { lazyLoad } from '@/router/tools'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
-import { tokenLocalforage, colorPrimaryLocalforage } from '@/storage/localforage'
+import { colorPrimaryLocalforage } from '@/storage/localforage'
 import type { Locale } from 'antd/es/locale'
 import enUS from 'antd/locale/en_US'
 import zhCN from 'antd/locale/zh_CN'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
-import userMenuData from '@/mock/userMenuData.json'
+import { isLogin } from '@/views/authenticate/servers'
+import { getUserInfo, getMenu } from '@/views/personal-center/servers'
 
 const App = () => {
   const [routes, setRoutes] = useState<RouteObject[]>(baseRoutes)
@@ -33,26 +34,21 @@ const App = () => {
   }, [dispatch])
 
   useEffect(() => {
-    // mock 已登录刷新流程
-    tokenLocalforage.get().then((token) => {
-      if (token) {
-        setTimeout(() => {
-          // 获取用户菜单
-          const menuData = userMenuData[token as keyof typeof userMenuData]
-          if (menuData) {
-            // 更新redux内的菜单数据
-            dispatch(setMenuData(menuData))
-            // 将redux内菜单数据获取状态设置为完成
-            dispatch(setMenuDataDone(true))
-            // 更新redux内的用户数据
-            dispatch(setUserInfo({ userName: token }))
-          }
-        }, 500)
-      } else {
+    isLogin()
+      .then(async () => {
+        const userInfoRes = await getUserInfo()
+        const menuRes = await getMenu()
+        // 更新redux内的菜单数据
+        dispatch(setMenuData(menuRes.data))
         // 将redux内菜单数据获取状态设置为完成
         dispatch(setMenuDataDone(true))
-      }
-    })
+        // 更新redux内的用户信息
+        dispatch(setUserInfo(userInfoRes.data))
+      })
+      .catch(() => {
+        // 将redux内菜单数据获取状态设置为完成
+        dispatch(setMenuDataDone(true))
+      })
   }, [dispatch])
 
   // 用户菜单数据生成动态路由

@@ -4,7 +4,7 @@ import { lazyLoad, Authenticate, loading } from '@/router/tools'
 const routes: RouteObject[] = [
   {
     path: '/',
-    element: <Authenticate>{lazyLoad('index/Index')}</Authenticate>,
+    element: <Authenticate needAuth={true}>{lazyLoad('index/Index')}</Authenticate>,
     children: [
       {
         index: true,
@@ -18,15 +18,15 @@ const routes: RouteObject[] = [
   },
   {
     path: '/login',
-    element: <Authenticate noNeedAuth>{lazyLoad('authenticate/Login')}</Authenticate>
+    element: <Authenticate needAuth={false}>{lazyLoad('authenticate/Login')}</Authenticate>
   },
   {
     path: '/register',
-    element: <Authenticate noNeedAuth>{lazyLoad('authenticate/Register')}</Authenticate>
+    element: <Authenticate needAuth={false}>{lazyLoad('authenticate/Register')}</Authenticate>
   },
   {
     path: '/findPassword',
-    element: <Authenticate noNeedAuth>{lazyLoad('authenticate/FindPassword')}</Authenticate>
+    element: <Authenticate needAuth={false}>{lazyLoad('authenticate/FindPassword')}</Authenticate>
   },
   {
     path: '/privacyPolicy',
