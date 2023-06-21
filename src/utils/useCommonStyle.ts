@@ -1,17 +1,8 @@
 import { useEmotionCss } from '@/utils/useEmotionCss'
 
-// link css-in-js 通用
-export const useLinkStyle = () =>
+export const useCommonStyle = () =>
   useEmotionCss(({ token }) => {
-    return {
-      color: `${token.colorPrimaryText}`,
-      '&:active': {
-        color: `${token.colorPrimaryTextActive}`
-      },
-      '&:hover': {
-        color: `${token.colorPrimaryTextHover}`
-      }
-    }
+    return {}
   })
 
 // ...
