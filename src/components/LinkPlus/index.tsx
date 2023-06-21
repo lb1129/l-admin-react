@@ -1,4 +1,4 @@
-import React, { type ReactNode, type MouseEventHandler, useMemo } from 'react'
+import React, { type ReactNode, type MouseEventHandler, useMemo, forwardRef } from 'react'
 import { Link, type LinkProps } from 'react-router-dom'
 import useStyles from './style'
 import { useLinkStyle } from '@/utils/useCommonStyle'
@@ -11,7 +11,7 @@ type Props = {
   children?: ReactNode | ReactNode[]
 }
 
-const LinkPlus = (props: Props) => {
+const LinkPlus = forwardRef<HTMLAnchorElement, Props>((props, ref) => {
   const styles = useStyles()
   const linkStyles = useLinkStyle()
 
@@ -28,10 +28,10 @@ const LinkPlus = (props: Props) => {
   }, [props.disabled, props.to, props.onClick])
 
   return (
-    <Link to={to} onClick={props.onClick} className={className}>
+    <Link ref={ref} to={to} onClick={props.onClick} className={className}>
       {props.children}
     </Link>
   )
-}
+})
 
 export default LinkPlus
