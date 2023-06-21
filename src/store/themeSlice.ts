@@ -1,6 +1,6 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
 import { type ThemeConfig } from 'antd'
-import { colorPrimaryLocalforage } from '@/storage/localforage'
+import { themeLocalforage } from '@/storage/localforage'
 import { generate } from '@ant-design/colors'
 
 export const setColorPrimary = createAction<string>('setColorPrimary')
@@ -20,7 +20,7 @@ const reducer = createReducer(initialState, (builder) => {
     state.token!.colorLink = action.payload
     state.token!.colorLinkActive = colors[4]
     state.token!.colorLinkHover = colors[4]
-    colorPrimaryLocalforage.set(action.payload)
+    themeLocalforage.set(action.payload)
   })
 })
 

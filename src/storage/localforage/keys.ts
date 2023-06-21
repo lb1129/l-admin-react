@@ -1,2 +1,2 @@
 export const token = 'token'
-export const colorPrimary = 'colorPrimary'
+export const themeColor = 'themeColor'

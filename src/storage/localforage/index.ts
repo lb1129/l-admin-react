@@ -1,5 +1,5 @@
 import localforage from 'localforage'
-import { token, colorPrimary } from './keys'
+import { token, themeColor } from './keys'
 
 localforage.config({
   name: process.env.REACT_APP_SYSTEM_NAME,
@@ -19,15 +19,15 @@ export const tokenLocalforage = {
   }
 }
 
-export const colorPrimaryLocalforage = {
+export const themeLocalforage = {
   async get() {
-    const value = await localforage.getItem<string>(colorPrimary)
+    const value = await localforage.getItem<string>(themeColor)
     return value ?? ''
   },
   async set(value: string) {
-    return localforage.setItem(colorPrimary, value)
+    return localforage.setItem(themeColor, value)
   },
   async clear() {
-    return localforage.removeItem(colorPrimary)
+    return localforage.removeItem(themeColor)
   }
 }

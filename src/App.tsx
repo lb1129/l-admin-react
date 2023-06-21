@@ -9,7 +9,7 @@ import { setColorPrimary } from '@/store/themeSlice'
 import baseRoutes from '@/router/baseRoutes'
 import { lazyLoad } from '@/router/tools'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
-import { colorPrimaryLocalforage } from '@/storage/localforage'
+import { themeLocalforage } from '@/storage/localforage'
 import type { Locale } from 'antd/es/locale'
 import enUS from 'antd/locale/en_US'
 import zhCN from 'antd/locale/zh_CN'
@@ -29,8 +29,8 @@ const App = () => {
 
   // 初始主题色
   useEffect(() => {
-    colorPrimaryLocalforage.get().then((colorPrimary) => {
-      if (colorPrimary) dispatch(setColorPrimary(colorPrimary))
+    themeLocalforage.get().then((themeColor) => {
+      if (themeColor) dispatch(setColorPrimary(themeColor))
     })
   }, [dispatch])
 
