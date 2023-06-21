@@ -1,28 +1,30 @@
-import { useState, useLayoutEffect, useRef, type RefObject } from 'react'
+import { useState, useLayoutEffect, type RefObject } from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 
-// 高度
-export const useResizeHeight = (ref: RefObject<HTMLElement>, minusHeight?: number) => {
+export const useResize = (
+  ref: RefObject<HTMLElement>,
+  options?: {
+    minusWidth?: number
+    minusHeight?: number
+  }
+) => {
   const [height, setHeight] = useState(0)
-  const ro = useRef<ResizeObserver>()
+  const [width, setWidth] = useState(0)
 
   useLayoutEffect(() => {
     const node = ref.current
+    let ro: ResizeObserver
     if (node) {
-      // 先解除已有监听
-      if (ro.current) ro.current.unobserve(node)
-      ro.current = new ResizeObserver((entries) => {
-        setHeight(entries[0].contentRect.height - (minusHeight ?? 0))
+      ro = new ResizeObserver((entries) => {
+        setWidth(entries[0].contentRect.width - (options ? options.minusWidth ?? 0 : 0))
+        setHeight(entries[0].contentRect.height - (options ? options.minusHeight ?? 0 : 0))
       })
-      ro.current.observe(node)
+      ro.observe(node)
     }
     return () => {
-      // 卸载解除已有监听
-      if (node) ro.current?.unobserve(node)
+      if (node) ro.unobserve(node)
     }
-  }, [ref, minusHeight])
+  }, [ref, options])
 
-  return { height }
+  return { width, height }
 }
-
-// TODO 宽度 ...
