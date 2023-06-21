@@ -9,5 +9,6 @@ declare namespace NodeJS {
   interface ProcessEnv {
     readonly REACT_APP_SYSTEM_NAME: string
     readonly REACT_APP_NOT_SUPPORT_HISTORY: string
+    readonly REACT_APP_SERVER_IS_MOCK: string
   }
 }
