@@ -2,14 +2,12 @@ import React from 'react'
 import { Button, Form, Input, App, Row, Col } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useLinkStyle } from '@/utils/useCommonStyle'
 import Layout from './Layout'
 
 const FindPassword: React.FC = () => {
   const { notification } = App.useApp()
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const linkStyle = useLinkStyle()
   const onFinish = async (values: {
     password: string
     confirmPassword: string
@@ -77,9 +75,7 @@ const FindPassword: React.FC = () => {
         </Row>
 
         <Form.Item>
-          <Link className={linkStyle} to="/login">
-            {t('haveAnAccount')}
-          </Link>
+          <Link to="/login">{t('haveAnAccount')}</Link>
         </Form.Item>
 
         <Form.Item>

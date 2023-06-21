@@ -1,7 +1,6 @@
 import React, { type ReactNode, type MouseEventHandler, useMemo, forwardRef } from 'react'
 import { Link, type LinkProps } from 'react-router-dom'
 import useStyles from './style'
-import { useLinkStyle } from '@/utils/useCommonStyle'
 
 type Props = {
   disabled?: boolean
@@ -13,13 +12,10 @@ type Props = {
 
 const LinkPlus = forwardRef<HTMLAnchorElement, Props>((props, ref) => {
   const styles = useStyles()
-  const linkStyles = useLinkStyle()
 
   const className = useMemo(() => {
-    let result = linkStyles
-    if (props.disabled) result += ` ${styles.disabled}`
-    return result
-  }, [linkStyles, props.disabled, styles.disabled])
+    if (props.disabled) return styles.disabled
+  }, [props.disabled, styles.disabled])
 
   const to = useMemo(() => {
     if (props.disabled) return ''
