@@ -33,6 +33,7 @@ const Index = () => {
   const [openKeys, setOpenKeys] = useState<string[]>([])
   const [breadcrumb, setBreadcrumb] = useState<BreadcrumbProps['items']>([])
   const [menuItems, setMenuItems] = useState<MenuItem[]>([])
+  const [collapsed, setCollapsed] = useState(false)
   const styles = useIndexStyles()
 
   const navigate = useNavigate()
@@ -49,9 +50,7 @@ const Index = () => {
   useEffect(() => {
     // 左侧菜单选中项与路由联动
     setSelectedKeys([pathname])
-    // 左侧菜单打开项与路由联动
     const pathnameArr = pathname.split('/')
-    setOpenKeys(pathnameArr.slice(1, -1).map((key) => `/${key}`))
     // 面包屑与路由联动
     setBreadcrumb(
       pathname === '/'
@@ -63,7 +62,15 @@ const Index = () => {
             return prev
           }, [])
     )
-  }, [pathname, navigate, t])
+  }, [pathname, t])
+
+  useEffect(() => {
+    // 左侧菜单打开项与路由联动
+    const pathnameArr = pathname.split('/')
+    if (!collapsed) {
+      setOpenKeys(pathnameArr.slice(1, -1).map((key) => `/${key}`))
+    }
+  }, [pathname, collapsed])
 
   // 结合Transtion使用
   const currentOutlet = useOutlet()
@@ -197,11 +204,7 @@ const Index = () => {
         <Sider
           breakpoint="md"
           onCollapse={(collapsed) => {
-            // 左侧菜单由收起到展开时 重新设置openKeys
-            if (!collapsed) {
-              const pathnameArr = pathname.split('/')
-              setOpenKeys(pathnameArr.slice(1, -1).map((key) => `/${key}`))
-            }
+            setCollapsed(collapsed)
           }}
           collapsible
           collapsedWidth={48}
