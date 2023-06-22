@@ -62,7 +62,7 @@ const ProductDetail = () => {
       }
     >
       <Skeleton loading={dataLoading}>
-        <Descriptions bordered>
+        <Descriptions bordered column={3}>
           <Descriptions.Item label="name">{details.name}</Descriptions.Item>
           <Descriptions.Item label="brand">{details.brand}</Descriptions.Item>
           <Descriptions.Item label="category">{details.category}</Descriptions.Item>
