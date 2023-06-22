@@ -1,7 +1,7 @@
-import React, { lazy, useState } from 'react'
+import React, { lazy, useEffect, useState } from 'react'
 import { Spin } from 'antd'
 import { Navigate } from 'react-router-dom'
-import { isLogin } from '@/views/authenticate/servers'
+import isAuthenticated from '@/router/isAuthenticated'
 
 export const loading = (
   <div style={{ paddingTop: 100, textAlign: 'center' }}>
@@ -27,14 +27,16 @@ interface AuthenticateProps {
 }
 export const Authenticate = ({ children, needAuth }: AuthenticateProps) => {
   const [res, setRes] = useState<JSX.Element>(loading)
-  isLogin()
-    .then(() => {
-      if (needAuth === false) setRes(<Navigate to="/" replace />)
-      else setRes(children)
-    })
-    .catch(() => {
-      if (needAuth === true) setRes(<Navigate to="/login" replace />)
-      else setRes(children)
-    })
+  useEffect(() => {
+    isAuthenticated.value
+      .then(() => {
+        if (needAuth === false) setRes(<Navigate to="/" replace />)
+        else setRes(children)
+      })
+      .catch(() => {
+        if (needAuth === true) setRes(<Navigate to="/login" replace />)
+        else setRes(children)
+      })
+  }, [children, needAuth])
   return res
 }
