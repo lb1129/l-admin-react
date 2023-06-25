@@ -40,7 +40,12 @@ const ProductList = () => {
       render: (value, record) => (
         <LinkPlus
           disabled={operateAuthValueToDisabled(operateAuth.detail)}
-          to={`/productManagement/productDetail/${record.id}`}
+          to={{
+            id: 'ProductDetail',
+            params: {
+              id: record.id
+            }
+          }}
         >
           {value}
         </LinkPlus>
@@ -108,7 +113,12 @@ const ProductList = () => {
             type="link"
             disabled={operateAuthValueToDisabled(operateAuth.edit)}
             onClick={() => {
-              navigate(`/productManagement/ProductAddOrEdit/${record.id}`)
+              navigate({
+                id: 'ProductAddOrEdit',
+                params: {
+                  id: record.id
+                }
+              })
             }}
           >
             {t('edit')}

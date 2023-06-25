@@ -1,8 +1,8 @@
 import React, { type ReactElement } from 'react'
-import { Link } from 'react-router-dom'
 import { Divider } from 'antd'
 import { useTranslation } from 'react-i18next'
 import ToggleLanguage from '@/components/ToggleLanguage'
+import LinkPlus from '@/components/LinkPlus'
 import useStyles from './Layout.style'
 
 type Props = { children: ReactElement }
@@ -22,9 +22,14 @@ const Index: React.FC<Props> = (props) => {
       <div className={styles.footer}>
         Copyright © 2023 {systemName}
         <Divider type="vertical" />
-        <Link to="/privacyPolicy" target="_blank">
+        <LinkPlus
+          to={{
+            id: 'PrivacyPolicy'
+          }}
+          target="_blank"
+        >
           {t('privacyPolicy')}
-        </Link>
+        </LinkPlus>
       </div>
     </div>
   )

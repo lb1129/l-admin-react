@@ -52,8 +52,9 @@ const ProductDetail = () => {
           type="primary"
           disabled={operateAuthValueToDisabled(operateAuth.edit)}
           onClick={() => {
-            navigate(`/productManagement/ProductAddOrEdit/${details.id}`, {
-              state: { a: 1 }
+            navigate({
+              id: 'ProductAddOrEdit',
+              params: { id: details.id }
             })
           }}
         >

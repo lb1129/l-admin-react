@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Form, Input, App, Row, Col } from 'antd'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import LinkPlus from '@/components/LinkPlus'
 import { useTranslation } from 'react-i18next'
 import Layout from './Layout'
 
@@ -21,7 +22,9 @@ const FindPassword: React.FC = () => {
       closeIcon: null
     })
     setTimeout(() => {
-      navigate('/login')
+      navigate({
+        id: 'Login'
+      })
     }, 1500)
   }
 
@@ -75,7 +78,7 @@ const FindPassword: React.FC = () => {
         </Row>
 
         <Form.Item>
-          <Link to="/login">{t('haveAnAccount')}</Link>
+          <LinkPlus to={{ id: 'Login' }}>{t('haveAnAccount')}</LinkPlus>
         </Form.Item>
 
         <Form.Item>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Form, Input, App } from 'antd'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Layout from './Layout'
 import { tokenLocalforage } from '@/storage/localforage'
@@ -10,6 +10,7 @@ import { setMenuData, setMenuDataDone } from '@/store/menuDataSlice'
 import { setUserInfo } from '@/store/userInfoSlice'
 import { login } from './servers'
 import { getUserInfo, getMenu } from '@/views/personal-center/servers'
+import LinkPlus from '@/components/LinkPlus'
 
 const Login: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -33,7 +34,10 @@ const Login: React.FC = () => {
       // 更新redux内的用户信息
       dispatch(setUserInfo(userInfoRes.data))
       // 跳转首页
-      navigate('/', { replace: true })
+      navigate({
+        id: 'Index',
+        replace: true
+      })
       // 欢迎提示
       setTimeout(() => {
         notification.success({
@@ -69,15 +73,17 @@ const Login: React.FC = () => {
           />
         </Form.Item>
         <Form.Item>
-          <Link to="/register">{t<string>('signUp')}</Link>
-          <Link
+          <LinkPlus to={{ id: 'Register' }}>{t<string>('signUp')}</LinkPlus>
+          <LinkPlus
             style={{
               float: 'right'
             }}
-            to="/findPassword"
+            to={{
+              id: 'FindPassword'
+            }}
           >
             {t<string>('forgotPassword')}
-          </Link>
+          </LinkPlus>
         </Form.Item>
 
         <Form.Item>
