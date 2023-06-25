@@ -19,6 +19,7 @@
     "echarts": "^5.4.2",
     "i18next": "^22.5.0",
     "localforage": "^1.10.0",
+    "lodash-es": "^4.17.21",
     "mockjs": "^1.1.0",
     "query-string": "^8.1.0",
     "react": "^18.2.0",
@@ -81,6 +82,7 @@
   "devDependencies": {
     "@craco/craco": "^7.1.0",
     "@types/bmapgl": "^0.0.7",
+    "@types/lodash-es": "^4.17.7",
     "@types/mockjs": "^1.0.7",
     "@types/react-transition-group": "^4.4.6",
     "@types/uuid": "^9.0.1",
