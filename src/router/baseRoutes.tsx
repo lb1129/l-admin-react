@@ -1,39 +1,53 @@
 import { type RouteObject } from 'react-router-dom'
-import { lazyLoad, Authenticate, loading } from '@/router/tools'
+import { lazyLoad, loading } from '@/router/tools'
 
 const routes: RouteObject[] = [
   {
     path: '/',
-    element: <Authenticate needAuth={true}>{lazyLoad('index/Index')}</Authenticate>,
+    id: 'Index',
+    handle: { needAuth: true, menuName: 'index' },
+    element: lazyLoad('index/Index'),
     children: [
       {
         index: true,
+        id: 'Home',
+        handle: { needAuth: true, menuName: 'homePage' },
         element: lazyLoad('index/Home')
       },
       {
-        path: '/personalCenter',
+        id: 'PersonalCenter',
+        path: 'personalCenter',
+        handle: { needAuth: true, menuName: 'personalCenter' },
         element: lazyLoad('personal-center/Index')
       }
     ]
   },
   {
     path: '/login',
-    element: <Authenticate needAuth={false}>{lazyLoad('authenticate/Login')}</Authenticate>
+    id: 'Login',
+    handle: { needAuth: false },
+    element: lazyLoad('authenticate/Login')
   },
   {
     path: '/register',
-    element: <Authenticate needAuth={false}>{lazyLoad('authenticate/Register')}</Authenticate>
+    id: 'Register',
+    handle: { needAuth: false },
+    element: lazyLoad('authenticate/Register')
   },
   {
     path: '/findPassword',
-    element: <Authenticate needAuth={false}>{lazyLoad('authenticate/FindPassword')}</Authenticate>
+    id: 'FindPassword',
+    handle: { needAuth: false },
+    element: lazyLoad('authenticate/FindPassword')
   },
   {
     path: '/privacyPolicy',
+    id: 'PrivacyPolicy',
     element: lazyLoad('sundry/PrivacyPolicy')
   },
   {
     path: '*',
+    id: 'NotFound',
     element: loading
   }
 ]
