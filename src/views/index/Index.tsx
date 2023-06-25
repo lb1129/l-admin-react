@@ -1,21 +1,13 @@
-import React, { useState, useEffect, createRef, lazy } from 'react'
+import React, { useState, useEffect, createRef, lazy, useMemo } from 'react'
 import logoSvg from '@/assets/image/logo.svg'
 import userPng from '@/assets/image/user.png'
 import { HomeOutlined, UserOutlined, BgColorsOutlined, FolderOutlined } from '@ant-design/icons'
-import {
-  Breadcrumb,
-  Layout,
-  Menu,
-  Dropdown,
-  Avatar,
-  App,
-  ColorPicker,
-  type BreadcrumbProps
-} from 'antd'
-import { useOutlet, useNavigate, useLocation } from 'react-router-dom'
+import { Breadcrumb, Layout, Menu, Dropdown, Avatar, App, ColorPicker } from 'antd'
+import { useOutlet, useNavigate, useLocation, useMatches } from 'react-router-dom'
 import ToggleLanguage from '@/components/ToggleLanguage'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { setColorPrimary } from '@/store/themeSlice'
+import { RouteOperateState } from '@/store/routeOperateState'
 import type { MenuDataItemType } from '@/views/personal-center/types'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import useIndexStyles from './Index.style'
@@ -31,46 +23,32 @@ type MenuItem = MenuItemType | SubMenuType
 const Index = () => {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
   const [openKeys, setOpenKeys] = useState<string[]>([])
-  const [breadcrumb, setBreadcrumb] = useState<BreadcrumbProps['items']>([])
   const [menuItems, setMenuItems] = useState<MenuItem[]>([])
   const [collapsed, setCollapsed] = useState(false)
   const styles = useIndexStyles()
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const matches = useMatches()
   const { modal, message } = App.useApp()
 
   const colorPrimary = useAppSelector((state) => state.theme.token?.colorPrimary)
   const menuData = useAppSelector((state) => state.menuData.data)
   const userInfo = useAppSelector((state) => state.userInfo)
+  const routeOperateState = useAppSelector((state) => state.routeOperateState)
+  const breadcrumb = useAppSelector((state) => state.breadcrumb)
   const dispatch = useAppDispatch()
 
   const { t } = useTranslation()
 
   useEffect(() => {
     // 左侧菜单选中项与路由联动
-    setSelectedKeys([pathname])
-    const pathnameArr = pathname.split('/')
-    // 面包屑与路由联动
-    setBreadcrumb(
-      pathname === '/'
-        ? [{ title: t('homePage') }]
-        : pathnameArr.slice(1).reduce<BreadcrumbProps['items']>((prev, current) => {
-            prev!.push({
-              title: t(current)
-            })
-            return prev
-          }, [])
-    )
-  }, [pathname, t])
-
-  useEffect(() => {
+    setSelectedKeys([matches[matches.length - 1].id])
     // 左侧菜单打开项与路由联动
-    const pathnameArr = pathname.split('/')
     if (!collapsed) {
-      setOpenKeys(pathnameArr.slice(1, -1).map((key) => `/${key}`))
+      setOpenKeys(matches.slice(1, -1).map((item) => item.id))
     }
-  }, [pathname, collapsed])
+  }, [matches, collapsed])
 
   // 结合Transtion使用
   const currentOutlet = useOutlet()
@@ -81,44 +59,64 @@ const Index = () => {
     const generateMenuItems = (list: MenuDataItemType[], parent?: MenuDataItemType) => {
       let result: MenuItem[] = []
       list.forEach((menu) => {
-        if (!menu.hidden) {
-          let item: MenuItem = {
-            key: parent ? `${parent.path}${menu.path}` : menu.path,
-            label: t(menu.name)
+        if (menu.children && menu.children.length) {
+          let icon = <FolderOutlined />
+          // 图标动态加载
+          if (menu.icon) {
+            const Module = lazy(() => import(`@ant-design/icons/lib/icons/${menu.icon}.js`))
+            icon = (
+              <React.Suspense fallback={<FolderOutlined />}>
+                <Module />
+              </React.Suspense>
+            )
           }
-          if (menu.children && menu.children.length) {
-            let icon = <FolderOutlined />
-            // 图标动态加载
-            if (menu.icon) {
-              const Module = lazy(() => import(`@ant-design/icons/lib/icons/${menu.icon}.js`))
-              icon = (
-                <React.Suspense fallback={<FolderOutlined />}>
-                  <Module />
-                </React.Suspense>
-              )
-            }
-            item.icon = icon
-            ;(item as SubMenuType).children = generateMenuItems(menu.children, menu)
+          result.push({
+            key: menu.name,
+            icon,
+            label: t(menu.name),
+            children: generateMenuItems(menu.children, menu)
+          })
+        } else {
+          if (!menu.hidden) {
+            result.push({
+              key: menu.pageUrl!.split('/')[1],
+              label: t(menu.name)
+            })
           }
-          result.push(item)
         }
       })
       return result
     }
     setMenuItems([
       {
-        key: '/',
+        key: 'Home',
         icon: <HomeOutlined />,
         label: t('homePage')
       },
       ...generateMenuItems(menuData),
       {
-        key: '/personalCenter',
+        key: 'PersonalCenter',
         icon: <UserOutlined />,
         label: t('personalCenter')
       }
     ])
   }, [menuData, t])
+
+  // 路由动画
+  const transitionName = useMemo(() => {
+    return routeOperateState === RouteOperateState.forward
+      ? 'slide-left'
+      : routeOperateState === RouteOperateState.back
+      ? 'slide-right'
+      : 'fade'
+  }, [routeOperateState])
+
+  // 面包屑
+  const breadcrumbItems = useMemo(() => {
+    return breadcrumb.map((item) => ({
+      title: t(item.menuName)
+    }))
+  }, [breadcrumb, t])
 
   return (
     <Layout className={styles.wrap}>
@@ -162,7 +160,9 @@ const Index = () => {
                   label: <span>{t('personalCenter')}</span>,
                   key: 'personalCenter',
                   onClick() {
-                    navigate('/personalCenter')
+                    navigate({
+                      id: 'PersonalCenter'
+                    })
                   }
                 },
                 {
@@ -181,7 +181,10 @@ const Index = () => {
                           await logout()
                           await tokenLocalforage.clear()
                           message.destroy()
-                          navigate('/login', { replace: true })
+                          navigate({
+                            id: 'Login',
+                            replace: true
+                          })
                         } catch (error) {
                           message.destroy()
                         }
@@ -215,7 +218,9 @@ const Index = () => {
             <Menu
               mode="inline"
               onClick={(menuInfo) => {
-                navigate(menuInfo.key)
+                navigate({
+                  id: menuInfo.key
+                })
               }}
               selectedKeys={selectedKeys}
               onSelect={(info) => {
@@ -230,15 +235,14 @@ const Index = () => {
           </div>
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }} items={breadcrumb}></Breadcrumb>
+          <Breadcrumb style={{ margin: '16px 0' }} items={breadcrumbItems}></Breadcrumb>
           <Content className={styles.content}>
             <SwitchTransition>
               <CSSTransition
                 nodeRef={nodeRef}
                 key={pathname}
                 timeout={300}
-                classNames="transition-fade"
-                unmountOnExit
+                classNames={transitionName}
               >
                 <div style={{ height: '100%' }} ref={nodeRef}>
                   {currentOutlet}
