@@ -4,6 +4,8 @@ import { message } from 'antd'
 import { tokenLocalforage } from '@/storage/localforage'
 import i18n from '@/i18n'
 import queryString from 'query-string'
+import router from '@/router'
+import isAuthenticated from '@/router/isAuthenticated'
 
 export interface IResponse<T> {
   data: T
@@ -36,13 +38,23 @@ axiosInstance.interceptors.request.use(
 )
 
 axiosInstance.interceptors.response.use(
-  (response) => {
+  async (response) => {
     // server是mock的
     if (process.env.REACT_APP_SERVER_IS_MOCK === 'true') {
       if (response.data.status >= 200 && response.data.status < 300) {
         return response.data.data
       } else {
-        if (response.data.status !== 401) {
+        // 401 未登录
+        if (response.data.status === 401) {
+          if (router.state.matches.slice(-1)[0].route.handle.needAuth === true) {
+            isAuthenticated.value = Promise.reject(response.data.data.message)
+            await tokenLocalforage.clear()
+            router.navigate({
+              id: 'Login',
+              replace: true
+            })
+          }
+        } else {
           message.error(response.data.data.message)
         }
         return Promise.reject(response.data.data.message)
@@ -50,9 +62,18 @@ axiosInstance.interceptors.response.use(
     }
     return response.data
   },
-  (error) => {
-    // 401 未登录重定向交给路由守卫处理
-    if (error.response.status !== 401) {
+  async (error) => {
+    // 401 未登录
+    if (error.response.status === 401) {
+      if (router.state.matches.slice(-1)[0].route.handle.needAuth === true) {
+        isAuthenticated.value = Promise.reject(error)
+        await tokenLocalforage.clear()
+        router.navigate({
+          id: 'Login',
+          replace: true
+        })
+      }
+    } else {
       message.error(error.response.data.message)
     }
     return Promise.reject(error)
