@@ -2,12 +2,16 @@ import { configureStore } from '@reduxjs/toolkit'
 import theme from './themeSlice'
 import menuData from './menuDataSlice'
 import userInfo from './userInfoSlice'
+import routeOperateState from './routeOperateState'
+import breadcrumb from './breadcrumb'
 
 const store = configureStore({
   reducer: {
     theme,
     menuData,
-    userInfo
+    userInfo,
+    routeOperateState,
+    breadcrumb
   }
 })
 
