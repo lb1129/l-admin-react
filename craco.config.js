@@ -5,5 +5,14 @@ module.exports = {
     alias: {
       '@': path.resolve(__dirname, 'src')
     }
+  },
+  devServer: {
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+        runtimeErrors: false
+      }
+    }
   }
 }
