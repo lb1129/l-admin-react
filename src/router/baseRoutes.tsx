@@ -1,12 +1,13 @@
 import { type RouteObject } from 'react-router-dom'
 import { lazyLoad, loading } from '@/router/tools'
+import { Authenticate } from '@/router/tools'
 
 const routes: RouteObject[] = [
   {
     path: '/',
     id: 'Index',
     handle: { needAuth: true, menuName: 'index' },
-    element: lazyLoad('index/Index'),
+    element: <Authenticate needAuth>{lazyLoad('index/Index')}</Authenticate>,
     children: [
       {
         index: true,
@@ -26,19 +27,19 @@ const routes: RouteObject[] = [
     path: '/login',
     id: 'Login',
     handle: { needAuth: false },
-    element: lazyLoad('authenticate/Login')
+    element: <Authenticate needAuth={false}>{lazyLoad('authenticate/Login')}</Authenticate>
   },
   {
     path: '/register',
     id: 'Register',
     handle: { needAuth: false },
-    element: lazyLoad('authenticate/Register')
+    element: <Authenticate needAuth={false}>{lazyLoad('authenticate/Register')}</Authenticate>
   },
   {
     path: '/findPassword',
     id: 'FindPassword',
     handle: { needAuth: false },
-    element: lazyLoad('authenticate/FindPassword')
+    element: <Authenticate needAuth={false}>{lazyLoad('authenticate/FindPassword')}</Authenticate>
   },
   {
     path: '/privacyPolicy',
