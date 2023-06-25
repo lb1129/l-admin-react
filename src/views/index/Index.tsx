@@ -15,6 +15,7 @@ import { MenuItemType, SubMenuType } from 'antd/es/menu/hooks/useItems'
 import { tokenLocalforage } from '@/storage/localforage'
 import { useTranslation } from 'react-i18next'
 import { logout } from '@/views/authenticate/servers'
+import LinkPlus from '@/components/LinkPlus'
 
 const { Header, Content, Sider } = Layout
 
@@ -113,8 +114,13 @@ const Index = () => {
 
   // 面包屑
   const breadcrumbItems = useMemo(() => {
-    return breadcrumb.map((item) => ({
-      title: t(item.menuName)
+    return breadcrumb.map((item, index) => ({
+      title:
+        index === breadcrumb.length - 1 ? (
+          t(item.menuName)
+        ) : (
+          <LinkPlus to={index + 1 - breadcrumb.length}>{t(item.menuName)}</LinkPlus>
+        )
     }))
   }, [breadcrumb, t])
 
