@@ -101,7 +101,7 @@ router.subscribe(async (state) => {
   oldState = state
   // 路由动画过渡key 延后设置 确保路由动画的变更生效
   setTimeout(() => {
-    store.dispatch(setTransitionKey(window.location.href))
+    store.dispatch(setTransitionKey(stateRoute.id))
   })
   // 面包屑
   const currentRoute = state.matches.slice(-1)[0].route
