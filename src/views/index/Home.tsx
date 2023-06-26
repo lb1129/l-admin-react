@@ -1,20 +1,24 @@
-import React, { useEffect, createRef } from 'react'
+import React, { useEffect, createRef, useRef } from 'react'
 import PositionMap from '@/components/PositionMap'
 import * as echarts from 'echarts/core'
 import { GridComponent, TooltipComponent } from 'echarts/components'
 import { BarChart } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
+import ResizeObserver from 'resize-observer-polyfill'
 // echarts 按需加载使用
 echarts.use([GridComponent, TooltipComponent, BarChart, CanvasRenderer])
 
 const Home: React.FC = () => {
   const container = createRef<HTMLDivElement>()
+  const chartInstance = useRef<echarts.ECharts>()
 
   useEffect(() => {
     const node = container.current
     if (node) {
-      const myChart = echarts.init(node)
-      myChart.setOption({
+      if (!chartInstance.current) {
+        chartInstance.current = echarts.init(node)
+      }
+      chartInstance.current.setOption({
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -50,6 +54,10 @@ const Home: React.FC = () => {
           }
         ]
       })
+      const co = new ResizeObserver(() => {
+        chartInstance.current?.resize()
+      })
+      co.observe(node)
     }
   }, [container])
 
