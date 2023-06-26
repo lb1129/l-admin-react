@@ -3,6 +3,7 @@ import theme from './themeSlice'
 import menuData from './menuDataSlice'
 import userInfo from './userInfoSlice'
 import routeOperateState from './routeOperateState'
+import transitionKey from './transitionKey'
 import breadcrumb from './breadcrumb'
 
 const store = configureStore({
@@ -11,6 +12,7 @@ const store = configureStore({
     menuData,
     userInfo,
     routeOperateState,
+    transitionKey,
     breadcrumb
   }
 })
