@@ -10,8 +10,6 @@ import 'antd/dist/reset.css'
 import '@/global.style'
 import '@/mock'
 // TODO 路由keep-alive
-// TODO 路由动画
-// TODO 是否已登录跳转控制
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
