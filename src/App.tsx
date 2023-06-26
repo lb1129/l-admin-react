@@ -31,7 +31,7 @@ const App = () => {
   useEffect(() => {
     // 初始主题色
     themeLocalforage.get().then((themeColor) => {
-      dispatch(setColorPrimary(themeColor))
+      if (themeColor) dispatch(setColorPrimary(themeColor))
     })
   }, [dispatch])
 
