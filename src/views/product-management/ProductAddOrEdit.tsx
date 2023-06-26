@@ -5,6 +5,8 @@ import PageHeader from '@/components/PageHeader'
 import { useTranslation } from 'react-i18next'
 import { getProductById, saveProduct } from './servers'
 import type { ProductType } from './types'
+import pubsub from '@/pubsub'
+import { productEditDone } from '@/pubsub/events'
 
 const ProductAddOrEdit = () => {
   const params = useParams()
@@ -22,7 +24,8 @@ const ProductAddOrEdit = () => {
     try {
       const values = await form.validateFields()
       setSubmitLoading(true)
-      await saveProduct(values)
+      await saveProduct(params.id ? { ...values, id: params.id } : values)
+      pubsub.emit(productEditDone)
       setSubmitLoading(false)
       message.success(t('whatSuccess', { what: t('save') }))
       navigate(-1)

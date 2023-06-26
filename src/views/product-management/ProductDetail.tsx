@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { useAuth, operateAuthValueToDisabled } from '@/utils/useAuth'
 import type { ProductType } from './types'
 import { getProductById } from './servers'
+import pubsub from '@/pubsub'
+import { productEditDone } from '@/pubsub/events'
 
 const ProductDetail = () => {
   const params = useParams()
@@ -41,6 +43,13 @@ const ProductDetail = () => {
 
   useEffect(() => {
     loadData()
+  }, [loadData])
+
+  useEffect(() => {
+    pubsub.on(productEditDone, loadData)
+    return () => {
+      pubsub.off(productEditDone, loadData)
+    }
   }, [loadData])
 
   return (

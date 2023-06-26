@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import LinkPlus from '@/components/LinkPlus'
 import type { ProductType, ProductsQueryParamsType } from './types'
 import { getProducts, deleteProductByIds } from './servers'
+import pubsub from '@/pubsub'
+import { productEditDone } from '@/pubsub/events'
 
 const ProductList = () => {
   const [total, setTotal] = useState(0)
@@ -187,6 +189,13 @@ const ProductList = () => {
 
   useEffect(() => {
     loadData()
+  }, [loadData])
+
+  useEffect(() => {
+    pubsub.on(productEditDone, loadData)
+    return () => {
+      pubsub.off(productEditDone, loadData)
+    }
   }, [loadData])
 
   return (
