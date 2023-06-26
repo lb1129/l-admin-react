@@ -6,6 +6,7 @@ import i18n from '@/i18n'
 import queryString from 'query-string'
 import router from '@/router'
 import isAuthenticated from '@/router/isAuthenticated'
+import { isLogin_api } from './api'
 
 export interface IResponse<T> {
   data: T
@@ -46,7 +47,11 @@ axiosInstance.interceptors.response.use(
       } else {
         // 401 未登录
         if (response.data.status === 401) {
-          if (router.state.matches.slice(-1)[0].route.handle.needAuth === true) {
+          if (
+            router.state.matches.slice(-1)[0].route.handle.needAuth === true &&
+            // isLogin_api 只在系统初始时调用并结合高阶组件Authenticate做了路由跳转控制
+            response.config.url?.split('?')[0] !== isLogin_api
+          ) {
             isAuthenticated.value = Promise.reject(response.data.data.message)
             await tokenLocalforage.clear()
             router.navigate({
@@ -65,7 +70,11 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     // 401 未登录
     if (error.response.status === 401) {
-      if (router.state.matches.slice(-1)[0].route.handle.needAuth === true) {
+      if (
+        router.state.matches.slice(-1)[0].route.handle.needAuth === true &&
+        // isLogin_api 只在系统初始时调用并结合高阶组件Authenticate做了路由跳转控制
+        error.response.config.url?.split('?')[0] !== isLogin_api
+      ) {
         isAuthenticated.value = Promise.reject(error)
         await tokenLocalforage.clear()
         router.navigate({
