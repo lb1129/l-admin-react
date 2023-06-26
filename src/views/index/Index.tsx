@@ -3,7 +3,7 @@ import logoSvg from '@/assets/image/logo.svg'
 import userPng from '@/assets/image/user.png'
 import { HomeOutlined, UserOutlined, BgColorsOutlined, FolderOutlined } from '@ant-design/icons'
 import { Breadcrumb, Layout, Menu, Dropdown, Avatar, App, ColorPicker } from 'antd'
-import { useOutlet, useNavigate, useLocation, useMatches } from 'react-router-dom'
+import { useOutlet, useNavigate, useMatches } from 'react-router-dom'
 import ToggleLanguage from '@/components/ToggleLanguage'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { setColorPrimary } from '@/store/themeSlice'
@@ -26,10 +26,10 @@ const Index = () => {
   const [openKeys, setOpenKeys] = useState<string[]>([])
   const [menuItems, setMenuItems] = useState<MenuItem[]>([])
   const [collapsed, setCollapsed] = useState(false)
+  const [delayedOutlet, setDelayedOutlet] = useState<React.ReactNode>()
   const styles = useIndexStyles()
 
   const navigate = useNavigate()
-  const { pathname } = useLocation()
   const matches = useMatches()
   const { modal, message } = App.useApp()
 
@@ -37,6 +37,7 @@ const Index = () => {
   const menuData = useAppSelector((state) => state.menuData.data)
   const userInfo = useAppSelector((state) => state.userInfo)
   const routeOperateState = useAppSelector((state) => state.routeOperateState)
+  const transitionKey = useAppSelector((state) => state.transitionKey)
   const breadcrumb = useAppSelector((state) => state.breadcrumb)
   const dispatch = useAppDispatch()
 
@@ -54,6 +55,15 @@ const Index = () => {
   // 结合Transtion使用
   const currentOutlet = useOutlet()
   const nodeRef = createRef<HTMLDivElement>()
+
+  // 延后的outlet 确保路由动画正常执行
+  useEffect(() => {
+    setTimeout(() => {
+      setDelayedOutlet(currentOutlet)
+    })
+    // 仅依赖路由变更 currentOutlet 每次返回都不是同一个引用 会导致无限循环
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [matches])
 
   // 用户菜单数据生成菜单组件items
   useEffect(() => {
@@ -246,12 +256,12 @@ const Index = () => {
             <SwitchTransition>
               <CSSTransition
                 nodeRef={nodeRef}
-                key={pathname}
+                key={transitionKey}
                 timeout={300}
                 classNames={transitionName}
               >
                 <div style={{ height: '100%' }} ref={nodeRef}>
-                  {currentOutlet}
+                  {delayedOutlet}
                 </div>
               </CSSTransition>
             </SwitchTransition>
