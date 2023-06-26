@@ -16,6 +16,7 @@ import { tokenLocalforage } from '@/storage/localforage'
 import { useTranslation } from 'react-i18next'
 import { logout } from '@/views/authenticate/servers'
 import LinkPlus from '@/components/LinkPlus'
+import KeepAlive, { AliveScope } from '@/components/KeepAlive'
 
 const { Header, Content, Sider } = Layout
 
@@ -134,141 +135,150 @@ const Index = () => {
     }))
   }, [breadcrumb, t])
 
+  // keepAlive include
+  const keepAliveInclude = useMemo(() => {
+    return breadcrumb.map((item) => item.routeName)
+  }, [breadcrumb])
+
   return (
-    <Layout className={styles.wrap}>
-      <Header className={styles.header}>
-        <div className={styles.headerLogo}>
-          <a href={process.env.REACT_APP_NOT_SUPPORT_HISTORY === 'false' ? '/' : '#/'}>
-            <img src={logoSvg} alt="logo" />
-            {process.env.REACT_APP_SYSTEM_NAME}
-          </a>
-        </div>
-        <div className={styles.headerCenter}></div>
-        <div className={styles.headerRight}>
-          <ColorPicker
-            trigger="hover"
-            value={colorPrimary}
-            onChange={(value, hex) => {
-              dispatch(setColorPrimary(hex))
-            }}
-            presets={[
-              {
-                label: t('builtInThemes'),
-                colors: [
-                  '#1677ff',
-                  '#f5222d',
-                  '#fa541c',
-                  '#faad14',
-                  '#13c2c2',
-                  '#52c41a',
-                  '#2f54eb',
-                  '#722ed1'
-                ]
-              }
-            ]}
-          >
-            <BgColorsOutlined style={{ fontSize: '16px' }} className={styles.headerRightItem} />
-          </ColorPicker>
-          <Dropdown
-            menu={{
-              items: [
-                {
-                  label: <span>{t('personalCenter')}</span>,
-                  key: 'personalCenter',
-                  onClick() {
-                    navigate({
-                      id: 'PersonalCenter'
-                    })
-                  }
-                },
-                {
-                  type: 'divider'
-                },
-                {
-                  label: <span>{t('logOut')}</span>,
-                  key: 'logOut',
-                  onClick() {
-                    modal.confirm({
-                      title: t('tip'),
-                      content: t('areYouSureToLogOut'),
-                      onOk: async () => {
-                        message.loading(t('signingOutPleaseWait'), 0)
-                        try {
-                          await logout()
-                          await tokenLocalforage.clear()
-                          message.destroy()
-                          navigate({
-                            id: 'Login',
-                            replace: true
-                          })
-                        } catch (error) {
-                          message.destroy()
-                        }
-                      }
-                    })
-                  }
-                }
-              ]
-            }}
-          >
-            <span className={`${styles.headerRightItem} ${styles.headerRightItemUser}`}>
-              <Avatar size="small" src={userPng} />
-              <span style={{ marginLeft: '8px' }}>{userInfo.userName}</span>
-            </span>
-          </Dropdown>
-          <ToggleLanguage className={styles.headerRightItem} />
-        </div>
-      </Header>
-      <Layout>
-        <Sider
-          breakpoint="md"
-          onCollapse={(collapsed) => {
-            setCollapsed(collapsed)
-          }}
-          collapsible
-          collapsedWidth={48}
-          width={208}
-          theme="light"
-        >
-          <div className={styles.sliderContent}>
-            <Menu
-              mode="inline"
-              onClick={(menuInfo) => {
-                navigate({
-                  id: menuInfo.key
-                })
-              }}
-              selectedKeys={selectedKeys}
-              onSelect={(info) => {
-                setSelectedKeys([info.key])
-              }}
-              openKeys={openKeys}
-              onOpenChange={(keys) => {
-                setOpenKeys(keys)
-              }}
-              items={menuItems}
-            />
+    <AliveScope>
+      <Layout className={styles.wrap}>
+        <Header className={styles.header}>
+          <div className={styles.headerLogo}>
+            <a href={process.env.REACT_APP_NOT_SUPPORT_HISTORY === 'false' ? '/' : '#/'}>
+              <img src={logoSvg} alt="logo" />
+              {process.env.REACT_APP_SYSTEM_NAME}
+            </a>
           </div>
-        </Sider>
-        <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }} items={breadcrumbItems}></Breadcrumb>
-          <Content className={styles.content}>
-            <SwitchTransition>
-              <CSSTransition
-                nodeRef={nodeRef}
-                key={transitionKey}
-                timeout={300}
-                classNames={transitionName}
-              >
-                <div style={{ height: '100%' }} ref={nodeRef}>
-                  {delayedOutlet}
-                </div>
-              </CSSTransition>
-            </SwitchTransition>
-          </Content>
+          <div className={styles.headerCenter}></div>
+          <div className={styles.headerRight}>
+            <ColorPicker
+              trigger="hover"
+              value={colorPrimary}
+              onChange={(value, hex) => {
+                dispatch(setColorPrimary(hex))
+              }}
+              presets={[
+                {
+                  label: t('builtInThemes'),
+                  colors: [
+                    '#1677ff',
+                    '#f5222d',
+                    '#fa541c',
+                    '#faad14',
+                    '#13c2c2',
+                    '#52c41a',
+                    '#2f54eb',
+                    '#722ed1'
+                  ]
+                }
+              ]}
+            >
+              <BgColorsOutlined style={{ fontSize: '16px' }} className={styles.headerRightItem} />
+            </ColorPicker>
+            <Dropdown
+              menu={{
+                items: [
+                  {
+                    label: <span>{t('personalCenter')}</span>,
+                    key: 'personalCenter',
+                    onClick() {
+                      navigate({
+                        id: 'PersonalCenter'
+                      })
+                    }
+                  },
+                  {
+                    type: 'divider'
+                  },
+                  {
+                    label: <span>{t('logOut')}</span>,
+                    key: 'logOut',
+                    onClick() {
+                      modal.confirm({
+                        title: t('tip'),
+                        content: t('areYouSureToLogOut'),
+                        onOk: async () => {
+                          message.loading(t('signingOutPleaseWait'), 0)
+                          try {
+                            await logout()
+                            await tokenLocalforage.clear()
+                            message.destroy()
+                            navigate({
+                              id: 'Login',
+                              replace: true
+                            })
+                          } catch (error) {
+                            message.destroy()
+                          }
+                        }
+                      })
+                    }
+                  }
+                ]
+              }}
+            >
+              <span className={`${styles.headerRightItem} ${styles.headerRightItemUser}`}>
+                <Avatar size="small" src={userPng} />
+                <span style={{ marginLeft: '8px' }}>{userInfo.userName}</span>
+              </span>
+            </Dropdown>
+            <ToggleLanguage className={styles.headerRightItem} />
+          </div>
+        </Header>
+        <Layout>
+          <Sider
+            breakpoint="md"
+            onCollapse={(collapsed) => {
+              setCollapsed(collapsed)
+            }}
+            collapsible
+            collapsedWidth={48}
+            width={208}
+            theme="light"
+          >
+            <div className={styles.sliderContent}>
+              <Menu
+                mode="inline"
+                onClick={(menuInfo) => {
+                  navigate({
+                    id: menuInfo.key
+                  })
+                }}
+                selectedKeys={selectedKeys}
+                onSelect={(info) => {
+                  setSelectedKeys([info.key])
+                }}
+                openKeys={openKeys}
+                onOpenChange={(keys) => {
+                  setOpenKeys(keys)
+                }}
+                items={menuItems}
+              />
+            </div>
+          </Sider>
+          <Layout style={{ padding: '0 24px 24px' }}>
+            <Breadcrumb style={{ margin: '16px 0' }} items={breadcrumbItems}></Breadcrumb>
+            <Content className={styles.content}>
+              <SwitchTransition>
+                <CSSTransition
+                  nodeRef={nodeRef}
+                  key={transitionKey}
+                  timeout={300}
+                  classNames={transitionName}
+                >
+                  <div style={{ height: '100%' }} ref={nodeRef}>
+                    <KeepAlive include={keepAliveInclude} id={transitionKey}>
+                      {delayedOutlet}
+                    </KeepAlive>
+                  </div>
+                </CSSTransition>
+              </SwitchTransition>
+            </Content>
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
+    </AliveScope>
   )
 }
 
