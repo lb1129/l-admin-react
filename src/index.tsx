@@ -9,7 +9,7 @@ import reportWebVitals from '@/reportWebVitals'
 import 'antd/dist/reset.css'
 import '@/global.style'
 import '@/mock'
-// TODO 路由keep-alive
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
