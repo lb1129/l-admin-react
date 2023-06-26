@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/l-admin-react/static/css/main.4cfab700.css",
-    "main.js": "/l-admin-react/static/js/main.224834c8.js",
+    "main.js": "/l-admin-react/static/js/main.4a834202.js",
     "static/js/95482.40745971.chunk.js": "/l-admin-react/static/js/95482.40745971.chunk.js",
     "static/js/88320.a4c36d54.chunk.js": "/l-admin-react/static/js/88320.a4c36d54.chunk.js",
     "static/js/84871.cdd93aff.chunk.js": "/l-admin-react/static/js/84871.cdd93aff.chunk.js",
@@ -19,9 +19,9 @@
     "static/js/80730.34bf9530.chunk.js": "/l-admin-react/static/js/80730.34bf9530.chunk.js",
     "static/js/49675.b613cfc3.chunk.js": "/l-admin-react/static/js/49675.b613cfc3.chunk.js",
     "static/js/45635.991094de.chunk.js": "/l-admin-react/static/js/45635.991094de.chunk.js",
-    "static/js/1091.47e21683.chunk.js": "/l-admin-react/static/js/1091.47e21683.chunk.js",
-    "static/js/18844.6e8f78fb.chunk.js": "/l-admin-react/static/js/18844.6e8f78fb.chunk.js",
-    "static/js/97476.f00f59f7.chunk.js": "/l-admin-react/static/js/97476.f00f59f7.chunk.js",
+    "static/js/1091.5a318a08.chunk.js": "/l-admin-react/static/js/1091.5a318a08.chunk.js",
+    "static/js/18844.c608d3e6.chunk.js": "/l-admin-react/static/js/18844.c608d3e6.chunk.js",
+    "static/js/97476.8d0bf784.chunk.js": "/l-admin-react/static/js/97476.8d0bf784.chunk.js",
     "static/js/69155.d043b4f5.chunk.js": "/l-admin-react/static/js/69155.d043b4f5.chunk.js",
     "static/js/8978.f74a6675.chunk.js": "/l-admin-react/static/js/8978.f74a6675.chunk.js",
     "static/js/68761.0ae60659.chunk.js": "/l-admin-react/static/js/68761.0ae60659.chunk.js",
@@ -839,6 +839,6 @@
   },
   "entrypoints": [
     "static/css/main.4cfab700.css",
-    "static/js/main.224834c8.js"
+    "static/js/main.4a834202.js"
   ]
 }
