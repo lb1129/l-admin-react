@@ -1,4 +1,14 @@
 <p align="center">
+  <a href="https://lb1129.github.io/l-admin-react">
+    <img width="100" src="https://github.com/lb1129/l-admin-react/blob/master/src/assets/image/logo.svg">
+  </a>
+</p>
+
+<h1 align="center">L-ADMIN-REACT</h1>
+
+<p align="center">一个基于 Antd 中后台前端解决方案，提供通用性封装及规范，让开发者更加专注于业务</p>
+
+<p align="center">
   <a href="https://github.com/facebook/react">
     <img src="https://img.shields.io/badge/react-18.2.0-brightgreen.svg" alt="react">
   </a>
@@ -12,9 +22,25 @@
 
 ## 介绍
 
-l-admin 是一个管理系统的前端解决方案，l-admin-react 基于 [react](https://github.com/facebook/react) 和 [antd-design](https://github.com/ant-design/ant-design) 实现。采用 cssinjs 编写样式，支持在线主题色切换，支持在线多语言切换，支持动态路由，动态菜单，菜单权限控制，操作权限控制
+`l-admin-react` 是 `l-admin` 基于 [react18](https://github.com/facebook/react) 和 [antd-design](https://github.com/ant-design/ant-design) 的实现
 
-## 在线示例
+## 特性
+
+- 在线主题色切换
+- 在线多语言切换
+- 懒加载
+- 基础路由
+- 动态路由（用户有多少菜单，则挂多少路由）
+- 登录跳转控制
+- 操作权限控制
+- 路由动画（自动切换）
+- 路由组件 keep-alive（自动处理）
+- 按模块拆分 server，各模块中复用
+- Css-in-js
+- TSX
+- Typescript
+
+## 在线预览
 
 [预览](https://lb1129.github.io/l-admin-react/)
 
@@ -47,7 +73,7 @@ npm run build
 
 ```sh
 # 代码格式美化
-npm run prettier
+npm run format
 
 # 代码检查并自动修复
 npm run lint
