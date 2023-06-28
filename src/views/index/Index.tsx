@@ -75,7 +75,7 @@ const Index = () => {
           let icon = <FolderOutlined />
           // 图标动态加载
           if (menu.icon) {
-            const Module = lazy(() => import(`@ant-design/icons/lib/icons/${menu.icon}.js`))
+            const Module = lazy(() => import(`@ant-design/icons/es/icons/${menu.icon}.js`))
             icon = (
               <React.Suspense fallback={<FolderOutlined />}>
                 <Module />
