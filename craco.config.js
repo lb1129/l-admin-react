@@ -2,7 +2,12 @@ const path = require('path')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 let plugins = []
-if (process.env.NODE_ENV === 'production') plugins.push(new BundleAnalyzerPlugin())
+if (process.env.NODE_ENV === 'production')
+  plugins.push(
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static'
+    })
+  )
 
 module.exports = {
   webpack: {
