@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkl_admin=self.webpackChunkl_admin||[]).push([[89193],{89193:function(n,u,e){e.r(u),e.d(u,{deleteMenusByIds:function(){return f},getMenuById:function(){return t},getMenus:function(){return i},saveMenu:function(){return c}});var t=function(n){},c=function(n){},i=function(n){},f=function(n){}}}]);

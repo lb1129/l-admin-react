@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkl_admin_react=self.webpackChunkl_admin_react||[]).push([[80641],{80641:function(n,e,t){t.r(e),t.d(e,{deletePagesByIds:function(){return a},getPageById:function(){return u},getPages:function(){return r},savePage:function(){return c}});var u=function(n){},c=function(n){},r=function(n){},a=function(n){}}}]);
