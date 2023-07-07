@@ -74,6 +74,7 @@ const App = () => {
           }
           res.push({
             id: record.name,
+            handle: { needAuth: true, menuName: record.name },
             path: getChildrenPath(record.path),
             children: generateRoutes(children, redirectRoute)
           })
