@@ -7,10 +7,6 @@ import {
 } from 'react-router-dom'
 import type { RouterNavigateOptions, AgnosticDataRouteObject } from '@remix-run/router'
 import baseRoutes from './baseRoutes'
-import store from '@/store'
-import { setBreadcrumb } from '@/store/breadcrumb'
-import { setRouteOperateState, RouteOperateState } from '@/store/routeOperateState'
-import { setTransitionKey } from '@/store/transitionKey'
 import { getChildrenPath } from './tools'
 
 // 根据运行或部署环境是否支持history路由模式 选取不同路由模式及basename
@@ -83,52 +79,7 @@ export const getFullPath = (opts: NavigateByIdOptions) => {
 }
 
 // NOTE 路由开始跳转后触发的监听 只能做后置处理
-let oldState = router.state
-router.subscribe(async (state) => {
-  // 路由操作状态 前进 后退 替换 对应 三种路由动画 slide-left slide-right fade
-  const oldStateRoute = oldState.matches[oldState.matches.length - 1].route
-  const oldStateSearchHistory = createSearchParams(oldState.location.search).get('history')
-  const stateRoute = state.matches[state.matches.length - 1].route
-  const stateSearchHistory = createSearchParams(state.location.search).get('history')
-
-  if (stateSearchHistory && stateSearchHistory.split(',').includes(oldStateRoute.id)) {
-    store.dispatch(setRouteOperateState(RouteOperateState.forward))
-  } else if (oldStateSearchHistory && oldStateSearchHistory.split(',').includes(stateRoute.id)) {
-    store.dispatch(setRouteOperateState(RouteOperateState.back))
-  } else {
-    store.dispatch(setRouteOperateState(RouteOperateState.replace))
-  }
-  oldState = state
-  // 路由动画过渡key 延后设置 确保路由动画的变更生效
-  setTimeout(() => {
-    store.dispatch(setTransitionKey(stateRoute.id))
-  })
-  // 面包屑
-  const currentRoute = state.matches.slice(-1)[0].route
-  let breadcrumb =
-    currentRoute.handle && currentRoute.handle.menuName
-      ? [
-          {
-            routeName: currentRoute.id,
-            menuName: currentRoute.handle.menuName
-          }
-        ]
-      : []
-  const toHistory = createSearchParams(state.location.search).get('history') as string
-  if (toHistory) {
-    breadcrumb = toHistory
-      .split(',')
-      .map((history) => {
-        const { route } = getRouteById(history)
-        return {
-          routeName: history,
-          menuName: route?.handle.menuName
-        }
-      })
-      .concat(breadcrumb)
-  }
-  store.dispatch(setBreadcrumb(breadcrumb))
-})
+// router.subscribe((state) => {})
 
 // 重写navigate
 const { navigate } = router
@@ -138,23 +89,10 @@ router.navigate = (to: To | null | number | NavigateByIdOptions, opts?: RouterNa
   if ((to as NavigateByIdOptions).id) {
     const { id, query, params, replace } = to as NavigateByIdOptions
     // 获取pathname
-    const { path, route } = getRouteById(id)
+    const { path } = getRouteById(id)
     let pathString = getPathstring(path)
     const pathname = generatePath(pathString, params)
-    // 处理query search
-    const currentRoute = router.state.matches[router.state.matches.length - 1].route
-    const currentRouteQuery = createSearchParams(router.state.location.search)
-    const currentRouteQueryHistory = currentRouteQuery.get('history')
-    // url上携带历史记录
     const routeQuery = createSearchParams(query)
-    if (route && route.handle.hidden) {
-      routeQuery.set(
-        'history',
-        currentRouteQueryHistory
-          ? `${currentRouteQueryHistory},${currentRoute.id}`
-          : currentRoute.id
-      )
-    }
     return navigate(
       {
         pathname,

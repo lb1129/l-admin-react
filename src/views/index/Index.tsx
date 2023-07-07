@@ -1,15 +1,20 @@
-import React, { useState, useEffect, createRef, lazy, useMemo } from 'react'
+import React, {
+  useState,
+  useEffect,
+  // createRef,
+  lazy,
+  useMemo
+} from 'react'
 import logoSvg from '@/assets/image/logo.svg'
 import userPng from '@/assets/image/user.png'
 import { HomeOutlined, UserOutlined, BgColorsOutlined, FolderOutlined } from '@ant-design/icons'
-import { Breadcrumb, Layout, Menu, Dropdown, Avatar, App, ColorPicker } from 'antd'
+import { Breadcrumb, Layout, Menu, Dropdown, Avatar, App, ColorPicker, BreadcrumbProps } from 'antd'
 import { useOutlet, useNavigate, useMatches } from 'react-router-dom'
 import ToggleLanguage from '@/components/ToggleLanguage'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { setColorPrimary } from '@/store/themeSlice'
-import { RouteOperateState } from '@/store/routeOperateState'
 import type { MenuDataItemType } from '@/views/personal-center/types'
-import { CSSTransition, SwitchTransition } from 'react-transition-group'
+// import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import useIndexStyles from './Index.style'
 import { MenuItemType, SubMenuType } from 'antd/es/menu/hooks/useItems'
 import { tokenLocalforage } from '@/storage/localforage'
@@ -27,7 +32,8 @@ const Index = () => {
   const [openKeys, setOpenKeys] = useState<string[]>([])
   const [menuItems, setMenuItems] = useState<MenuItem[]>([])
   const [collapsed, setCollapsed] = useState(false)
-  const [delayedOutlet, setDelayedOutlet] = useState<React.ReactNode>()
+  const [currentRouteId, setCurrentRouteId] = useState('')
+  const [keepAliveInclude, setKeepAliveInclude] = useState<string[]>([])
   const styles = useIndexStyles()
 
   const navigate = useNavigate()
@@ -37,9 +43,6 @@ const Index = () => {
   const colorPrimary = useAppSelector((state) => state.theme.token?.colorPrimary)
   const menuData = useAppSelector((state) => state.menuData.data)
   const userInfo = useAppSelector((state) => state.userInfo)
-  const routeOperateState = useAppSelector((state) => state.routeOperateState)
-  const transitionKey = useAppSelector((state) => state.transitionKey)
-  const breadcrumb = useAppSelector((state) => state.breadcrumb)
   const dispatch = useAppDispatch()
 
   const { t } = useTranslation()
@@ -53,18 +56,9 @@ const Index = () => {
     }
   }, [matches, collapsed])
 
-  // 结合Transtion使用
+  // 结合KeepAlive | Transtion使用
   const currentOutlet = useOutlet()
-  const nodeRef = createRef<HTMLDivElement>()
-
-  // 延后的outlet 确保路由动画正常执行
-  useEffect(() => {
-    setTimeout(() => {
-      setDelayedOutlet(currentOutlet)
-    })
-    // 仅依赖路由变更 currentOutlet 每次返回都不是同一个引用 会导致无限循环
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matches])
+  // const nodeRef = createRef<HTMLDivElement>()
 
   // 用户菜单数据生成菜单组件items
   useEffect(() => {
@@ -114,31 +108,37 @@ const Index = () => {
     ])
   }, [menuData, t])
 
-  // 路由动画
-  const transitionName = useMemo(() => {
-    return routeOperateState === RouteOperateState.forward
-      ? 'slide-left'
-      : routeOperateState === RouteOperateState.back
-      ? 'slide-right'
-      : 'fade'
-  }, [routeOperateState])
-
   // 面包屑
   const breadcrumbItems = useMemo(() => {
-    return breadcrumb.map((item, index) => ({
-      title:
-        index === breadcrumb.length - 1 ? (
-          t(item.menuName)
-        ) : (
-          <LinkPlus to={index + 1 - breadcrumb.length}>{t(item.menuName)}</LinkPlus>
-        )
-    }))
-  }, [breadcrumb, t])
+    const arr = matches.slice(1)
+    let result: BreadcrumbProps['items'] = []
+    arr.forEach((item, index) => {
+      const handle = item.handle as any
+      if (handle && result) {
+        result.push({
+          title:
+            index < arr.length - 1 ? (
+              <LinkPlus to={{ id: item.id }}>{t(handle.menuName)}</LinkPlus>
+            ) : (
+              t(handle.menuName)
+            )
+        })
+      }
+    })
+    return result
+  }, [t, matches])
 
-  // keepAlive include
-  const keepAliveInclude = useMemo(() => {
-    return breadcrumb.map((item) => item.routeName)
-  }, [breadcrumb])
+  useEffect(() => {
+    const route = matches[matches.length - 1]
+    if (route.handle && !(route.handle as Record<string, unknown>).hidden) {
+      setKeepAliveInclude([route.id])
+    }
+    setCurrentRouteId(route.id)
+    // 如果开启动画 延后设置
+    // setTimeout(() => {
+    //   setCurrentRouteId(route.id)
+    // })
+  }, [matches])
 
   return (
     <AliveScope>
@@ -260,20 +260,20 @@ const Index = () => {
           <Layout style={{ padding: '0 24px 24px' }}>
             <Breadcrumb style={{ margin: '16px 0' }} items={breadcrumbItems}></Breadcrumb>
             <Content className={styles.content}>
-              <SwitchTransition>
+              {/* <SwitchTransition>
                 <CSSTransition
                   nodeRef={nodeRef}
-                  key={transitionKey}
+                  key={currentRouteId}
                   timeout={300}
-                  classNames={transitionName}
+                  classNames="fade"
                 >
-                  <div style={{ height: '100%' }} ref={nodeRef}>
-                    <KeepAlive include={keepAliveInclude} id={transitionKey}>
-                      {delayedOutlet}
-                    </KeepAlive>
-                  </div>
+                  <div style={{ height: '100%' }} ref={nodeRef}> */}
+              <KeepAlive include={keepAliveInclude} id={currentRouteId}>
+                {currentOutlet}
+              </KeepAlive>
+              {/* </div>
                 </CSSTransition>
-              </SwitchTransition>
+              </SwitchTransition> */}
             </Content>
           </Layout>
         </Layout>
