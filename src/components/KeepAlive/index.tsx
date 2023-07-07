@@ -66,28 +66,23 @@ export class AliveScope extends Component<{
             style.display = target.style.display
             style.position = target.style.position as React.CSSProperties['position']
           }
+          if (!this.cache[id])
+            this.cache[id] = {
+              wrap: null,
+              node: null
+            }
           return (
             <div
               style={style}
               key={id}
               ref={(wrap) => {
-                if (!this.cache[id])
-                  this.cache[id] = {
-                    wrap: null,
-                    node: null
-                  }
-                this.cache[id].wrap = wrap
+                if (this.cache[id]) this.cache[id].wrap = wrap
               }}
             >
               <div
                 style={style}
                 ref={(node) => {
-                  if (!this.cache[id])
-                    this.cache[id] = {
-                      wrap: null,
-                      node: null
-                    }
-                  this.cache[id].node = node
+                  if (this.cache[id]) this.cache[id].node = node
                 }}
               >
                 {children}
@@ -129,9 +124,13 @@ class KeepAlive extends Component<KeepAliveProps> {
     }
   }
 
-  componentWillUnmount() {
+  resetDom() {
+    // 给Provider还原dom 确保react dom 卸载正常执行
+    if (this.wrap && this.node) this.wrap.appendChild(this.node)
+  }
+
+  cacheHandler(id: string, include?: string[]) {
     // 如果无需缓存 则清除缓存
-    const { id, include } = this.props
     const { deleteCache } = this.context
     let needCache: boolean
     if (!include) needCache = true
@@ -140,16 +139,17 @@ class KeepAlive extends Component<KeepAliveProps> {
     if (!needCache) {
       deleteCache(id)
     }
-    // 给Provider还原dom 确保react dom 卸载正常执行
-    if (this.wrap && this.node) this.wrap.appendChild(this.node)
+  }
+
+  componentWillUnmount() {
+    this.resetDom()
+    this.cacheHandler(this.props.id, this.props.include)
   }
 
   componentDidUpdate(prevProps: Readonly<KeepAliveProps>): void {
-    if (
-      prevProps.id !== this.props.id ||
-      prevProps.include !== this.props.include ||
-      prevProps.children !== this.props.children
-    ) {
+    if (prevProps.id !== this.props.id) {
+      this.resetDom()
+      this.cacheHandler(prevProps.id, this.props.include)
       this.inject()
     }
   }
