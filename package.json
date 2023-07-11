@@ -92,7 +92,12 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.0",
+    "lint-staged": "^13.2.3",
     "prettier": "^2.8.8",
     "webpack-bundle-analyzer": "^4.9.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,cjs,mjs,ts,tsx,cts,mts}": "eslint --fix",
+    "*.{md,json}": "prettier --write"
   }
 }
