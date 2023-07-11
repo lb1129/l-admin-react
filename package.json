@@ -80,6 +80,8 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.6.6",
+    "@commitlint/config-conventional": "^17.6.6",
     "@craco/craco": "^7.1.0",
     "@types/bmapgl": "^0.0.7",
     "@types/lodash-es": "^4.17.7",
