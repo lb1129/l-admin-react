@@ -5,19 +5,29 @@
 */
 
 /*!
-          Mock - 模拟请求 & 模拟数据
-          https://github.com/nuysoft/Mock
-          墨智 mozhi.gyy@taobao.com nuysoft@gmail.com
-      */
-
-/*!
     localForage -- Offline Storage, Improved
     Version 1.10.0
     https://localforage.github.io/localForage
     (c) 2013-2017 Mozilla, Apache License 2.0
 */
 
+/*!
+Copyright (c) 2011, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.com/yui/license.html
+version: 2.9.0
+*/
+
 /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
+
+/**
+ * @fileOverview
+ * @name asn1-1.0.js
+ * @author Kenji Urushima kenji.urushima@gmail.com
+ * @version asn1 1.0.13 (2017-Jun-02)
+ * @since jsrsasign 2.1
+ * @license <a href="https://kjur.github.io/jsrsasign/license/">MIT License</a>
+ */
 
 /**
  * @license React
