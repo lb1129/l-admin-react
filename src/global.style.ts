@@ -4,6 +4,10 @@ injectGlobal({
   'html,body,#root': {
     height: '100%'
   },
+  'ul,li': {
+    listStyle: 'none',
+    padding: 0
+  },
   '.fade': {
     '&-enter': {
       opacity: 0,

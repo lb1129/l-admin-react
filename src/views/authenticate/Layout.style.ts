@@ -26,7 +26,7 @@ export default function useIndexStyles() {
       textAlign: 'center'
     })),
     main: useEmotionCss(() => ({
-      width: '368px',
+      width: '400px',
       margin: '0 auto'
     })),
     footer: useEmotionCss(({ token }) => ({

@@ -3,6 +3,9 @@ import { useEmotionCss } from '@/utils/useEmotionCss'
 export default function useStyles() {
   return {
     wrap: useEmotionCss(() => ({
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
       color: '#000000d9',
       fontSize: '14px',
       position: 'relative',
@@ -61,7 +64,10 @@ export default function useStyles() {
       }
     })),
     content: useEmotionCss(() => ({
-      paddingTop: '12px'
+      flex: 1,
+      paddingTop: '12px',
+      overflowX: 'hidden',
+      overflowY: 'auto'
     }))
   }
 }

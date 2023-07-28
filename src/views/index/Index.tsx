@@ -6,22 +6,22 @@ import React, {
   useMemo
 } from 'react'
 import logoSvg from '@/assets/image/logo.svg'
-import userPng from '@/assets/image/user.png'
 import { HomeOutlined, UserOutlined, BgColorsOutlined, FolderOutlined } from '@ant-design/icons'
-import { Breadcrumb, Layout, Menu, Dropdown, Avatar, App, ColorPicker, BreadcrumbProps } from 'antd'
+import { Breadcrumb, Layout, Menu, Dropdown, Avatar, ColorPicker, BreadcrumbProps } from 'antd'
 import { useOutlet, useNavigate, useMatches } from 'react-router-dom'
 import ToggleLanguage from '@/components/ToggleLanguage'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { setColorPrimary } from '@/store/themeSlice'
-import type { MenuDataItemType } from '@/views/personal-center/types'
+import type { MenuDataItemType } from '@/types/menu'
 // import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import useIndexStyles from './Index.style'
 import { MenuItemType, SubMenuType } from 'antd/es/menu/hooks/useItems'
 import { tokenLocalforage } from '@/storage/localforage'
 import { useTranslation } from 'react-i18next'
-import { logout } from '@/views/authenticate/servers'
+import { logoutServe } from '@/serves/auth'
 import LinkPlus from '@/components/LinkPlus'
 import KeepAlive, { AliveScope } from '@/components/KeepAlive'
+import { modal, message } from '@/utils/antdAppPlaceholder'
 
 const { Header, Content, Sider } = Layout
 
@@ -38,7 +38,6 @@ const Index = () => {
 
   const navigate = useNavigate()
   const matches = useMatches()
-  const { modal, message } = App.useApp()
 
   const colorPrimary = useAppSelector((state) => state.theme.token?.colorPrimary)
   const menuData = useAppSelector((state) => state.menuData.data)
@@ -201,7 +200,7 @@ const Index = () => {
                         onOk: async () => {
                           message.loading(t('signingOutPleaseWait'), 0)
                           try {
-                            await logout()
+                            await logoutServe()
                             await tokenLocalforage.clear()
                             message.destroy()
                             navigate({
@@ -219,8 +218,8 @@ const Index = () => {
               }}
             >
               <span className={`${styles.headerRightItem} ${styles.headerRightItemUser}`}>
-                <Avatar size="small" src={userPng} />
-                <span style={{ marginLeft: '8px' }}>{userInfo.userName}</span>
+                <Avatar size="small" src={userInfo.avatar} />
+                <span style={{ marginLeft: '8px' }}>{userInfo.nickname}</span>
               </span>
             </Dropdown>
             <ToggleLanguage className={styles.headerRightItem} />

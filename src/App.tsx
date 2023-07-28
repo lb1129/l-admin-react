@@ -3,7 +3,7 @@ import { ConfigProvider, App as AntdApp } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { RouterProvider, type RouteObject } from 'react-router-dom'
 import { setMenuData, setMenuDataDone } from '@/store/menuDataSlice'
-import type { MenuDataItemType } from '@/views/personal-center/types'
+import type { MenuDataItemType } from '@/types/menu'
 import { setUserInfo } from '@/store/userInfoSlice'
 import { setColorPrimary } from '@/store/themeSlice'
 import baseRoutes from '@/router/baseRoutes'
@@ -16,31 +16,33 @@ import enUS from 'antd/locale/en_US'
 import zhCN from 'antd/locale/zh_CN'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
-import { isLogin } from '@/views/authenticate/servers'
-import { getUserInfo, getMenu } from '@/views/personal-center/servers'
+import { isLoginServe } from '@/serves/auth'
+import { getUserInfoServe } from '@/serves/user'
+import { getMenuServe } from '@/serves/menu'
 import NavigatePlus from '@/components/NavigatePlus'
+import config from '@/config'
+import AntdAppPlaceholder from '@/utils/antdAppPlaceholder'
 
 const App = () => {
   const [locale, setLocal] = useState<Locale>()
   const { i18n } = useTranslation()
   const theme = useAppSelector((state) => state.theme)
   const menuData = useAppSelector((state) => state.menuData)
-
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     // 初始主题色
     themeLocalforage.get().then((themeColor) => {
-      if (themeColor) dispatch(setColorPrimary(themeColor))
+      dispatch(setColorPrimary(themeColor || config.themeColor))
     })
   }, [dispatch])
 
   useEffect(() => {
-    isLogin()
+    isLoginServe()
       .then(async () => {
         // 已登录 初始菜单数据 用户信息
-        const userInfoRes = await getUserInfo()
-        const menuRes = await getMenu()
+        const userInfoRes = await getUserInfoServe()
+        const menuRes = await getMenuServe()
         // 更新redux内的菜单数据
         dispatch(setMenuData(menuRes.data))
         // 将redux内菜单数据获取状态设置为完成
@@ -131,6 +133,7 @@ const App = () => {
           height: '100%'
         }}
       >
+        <AntdAppPlaceholder />
         <RouterProvider router={router} />
       </AntdApp>
     </ConfigProvider>

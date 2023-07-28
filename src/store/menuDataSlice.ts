@@ -1,5 +1,5 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
-import type { MenuDataItemType } from '@/views/personal-center/types'
+import type { MenuDataItemType } from '@/types/menu'
 
 export const setMenuData = createAction<MenuDataItemType[]>('setMenuData')
 export const setMenuDataDone = createAction<boolean>('setMenuDataDone')

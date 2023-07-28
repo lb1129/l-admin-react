@@ -1,6 +1,8 @@
 import { type RouteObject } from 'react-router-dom'
-import { lazyLoad, loading } from '@/router/tools'
+import { lazyLoad } from '@/router/tools'
 import { Authenticate } from '@/router/tools'
+import PageLoading from '@/components/PageLoading'
+import NavigatePlus from '@/components/NavigatePlus'
 
 const routes: RouteObject[] = [
   {
@@ -19,7 +21,25 @@ const routes: RouteObject[] = [
         id: 'PersonalCenter',
         path: 'personalCenter',
         handle: { needAuth: true, menuName: 'personalCenter' },
-        element: lazyLoad('personal-center/Index')
+        element: lazyLoad('personal-center/Index'),
+        children: [
+          {
+            index: true,
+            element: <NavigatePlus to={{ id: 'BasicInfo' }} />
+          },
+          {
+            id: 'BasicInfo',
+            path: 'basicInfo',
+            handle: { needAuth: true, menuName: 'basicInfo' },
+            element: lazyLoad('personal-center/BasicInfo')
+          },
+          {
+            id: 'SecuritySetting',
+            path: 'securitySetting',
+            handle: { needAuth: true, menuName: 'securitySetting' },
+            element: lazyLoad('personal-center/SecuritySetting')
+          }
+        ]
       }
     ]
   },
@@ -49,7 +69,7 @@ const routes: RouteObject[] = [
   {
     path: '*',
     id: 'NotFound',
-    element: loading
+    element: <PageLoading />
   }
 ]
 

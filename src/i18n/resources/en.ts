@@ -25,8 +25,6 @@ const res = {
     back: 'Back',
     pageNotFound: 'Page not found',
     systemDesc: 'This is a description of {{name}}',
-    passwordModificationSuccessful: 'Password modification successful',
-    jumpToTheLoginPageSoon: 'Jump to the login page soon',
     signUpSuccessful: 'Sign up successful',
     applicationError: 'Application error',
     searchLocation: 'Search location',
@@ -57,7 +55,22 @@ const res = {
     whatSuccess: '{{what}} success',
     whatTotal: 'Total {{total}} items',
     queryByName: 'Query by Name',
-    areYouSureDelete: 'Are you sure delete?'
+    areYouSureDelete: 'Are you sure delete?',
+    registerSuccess: 'Successfully registered, about to jump to login page',
+    findPasswordSuccess: 'Password successfully retrieved, about to jump to login page',
+    passwordRule: '7-10 characters, consisting of numbers, uppercase and lowercase in English',
+    phoneRule: 'Incorrect phone number format',
+    retrieve: 'Retrieve',
+    basicInfo: 'Basic info',
+    securitySetting: 'Security setting',
+    nickname: 'Nickname',
+    nicknameRule:
+      '4-10 characters, which can be composed of Chinese and English, numbers, "_", "-"',
+    pleaseEnterNickname: 'Please enter nickname',
+    profile: 'Profile',
+    updateBasicInfo: 'Update basic info',
+    editPhone: 'Edit phone',
+    editAvatar: 'Edit avatar'
   }
 }
 

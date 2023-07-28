@@ -1,15 +1,16 @@
 import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react'
-import { Table, Button, Divider, Input, Popconfirm, App, type TableProps } from 'antd'
+import { Table, Button, Divider, Input, Popconfirm, type TableProps } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import { useResize } from '@/utils/useResize'
 import { useAuth, operateAuthValueToDisabled } from '@/utils/useAuth'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import LinkPlus from '@/components/LinkPlus'
-import type { ProductType, ProductsQueryParamsType } from './types'
-import { getProducts, deleteProductByIds } from './servers'
+import type { ProductType, ProductsQueryParamsType } from '@/types/product'
+import { getProductsServe, deleteProductByIdsServe } from '@/serves/product'
 import pubsub from '@/pubsub'
 import { productEditDone } from '@/pubsub/events'
+import { message } from '@/utils/antdAppPlaceholder'
 
 const ProductList = () => {
   const [total, setTotal] = useState(0)
@@ -17,10 +18,8 @@ const ProductList = () => {
   const [dataSource, setDataSource] = useState<ProductType[]>([])
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([])
   const [queryParams, setQueryParams] = useState<ProductsQueryParamsType>({
-    pagination: {
-      pageNo: 1,
-      pageSize: 10
-    },
+    pageNo: 1,
+    pageSize: 10,
     keyword: ''
   })
   const refContainer = useRef<HTMLDivElement>(null)
@@ -29,7 +28,6 @@ const ProductList = () => {
   })
   const { operateAuth } = useAuth()
   const { t } = useTranslation()
-  const { message } = App.useApp()
   const navigate = useNavigate()
 
   const columns: ColumnsType<ProductType> = [
@@ -45,7 +43,7 @@ const ProductList = () => {
           to={{
             id: 'ProductDetail',
             params: {
-              id: record.id
+              id: record._id
             }
           }}
         >
@@ -118,7 +116,7 @@ const ProductList = () => {
               navigate({
                 id: 'ProductAddOrEdit',
                 params: {
-                  id: record.id
+                  id: record._id
                 }
               })
             }}
@@ -129,7 +127,7 @@ const ProductList = () => {
           <Popconfirm
             disabled={operateAuthValueToDisabled(operateAuth.delete)}
             title={t('areYouSureDelete')}
-            onConfirm={() => deleteHandle(record.id)}
+            onConfirm={() => deleteHandle(record._id)}
           >
             <Button type="link" disabled={operateAuthValueToDisabled(operateAuth.delete)}>
               {t('delete')}
@@ -143,8 +141,8 @@ const ProductList = () => {
   const tablePaginationConfig = useMemo(
     () => ({
       total,
-      current: queryParams.pagination.pageNo,
-      pageSize: queryParams.pagination.pageSize,
+      current: queryParams.pageNo,
+      pageSize: queryParams.pageSize,
       showTotal: (total: number) => t('whatTotal', { total }),
       showSizeChanger: true,
       showLessItems: true,
@@ -157,7 +155,7 @@ const ProductList = () => {
     const ids = id ? [id] : selectedRowKeys
     setDataLoading(true)
     try {
-      await deleteProductByIds(ids)
+      await deleteProductByIdsServe(ids)
       message.success(t('whatSuccess', { what: t('delete') }))
       loadData()
     } catch (error) {
@@ -167,10 +165,8 @@ const ProductList = () => {
 
   const changeHandle: TableProps<ProductType>['onChange'] = (pagination, filters, sorter) => {
     setQueryParams({
-      pagination: {
-        pageNo: pagination.current as number,
-        pageSize: pagination.pageSize as number
-      },
+      pageNo: pagination.current as number,
+      pageSize: pagination.pageSize as number,
       keyword: queryParams.keyword
     })
   }
@@ -178,7 +174,7 @@ const ProductList = () => {
   const loadData = useCallback(async () => {
     setDataLoading(true)
     try {
-      const res = await getProducts(queryParams)
+      const res = await getProductsServe(queryParams)
       setDataSource(res.data.data)
       setTotal(res.data.total)
       setDataLoading(false)
@@ -205,7 +201,7 @@ const ProductList = () => {
         columns={columns}
         dataSource={dataSource}
         bordered
-        rowKey="id"
+        rowKey="_id"
         scroll={{ x: 1200, y: height }}
         pagination={tablePaginationConfig}
         onChange={changeHandle}
@@ -218,7 +214,15 @@ const ProductList = () => {
         title={() => (
           <>
             <Button.Group>
-              <Button type="primary" disabled={operateAuthValueToDisabled(operateAuth.add)}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  navigate({
+                    id: 'ProductAddOrEdit'
+                  })
+                }}
+                disabled={operateAuthValueToDisabled(operateAuth.add)}
+              >
                 {t('add')}
               </Button>
               <Popconfirm
@@ -241,10 +245,8 @@ const ProductList = () => {
                 onSearch={(value) => {
                   if (queryParams.keyword !== value) {
                     setQueryParams({
-                      pagination: {
-                        pageNo: 1,
-                        pageSize: queryParams.pagination.pageSize
-                      },
+                      pageNo: 1,
+                      pageSize: queryParams.pageSize,
                       keyword: value
                     })
                   }

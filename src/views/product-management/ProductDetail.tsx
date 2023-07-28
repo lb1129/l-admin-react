@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { Skeleton, Descriptions, Button } from 'antd'
+import { Skeleton, Descriptions, Button, Image } from 'antd'
 import { useParams, useNavigate } from 'react-router-dom'
 import PageHeader from '@/components/PageHeader'
 import { useTranslation } from 'react-i18next'
 import { useAuth, operateAuthValueToDisabled } from '@/utils/useAuth'
-import type { ProductType } from './types'
-import { getProductById } from './servers'
+import type { ProductType } from '@/types/product'
+import { getProductByIdServe } from '@/serves/product'
 import pubsub from '@/pubsub'
 import { productEditDone } from '@/pubsub/events'
 
@@ -25,14 +25,15 @@ const ProductDetail = () => {
     style: '',
     enable: true,
     inventory: 0,
-    describe: ''
+    describe: '',
+    images: []
   })
 
   const loadData = useCallback(async () => {
     if (params.id) {
       setDataLoading(true)
       try {
-        const res = await getProductById(params.id)
+        const res = await getProductByIdServe(params.id)
         setDetails(res.data)
         setDataLoading(false)
       } catch (error) {
@@ -63,7 +64,7 @@ const ProductDetail = () => {
           onClick={() => {
             navigate({
               id: 'ProductAddOrEdit',
-              params: { id: details.id }
+              params: { id: details._id }
             })
           }}
         >
@@ -73,16 +74,25 @@ const ProductDetail = () => {
     >
       <Skeleton loading={dataLoading}>
         <Descriptions bordered column={3}>
-          <Descriptions.Item label="name">{details.name}</Descriptions.Item>
-          <Descriptions.Item label="brand">{details.brand}</Descriptions.Item>
-          <Descriptions.Item label="category">{details.category}</Descriptions.Item>
-          <Descriptions.Item label="price">{details.price}</Descriptions.Item>
-          <Descriptions.Item label="color">{details.color}</Descriptions.Item>
-          <Descriptions.Item label="inventory">{details.inventory}</Descriptions.Item>
-          <Descriptions.Item label="style" span={3}>
+          <Descriptions.Item label="名称">{details.name}</Descriptions.Item>
+          <Descriptions.Item label="品牌">{details.brand}</Descriptions.Item>
+          <Descriptions.Item label="分类">{details.category}</Descriptions.Item>
+          <Descriptions.Item label="价格">{details.price}</Descriptions.Item>
+          <Descriptions.Item label="颜色">{details.color}</Descriptions.Item>
+          <Descriptions.Item label="库存">{details.inventory}</Descriptions.Item>
+          <Descriptions.Item label="样式" span={3}>
             {details.style}
           </Descriptions.Item>
-          <Descriptions.Item label="describe">{details.describe}</Descriptions.Item>
+          <Descriptions.Item label="描述" span={3}>
+            {details.describe}
+          </Descriptions.Item>
+          <Descriptions.Item label="图片" span={3}>
+            <Image.PreviewGroup>
+              {details.images.map((url) => (
+                <Image width={104} height={104} key={url} src={url} />
+              ))}
+            </Image.PreviewGroup>
+          </Descriptions.Item>
         </Descriptions>
       </Skeleton>
     </PageHeader>

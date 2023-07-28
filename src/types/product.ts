@@ -1,5 +1,5 @@
 export interface ProductType {
-  id?: string
+  _id?: string
   name: string
   brand: string
   category: string
@@ -9,6 +9,7 @@ export interface ProductType {
   enable: boolean
   inventory: number
   describe: string
+  images: string[]
 }
 
 export interface ProductPaginationType {
@@ -19,9 +20,7 @@ export interface ProductPaginationType {
 }
 
 export interface ProductsQueryParamsType {
-  pagination: {
-    pageNo: number
-    pageSize: number
-  }
+  pageNo: number
+  pageSize: number
   keyword?: string
 }

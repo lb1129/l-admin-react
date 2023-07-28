@@ -1,5 +1,5 @@
 import { useMatches } from 'react-router-dom'
-import type { OperateAuthType, MenuDataItemType } from '@/views/personal-center/types'
+import type { OperateAuthType, MenuDataItemType } from '@/types/menu'
 import { useAppSelector } from '@/store/hooks'
 
 export const operateAuthValueToDisabled = (operateAuthValue?: number) => {

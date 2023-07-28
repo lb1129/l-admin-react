@@ -8,7 +8,6 @@ import App from '@/App'
 import reportWebVitals from '@/reportWebVitals'
 import 'antd/dist/reset.css'
 import '@/global.style'
-import '@/mock'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 

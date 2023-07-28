@@ -1,19 +1,13 @@
 import React, { lazy, Suspense, useState, useEffect } from 'react'
 import isAuthenticated from './isAuthenticated'
 import NavigatePlus from '@/components/NavigatePlus'
-import { Spin } from 'antd'
-
-export const loading = (
-  <div style={{ paddingTop: 100, textAlign: 'center' }}>
-    <Spin size="large" />
-  </div>
-)
+import PageLoading from '@/components/PageLoading'
 
 // views目录视图组件懒加载
 export const lazyLoad = (moduleName: string) => {
   const Module = lazy(() => import(`@/views/${moduleName}`))
   return (
-    <Suspense fallback={loading}>
+    <Suspense fallback={<PageLoading />}>
       <Module />
     </Suspense>
   )
@@ -27,7 +21,7 @@ export const Authenticate = ({
   children: JSX.Element
   needAuth?: boolean
 }) => {
-  const [res, setRes] = useState<JSX.Element>(<span />)
+  const [res, setRes] = useState<JSX.Element>(<PageLoading />)
   useEffect(() => {
     isAuthenticated.value
       .then(() => {

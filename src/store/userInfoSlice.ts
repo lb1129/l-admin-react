@@ -1,15 +1,20 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
-import type { UserInfoType } from '@/views/personal-center/types'
+import type { UserType } from '@/types/user'
 
-export const setUserInfo = createAction<UserInfoType>('setUserInfo')
+export const setUserInfo = createAction<Partial<UserType>>('setUserInfo')
 
-const initialState: UserInfoType = {
-  userName: ''
+const initialState: UserType = {
+  _id: '',
+  username: '',
+  nickname: '',
+  phone: null,
+  avatar: '',
+  profile: ''
 }
 
 const reducer = createReducer(initialState, (builder) => {
   builder.addCase(setUserInfo, (state, action) => {
-    return action.payload
+    return Object.assign({}, state, action.payload)
   })
 })
 

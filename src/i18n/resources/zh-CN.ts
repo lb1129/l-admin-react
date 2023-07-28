@@ -25,8 +25,6 @@ const res = {
     back: '返回',
     pageNotFound: '页面不存在',
     systemDesc: '这是对 {{name}} 的描述',
-    passwordModificationSuccessful: '密码修改成功',
-    jumpToTheLoginPageSoon: '即将跳转登录页',
     signUpSuccessful: '注册成功',
     applicationError: '应用程序错误',
     searchLocation: '搜索位置',
@@ -57,7 +55,21 @@ const res = {
     whatSuccess: '{{what}}成功',
     whatTotal: '共 {{total}} 条',
     queryByName: '按名称查询',
-    areYouSureDelete: '确定删除吗？'
+    areYouSureDelete: '确定删除吗？',
+    registerSuccess: '注册成功，即将跳转登录页',
+    findPasswordSuccess: '密码找回成功，即将跳转登录页',
+    passwordRule: '7-10个字符，由数字，英文大小写组成',
+    phoneRule: '手机号格式不正确',
+    retrieve: '重新获取',
+    basicInfo: '基础信息',
+    securitySetting: '安全设置',
+    nickname: '昵称',
+    nicknameRule: '4-10个字符，可由中英文，数字，"_"，"-"组成',
+    pleaseEnterNickname: '请输入昵称',
+    profile: '个人简介',
+    updateBasicInfo: '更新基础信息',
+    editPhone: '修改手机号',
+    editAvatar: '修改头像'
   }
 }
 

@@ -1,39 +1,84 @@
-import React from 'react'
-import { Button, Form, Input, App, Row, Col } from 'antd'
+import React, { useCallback, useMemo, useState } from 'react'
+import { Button, Form, Input, Row, Col } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import LinkPlus from '@/components/LinkPlus'
 import { useTranslation } from 'react-i18next'
 import Layout from './Layout'
+import { isPassword, isPhone } from '@/utils/validate'
+import { sendCodeServe } from '@/serves/other'
+import { findPasswordServe } from '@/serves/auth'
+import { useCountDown } from '@/utils/useCountDown'
+import { notification } from '@/utils/antdAppPlaceholder'
 
 const FindPassword: React.FC = () => {
-  const { notification } = App.useApp()
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const onFinish = async (values: {
-    password: string
-    confirmPassword: string
-    phone: number
-    code: number
-  }) => {
-    notification.success({
-      message: t('passwordModificationSuccessful'),
-      description: t('jumpToTheLoginPageSoon'),
-      duration: 1.5,
-      closeIcon: null
-    })
-    setTimeout(() => {
-      navigate({
-        id: 'Login'
-      })
-    }, 1500)
-  }
+  const [form] = Form.useForm()
+  const [submitLoading, setSubmitLoading] = useState(false)
+  const [codeLoading, setCodeLoading] = useState(false)
+  const [phoneCode, setPhoneCode] = useState('')
+  const [codeTime, codeTimeRun] = useCountDown(60)
+
+  const codeText = useMemo(
+    () => (codeTime > 0 ? `${t('retrieve')}${codeTime}s` : t('getVerificationCode')),
+    [codeTime, t]
+  )
+
+  const getCodeHandler = useCallback(async () => {
+    setCodeLoading(true)
+    try {
+      const values = await form.validateFields(['phone'])
+      const res = await sendCodeServe(Number(values?.phone))
+      // NOTE 短信服务暂未接入运营商 先直接显示在前端
+      setPhoneCode(res.data)
+      codeTimeRun()
+      setCodeLoading(false)
+    } catch (e) {
+      setCodeLoading(false)
+    }
+  }, [codeTimeRun, form])
+
+  const onFinish = useCallback(
+    async (values: { password: string; phone: string; code: string }) => {
+      setSubmitLoading(true)
+      try {
+        await findPasswordServe({
+          password: values.password,
+          phone: Number(values.phone),
+          code: values.code
+        })
+        notification.success({
+          message: t('tip'),
+          description: t('findPasswordSuccess'),
+          duration: 2
+        })
+        setTimeout(() => {
+          navigate({
+            id: 'Login'
+          })
+        }, 2000)
+        setSubmitLoading(false)
+      } catch (error) {
+        setSubmitLoading(false)
+      }
+    },
+    [navigate, t]
+  )
 
   return (
     <Layout>
-      <Form size="large" onFinish={onFinish}>
+      <Form size="large" onFinish={onFinish} form={form}>
         <Form.Item
           name="password"
-          rules={[{ required: true, message: t<string>('pleaseEnterNewPassword') }]}
+          rules={[
+            { required: true, message: t<string>('pleaseEnterNewPassword') },
+            () => ({
+              validator(rule, value) {
+                if (value && !isPassword(value)) return Promise.reject(t('passwordRule'))
+                return Promise.resolve()
+              }
+            })
+          ]}
         >
           <Input type="password" placeholder={t<string>('newPassword')} />
         </Form.Item>
@@ -58,7 +103,15 @@ const FindPassword: React.FC = () => {
         </Form.Item>
         <Form.Item
           name="phone"
-          rules={[{ required: true, message: t<string>('pleaseEnterMobileNumber') }]}
+          rules={[
+            { required: true, message: t<string>('pleaseEnterMobileNumber') },
+            () => ({
+              validator(rule, value) {
+                if (value && !isPhone(value)) return Promise.reject(t('phoneRule'))
+                return Promise.resolve()
+              }
+            })
+          ]}
         >
           <Input placeholder={t<string>('mobileNumber')} />
         </Form.Item>
@@ -73,16 +126,20 @@ const FindPassword: React.FC = () => {
             </Form.Item>
           </Col>
           <Col span="8">
-            <Button block>{t('getVerificationCode')}</Button>
+            <Button block loading={codeLoading} disabled={codeTime > 0} onClick={getCodeHandler}>
+              {codeText}
+            </Button>
           </Col>
         </Row>
+
+        {phoneCode ? <div>{phoneCode}</div> : null}
 
         <Form.Item>
           <LinkPlus to={{ id: 'Login' }}>{t('haveAnAccount')}</LinkPlus>
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" block htmlType="submit">
+          <Button type="primary" loading={submitLoading} block htmlType="submit">
             {t('confirm')}
           </Button>
         </Form.Item>
