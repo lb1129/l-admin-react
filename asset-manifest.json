@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/l-admin-react/static/css/main.4cfab700.css",
-    "main.js": "/l-admin-react/static/js/main.f5d3a8dd.js",
+    "main.js": "/l-admin-react/static/js/main.cbe5fe01.js",
     "static/js/95482.9f0371ce.chunk.js": "/l-admin-react/static/js/95482.9f0371ce.chunk.js",
     "static/js/53111.44efab41.chunk.js": "/l-admin-react/static/js/53111.44efab41.chunk.js",
     "static/js/84871.cdb06aa5.chunk.js": "/l-admin-react/static/js/84871.cdb06aa5.chunk.js",
-    "static/js/27290.0418532f.chunk.js": "/l-admin-react/static/js/27290.0418532f.chunk.js",
+    "static/js/27290.68c6e87a.chunk.js": "/l-admin-react/static/js/27290.68c6e87a.chunk.js",
     "static/js/95757.6d796280.chunk.js": "/l-admin-react/static/js/95757.6d796280.chunk.js",
     "static/js/76468.2cbe3f19.chunk.js": "/l-admin-react/static/js/76468.2cbe3f19.chunk.js",
-    "static/js/84708.599d3ab1.chunk.js": "/l-admin-react/static/js/84708.599d3ab1.chunk.js",
+    "static/js/84708.1862d90e.chunk.js": "/l-admin-react/static/js/84708.1862d90e.chunk.js",
     "static/js/69097.8a5f3f62.chunk.js": "/l-admin-react/static/js/69097.8a5f3f62.chunk.js",
     "static/js/32401.bdabbb93.chunk.js": "/l-admin-react/static/js/32401.bdabbb93.chunk.js",
     "static/js/3329.6237d9bf.chunk.js": "/l-admin-react/static/js/3329.6237d9bf.chunk.js",
     "static/js/75762.2d5bf4c9.chunk.js": "/l-admin-react/static/js/75762.2d5bf4c9.chunk.js",
     "static/js/49675.17d34f55.chunk.js": "/l-admin-react/static/js/49675.17d34f55.chunk.js",
     "static/js/67128.203e459e.chunk.js": "/l-admin-react/static/js/67128.203e459e.chunk.js",
-    "static/js/1091.4ef3f637.chunk.js": "/l-admin-react/static/js/1091.4ef3f637.chunk.js",
-    "static/js/36937.4c00c873.chunk.js": "/l-admin-react/static/js/36937.4c00c873.chunk.js",
+    "static/js/1091.52bb18ea.chunk.js": "/l-admin-react/static/js/1091.52bb18ea.chunk.js",
+    "static/js/36937.d93392a3.chunk.js": "/l-admin-react/static/js/36937.d93392a3.chunk.js",
     "static/js/97476.8f6c9090.chunk.js": "/l-admin-react/static/js/97476.8f6c9090.chunk.js",
     "static/js/68761.e1263f08.chunk.js": "/l-admin-react/static/js/68761.e1263f08.chunk.js",
     "static/js/73862.cc5ee001.chunk.js": "/l-admin-react/static/js/73862.cc5ee001.chunk.js",
@@ -815,6 +815,6 @@
   },
   "entrypoints": [
     "static/css/main.4cfab700.css",
-    "static/js/main.f5d3a8dd.js"
+    "static/js/main.cbe5fe01.js"
   ]
 }
