@@ -6,6 +6,7 @@ import router from '@/router'
 import isAuthenticated from '@/router/isAuthenticated'
 import { isLogin_api } from './api'
 import { message } from '@/utils/antdAppPlaceholder'
+import { XMLParser } from 'fast-xml-parser'
 
 export interface IResponse<T> {
   data: T
@@ -49,9 +50,18 @@ axiosInstance.interceptors.response.use(
         })
       }
     } else {
-      const data = error.response.data
-      if (data.errMsg) message.error(data.errMsg)
-      else if (data.error) message.error(data.error.message)
+      let messageContent = ''
+      const response = error.response
+      const contentType = response.headers['content-type']
+      // NOTE 阿里云oss错误响应是application/xml
+      if (contentType === 'application/xml') {
+        const parser = new XMLParser()
+        messageContent = parser.parse(response.data).Error.Message
+      } else if (contentType === 'application/json') {
+        if (response.data.error) messageContent = response.data.error.message
+        else messageContent = response.data.errMsg
+      }
+      message.error(messageContent)
     }
     return Promise.reject(error)
   }
