@@ -5,12 +5,11 @@ import { RouterProvider, type RouteObject } from 'react-router-dom'
 import { setMenuData, setMenuDataDone } from '@/store/menuDataSlice'
 import type { MenuDataItemType } from '@/types/menu'
 import { setUserInfo } from '@/store/userInfoSlice'
-import { setColorPrimary } from '@/store/themeSlice'
+import { initColorPrimary } from '@/store/themeSlice'
 import baseRoutes from '@/router/baseRoutes'
 import router from '@/router'
 import { lazyLoad, getChildrenPath } from '@/router/tools'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
-import { themeLocalforage } from '@/storage/localforage'
 import type { Locale } from 'antd/es/locale'
 import enUS from 'antd/locale/en_US'
 import zhCN from 'antd/locale/zh_CN'
@@ -20,7 +19,6 @@ import { isLoginServe } from '@/serves/auth'
 import { getUserInfoServe } from '@/serves/user'
 import { getMenuServe } from '@/serves/menu'
 import NavigatePlus from '@/components/NavigatePlus'
-import config from '@/config'
 import AntdAppPlaceholder from '@/utils/antdAppPlaceholder'
 
 const App = () => {
@@ -32,9 +30,7 @@ const App = () => {
 
   useEffect(() => {
     // 初始主题色
-    themeLocalforage.get().then((themeColor) => {
-      dispatch(setColorPrimary(themeColor || config.themeColor))
-    })
+    dispatch(initColorPrimary())
   }, [dispatch])
 
   useEffect(() => {
