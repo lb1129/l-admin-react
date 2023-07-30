@@ -51,6 +51,7 @@ const ProductAddOrEdit = () => {
         return [...value]
       })
     } catch (error) {
+      ops.onError && ops.onError({ name: '', message: 'error' })
       setFileList((value) => {
         const idx = value.findIndex((item) => item.uid === record.uid)
         if (idx > -1) value.splice(idx, 1, { ...record, status: 'error' })
