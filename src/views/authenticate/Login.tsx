@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import Layout from './Layout'
 import { tokenLocalforage } from '@/storage/localforage'
 import { useAppDispatch } from '@/store/hooks'
-import { setMenuData, setMenuDataDone } from '@/store/menuDataSlice'
+import { setMenuData } from '@/store/menuDataSlice'
 import { setUserInfo } from '@/store/userInfoSlice'
 import { loginServe } from '@/serves/auth'
 import { getUserInfoServe } from '@/serves/user'
@@ -31,8 +31,6 @@ const Login: React.FC = () => {
         const menuRes = await getMenuServe()
         // 更新redux内的菜单数据
         dispatch(setMenuData(menuRes.data))
-        // 将redux内菜单数据获取状态设置为完成
-        dispatch(setMenuDataDone(true))
         // 更新redux内的用户信息
         dispatch(setUserInfo(userInfoRes.data))
         // 跳转首页
