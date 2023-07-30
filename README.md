@@ -26,6 +26,9 @@
 
 ## 特性
 
+- 代码校验
+- git 提交校验
+- git commit message 校验
 - 在线主题色切换
 - 在线多语言切换
 - 懒加载
@@ -35,7 +38,11 @@
 - 操作权限控制
 - ~~路由动画~~
 - 路由组件 keep-alive
-- 按模块拆分 server，各模块中复用
+- axios 封装
+- 按模块拆分 serve
+- 订阅发布
+- redux store（@reduxjs/toolkit）
+- localforage
 - Css-in-js
 - TSX
 - Typescript
