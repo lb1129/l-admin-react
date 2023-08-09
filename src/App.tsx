@@ -103,9 +103,14 @@ const App = () => {
       router._internalSetRoutes([...baseRoutes])
       // 触发重新匹配
       const { pathname, search, hash } = router.state.location
-      router.navigate(pathname + search + hash, {
-        replace: true
-      })
+      router.navigate(
+        process.env.PUBLIC_URL
+          ? pathname.replace(process.env.PUBLIC_URL, '/')
+          : pathname + search + hash,
+        {
+          replace: true
+        }
+      )
     }
   }, [menuData])
 
