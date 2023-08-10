@@ -6,7 +6,7 @@ import React, {
   forwardRef,
   useCallback
 } from 'react'
-import { useNavigate, type To, type Path } from 'react-router-dom'
+import { useNavigate, Link, type To } from 'react-router-dom'
 import classNames from 'classnames'
 import { type NavigateByIdOptions, getFullPath } from '@/router'
 import useStyles from './style'
@@ -34,11 +34,11 @@ const LinkPlus = forwardRef<HTMLAnchorElement, LinkPlusProps>(
     }, [disabled, styles])
 
     const href = useMemo(() => {
-      if (!to) return undefined
-      if (typeof to === 'string') return to
-      if ((to as NavigateByIdOptions).id) return getFullPath(to as NavigateByIdOptions)
-      const pathObject = to as Partial<Path>
-      return `${pathObject.pathname}${pathObject.search}${pathObject.hash}`
+      if ((to as NavigateByIdOptions).id) {
+        return getFullPath(to as NavigateByIdOptions)
+      }
+      if (typeof to === 'number') return ''
+      return to as To
     }, [to])
 
     const clickHandler = useCallback(
@@ -52,30 +52,26 @@ const LinkPlus = forwardRef<HTMLAnchorElement, LinkPlusProps>(
           onClick(e)
           return
         }
-        if (target !== '_blank') {
+        if (typeof to === 'number') {
           e.preventDefault()
-          if (typeof to === 'number') navigate(to)
-          else if (to && (to as NavigateByIdOptions).id) {
-            navigate({ ...(to as NavigateByIdOptions), replace })
-          } else {
-            navigate(to as To, { replace })
-          }
+          navigate(to)
         }
       },
-      [navigate, onClick, to, target, disabled, replace]
+      [navigate, onClick, to, disabled]
     )
 
     return (
-      <a
-        href={href}
+      <Link
+        to={href}
         target={target}
         ref={ref}
         style={style}
         onClick={clickHandler}
         className={className}
+        replace={replace}
       >
         {children}
-      </a>
+      </Link>
     )
   }
 )
