@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom'
 import type { RouterNavigateOptions, AgnosticDataRouteObject } from '@remix-run/router'
 import baseRoutes from './baseRoutes'
-import { getChildrenPath } from './tools'
 
 // 根据运行或部署环境是否支持history路由模式 选取不同路由模式及basename
 let createRouter = createBrowserRouter
@@ -57,9 +56,15 @@ export const getRouteById = (id: string) => {
 export const getPathstring = (path: AgnosticDataRouteObject[]) => {
   let result = ''
   path.forEach((item) => {
-    result += `/${getChildrenPath(item.path ?? '')}`
+    let value = ''
+    if (item.path) {
+      if (item.path === '/') value = '/'
+      else if (/^\/.+/.test(item.path)) value = item.path
+      else value = `/${item.path}`
+    }
+    result += value
   })
-  return result
+  return /^\/\//.test(result) ? result.slice(1) : result
 }
 
 export const getFullPath = (opts: NavigateByIdOptions) => {
