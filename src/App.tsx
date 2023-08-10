@@ -105,8 +105,8 @@ const App = () => {
       const { pathname, search, hash } = router.state.location
       router.navigate(
         process.env.PUBLIC_URL
-          ? pathname.replace(process.env.PUBLIC_URL, '/')
-          : pathname + search + hash,
+          ? `${pathname.replace(process.env.PUBLIC_URL, '/')}${search}${hash}`
+          : `${pathname}${search}${hash}`,
         {
           replace: true
         }
